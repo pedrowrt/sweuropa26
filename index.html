@@ -38,6 +38,9 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html {
+  height: -webkit-fill-available;
+}
 html, body {
   background: #0d0d0f; /* matches --bg — safe area blends */
   color: var(--text);
@@ -50,6 +53,9 @@ html, body {
   -webkit-font-smoothing: antialiased;
   font-feature-settings: 'tnum';
   overscroll-behavior: none;
+}
+body {
+  min-height: -webkit-fill-available;
 }
 
 /* ─── SKEUOMORPHIC BASE ─── */
@@ -150,7 +156,7 @@ html, body {
   -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(0.95);
   border-top: 1px solid rgba(255,255,255,0.07);
   display: flex;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: max(env(safe-area-inset-bottom), 28px);
   z-index: 100;
   box-shadow: 0 -1px 0 rgba(255,255,255,0.04), 0 -8px 32px rgba(0,0,0,0.55);
 }
@@ -248,6 +254,43 @@ html, body {
 }
 
 .section-label:first-child { margin-top: 0; }
+
+/* ─── TRIP PROGRESS BAR ─── */
+.trip-progress-wrap {
+  margin-bottom: 18px;
+}
+.trip-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.trip-pct-label {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--paris);
+  letter-spacing: .06em;
+}
+.trip-progress-track {
+  height: 4px;
+  border-radius: 3px;
+  background: var(--surface3);
+  overflow: hidden;
+}
+.trip-progress-bar {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--paris), var(--milan), var(--istanbul), var(--tallinn));
+  background-size: 300% 100%;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(.16,1,.3,1);
+  animation: shimmer-progress 3s ease infinite;
+}
+@keyframes shimmer-progress {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
 /* ─── ALERT ─── */
 .alert-bar {
@@ -901,6 +944,11 @@ html, body {
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  transition: background .15s ease, transform .15s cubic-bezier(.16,1,.3,1);
+}
+.day-sidebar:active {
+  background: var(--surface3);
+  transform: scale(0.96);
 }
 
 .day-sidebar-dow {
@@ -960,6 +1008,32 @@ html, body {
 .day-card.open .day-body {
   max-height: 3000px;
   opacity: 1;
+}
+
+/* ─── DAY PREVIEW (collapsed state) ─── */
+.day-preview {
+  padding: 11px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 54px;
+  justify-content: center;
+}
+.day-card.open .day-preview { display: none; }
+.dp-count {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.dp-names {
+  font-size: 13px;
+  color: var(--subtle);
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Legacy - keep but hide old header elements */
@@ -1103,6 +1177,7 @@ html, body {
 }
 
 .slot-name a:hover { border-color: var(--paris); color: var(--paris); }
+.slot-name a:active { transform: scale(0.97); display: inline-block; }
 .slot-name a::after { content: ' ↗'; font-size: 11px; color: var(--subtle); }
 
 .slot-meta {
@@ -1148,6 +1223,86 @@ html, body {
   font-size: 10px;
   color: var(--muted);
   margin-left: auto;
+}
+
+/* ─── WORK WINDOW BAR (Work tab) ─── */
+.work-window-bar {
+  background: linear-gradient(135deg, rgba(138,122,184,0.12), rgba(138,122,184,0.06));
+  border: 1px solid rgba(138,122,184,0.2);
+  border-radius: 18px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+.wwb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.wwb-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+}
+.wwb-badge {
+  font-size: 11px;
+  color: var(--purple);
+  background: rgba(138,122,184,0.12);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.wwb-times {
+  margin-bottom: 14px;
+}
+.wwb-brt {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.wwb-time {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 28px;
+  font-weight: 200;
+  color: var(--purple);
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+.wwb-sep {
+  font-size: 20px;
+  color: var(--muted);
+}
+.wwb-tz {
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: 4px;
+  font-family: 'SF Mono', ui-monospace, monospace;
+  letter-spacing: .04em;
+}
+.wwb-destinations {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid rgba(138,122,184,0.15);
+  padding-top: 12px;
+}
+.wwb-dest-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wwb-dest-flag { font-size: 14px; }
+.wwb-dest-name {
+  font-size: 13px;
+  font-weight: 600;
+  flex: 1;
+}
+.wwb-dest-time {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--text);
+  letter-spacing: .02em;
 }
 
 /* ─── SLOT DRAG HANDLE ─── */
@@ -1677,6 +1832,21 @@ html, body {
   color: var(--muted);
   margin-top: 9px;
   transition: all .4s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  overflow: hidden;
+}
+/* shimmer while loading */
+.flight-live-badge:not(.airborne):not(.done)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: badge-shimmer 1.6s ease infinite;
+}
+@keyframes badge-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .flight-live-badge::before {
@@ -2012,7 +2182,7 @@ html, body {
       <span class="meta-item"><span class="meta-dot" style="background:var(--milan)"></span>Milan</span>
       <span class="meta-item"><span class="meta-dot" style="background:var(--istanbul)"></span>Istanbul</span>
       <span class="meta-item"><span class="meta-dot" style="background:var(--tallinn)"></span>Tallinn</span>
-      <span class="meta-item" style="margin-left:auto"><span id="countdown-days">0</span>d restantes</span>
+      <span class="meta-item" style="margin-left:auto"><span id="countdown-days-hdr">0</span>d restantes</span>
     </div>
   </div>
 
@@ -2026,7 +2196,15 @@ html, body {
   <div class="content">
     <!-- ═══ TAB 1: OVERVIEW ═══ -->
     <div class="tab-content active" id="tab-overview">
-      <div class="section-label">Countdown · <span id="countdown-days">0</span>d restantes</div>
+      <div class="trip-progress-wrap">
+        <div class="trip-progress-meta">
+          <span class="section-label" style="margin:0;border:none;padding:0">Countdown · <span id="countdown-days">0</span>d restantes</span>
+          <span id="trip-pct" class="trip-pct-label">–</span>
+        </div>
+        <div class="trip-progress-track">
+          <div class="trip-progress-bar" id="trip-progress-bar"></div>
+        </div>
+      </div>
       <div class="clock-grid clock-grid-4">
         <div class="clock-card">
           <div class="clock-time" id="clock-sp">--:--</div>
@@ -2050,7 +2228,7 @@ html, body {
         </div>
       </div>
 
-      <div class="stat-grid stat-grid-6">
+      <div class="stat-grid">
         <div class="stat-card">
           <div class="stat-value">22</div>
           <div class="stat-label">Dias</div>
@@ -2063,30 +2241,17 @@ html, body {
           <div class="stat-value">6</div>
           <div class="stat-label">Voos</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-value" id="budget-total">€1.3k</div>
-          <div class="stat-label">Gastos</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">€2.3k</div>
-          <div class="stat-label">+Hospedagem</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">€4.0k</div>
-          <div class="stat-label">+Voos</div>
-        </div>
       </div>
 
       <div class="section-label">Rota Aérea</div>
       <div class="airport-terminal sku-card">
         <div class="terminal-top">
           <div>
-            <div class="terminal-code">boarding sequence · 26 jun → 19 jul</div>
-            <div class="header-title" style="font-size:22px;margin-top:6px;letter-spacing:-.3px"><em>Departures</em> & Transfers</div>
+            <div class="terminal-code">26 jun → 19 jul · 6 voos</div>
+            <div class="header-title" style="font-size:22px;margin-top:6px;letter-spacing:-.3px">Sequência de Voos</div>
           </div>
         </div>
-        <div class="split-flap-board" id="route-board"></div>
-        <div class="route" style="margin-top:16px">
+        <div class="route" style="margin-top:4px">
           <div class="route-stop">
             <div class="route-dot return"></div>
             <div class="route-name" style="color:var(--muted)">São Paulo</div>
@@ -2189,7 +2354,7 @@ html, body {
       </a>
       <div class="booking-row">
         <div class="b-icon b-ok">🏨</div>
-        <div class="b-text">IST layover — Nenessa Airport Hotel · R$263</div>
+        <div class="b-text">IST layover — Nenessa Airport Hotel</div>
         <span class="b-status bs-ok">Confirmada</span>
       </div>
       <div class="booking-row">
@@ -2445,12 +2610,36 @@ html, body {
       </div>
 
       <div class="sub-content" id="sub-work">
-        <div class="alert-bar" style="background:rgba(200,160,70,0.08);border-color:rgba(200,160,70,0.25);color:rgba(200,160,70,0.9)">
-          <span class="alert-icon">⏰</span>
-          <span>Agenda refaz horários automaticamente por <strong style="color:var(--amber)">fuso local</strong> e mostra relógio ao vivo para compromissos com Nick & Tefi.</span>
+
+        <!-- Work window bar -->
+        <div class="work-window-bar">
+          <div class="wwb-header">
+            <span class="wwb-label">Janela de trabalho</span>
+            <span class="wwb-badge">🇧🇷 Brasília</span>
+          </div>
+          <div class="wwb-times">
+            <div class="wwb-brt">
+              <span class="wwb-time">10:00</span>
+              <span class="wwb-sep">–</span>
+              <span class="wwb-time">16:00</span>
+              <span class="wwb-tz">BRT (UTC −3)</span>
+            </div>
+          </div>
+          <div class="wwb-destinations">
+            <div class="wwb-dest-row">
+              <span class="wwb-dest-flag" style="color:var(--paris)">🇫🇷🇮🇹</span>
+              <span class="wwb-dest-name" style="color:var(--paris)">Paris · Milan</span>
+              <span class="wwb-dest-time">15:00 – 21:00</span>
+            </div>
+            <div class="wwb-dest-row">
+              <span class="wwb-dest-flag" style="color:var(--istanbul)">🇹🇷🇪🇪</span>
+              <span class="wwb-dest-name" style="color:var(--istanbul)">Istanbul · Tallinn</span>
+              <span class="wwb-dest-time">16:00 – 22:00</span>
+            </div>
+          </div>
         </div>
 
-        <div class="section-label">Ponte de fusos em tempo real</div>
+        <div class="section-label">Fusos em tempo real</div>
         <div class="meeting-live-grid" id="meeting-live-grid"></div>
 
         <div class="section-label">Reuniões Veriff · auto-convertidas</div>
@@ -2680,7 +2869,7 @@ html, body {
   </div>
 
   <nav class="tab-nav">
-    <button class="tab-btn active" data-tab="tab-overview"><i class="tab-icon">◉</i>Vista</button>
+    <button class="tab-btn active" data-tab="tab-overview"><i class="tab-icon">⌂</i>Home</button>
     <button class="tab-btn" data-tab="tab-schedule"><i class="tab-icon">▤</i>Plano</button>
     <button class="tab-btn" data-tab="tab-orca"><i class="tab-icon">€</i>Grana</button>
     <button class="tab-btn" data-tab="tab-nightlife"><i class="tab-icon">♫</i>Cena</button>
@@ -3128,6 +3317,11 @@ function renderSchedule() {
         const dateNum = dateParts[0] || '';
         const dateMon = (dateParts[1] || '').toLowerCase();
 
+        // Build collapsed preview text (skip FECHADO entries)
+        const previewEvents = day.events.filter(e => !e.name.startsWith('FECHADO') && e.time !== 'FECHADO' && e.time !== '⚠️');
+        const previewNames = previewEvents.slice(0, 2).map(e => e.name.replace(/ ⚠️.*/, '')).join(' · ');
+        const evCountLabel = `${previewEvents.length} atividade${previewEvents.length !== 1 ? 's' : ''}`;
+
         card.innerHTML = `
             <div class="day-sidebar">
                 <div class="day-sidebar-dow">${day.day}</div>
@@ -3137,6 +3331,10 @@ function renderSchedule() {
                 ${weatherSidebar}
             </div>
             <div class="day-main">
+                <div class="day-preview">
+                    <span class="dp-count">${evCountLabel}</span>
+                    <span class="dp-names">${previewNames}</span>
+                </div>
                 <div class="day-body"></div>
             </div>
         `;
@@ -3231,10 +3429,30 @@ function initCollapsibles() {
 // ─── COUNTDOWN ───
 function updateCountdown() {
     const departure = new Date(2026, 5, 26);
+    const returnDate = new Date(2026, 6, 19);
     const today = new Date();
-    const diff = Math.ceil((departure - today) / (1000 * 60 * 60 * 24));
-    const el = document.getElementById('countdown-days');
-    if (el) el.textContent = Math.max(0, diff);
+    const diff = Math.ceil((departure - today) / 86400000);
+    const days = Math.max(0, diff);
+    document.querySelectorAll('#countdown-days, #countdown-days-hdr').forEach(el => { if (el) el.textContent = days; });
+
+    // Trip progress bar
+    const bar = document.getElementById('trip-progress-bar');
+    const pctEl = document.getElementById('trip-pct');
+    if (bar && pctEl) {
+        const tripTotal = returnDate - departure;
+        const elapsed = today - departure;
+        if (elapsed < 0) {
+            bar.style.width = '0%';
+            pctEl.textContent = 'pré-viagem';
+        } else if (elapsed > tripTotal) {
+            bar.style.width = '100%';
+            pctEl.textContent = 'concluída';
+        } else {
+            const pct = Math.round((elapsed / tripTotal) * 100);
+            bar.style.width = pct + '%';
+            pctEl.textContent = pct + '% da viagem';
+        }
+    }
 }
 
 // ─── CLOCKS ───
@@ -3262,20 +3480,6 @@ function updateClocks() {
     document.getElementById('clock-tz').textContent = tzLabel;
 }
 
-function renderRouteBoard() {
-    const board = document.getElementById('route-board');
-    if (!board) return;
-    board.innerHTML = liveFlights.map(flight => {
-        const phase = flightPhase(flight);
-        return `
-          <div class="flap-row ${phase.live ? 'board-live' : ''}">
-            <div class="flap-col">${splitFlapText(flight.flight, true)}</div>
-            <div class="flap-col">${splitFlapText(flight.route)}</div>
-            <div class="flap-col">${splitFlapText(new Date(flight.departure).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }), true)}</div>
-            <div class="flap-col">${splitFlapText(phase.status)}</div>
-          </div>`;
-    }).join('');
-}
 
 async function renderWeather() {
     const grid = document.getElementById('weather-grid');
@@ -3314,9 +3518,6 @@ async function renderFlightBoard() {
         if (phase.live) badge.classList.add('airborne');
         else if (phase.detail === 'concluído') badge.classList.add('done');
     });
-
-    // Also update the route-board split-flap display
-    renderRouteBoard();
 
     // Fetch live ADS-B telemetry and update badges
     await Promise.all(liveFlights.map(async (flight) => {
@@ -3361,8 +3562,7 @@ async function renderMeetingLive() {
 
     const timezones = [
         { label: 'São Paulo', tz: 'America/Sao_Paulo' },
-        { label: 'Paris', tz: 'Europe/Paris' },
-        { label: 'Milan', tz: 'Europe/Rome' },
+        { label: 'Paris · Milan', tz: 'Europe/Paris' },
         { label: 'Istanbul', tz: 'Europe/Istanbul' },
         { label: 'Tallinn', tz: 'Europe/Tallinn' }
     ];
