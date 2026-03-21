@@ -178,9 +178,9 @@ body {
 .app {
   display: flex;
   flex-direction: column;
-  /* position:fixed inset:0 — the only truly reliable iOS PWA layout */
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0;
+  height: 100dvh;
   background: var(--bg);
   overflow: hidden;
 }
@@ -254,7 +254,7 @@ body {
 /* ─── FLOATING TAB NAV ─── */
 .tab-nav {
   position: fixed;
-  bottom: 14px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: auto;
@@ -263,19 +263,19 @@ body {
   display: flex;
   gap: 2px;
   padding: 5px;
-  background: rgba(8,8,10,0.72);
-  backdrop-filter: blur(var(--layer-3-blur)) saturate(160%) brightness(0.85);
-  -webkit-backdrop-filter: blur(var(--layer-3-blur)) saturate(160%) brightness(0.85);
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
   border: 1px solid var(--layer-3-border);
-  border-radius: 28px;
+  border-radius: 28px 28px 0 0;
   overflow: hidden;
   z-index: 200;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 0 1px rgba(255,255,255,0.05);
   transition: transform var(--motion-normal) var(--spring), opacity var(--motion-fast) ease;
 }
 
 .tab-nav.scrolled-down {
-  transform: translateX(-50%) translateY(calc(100% + 20px));
+  transform: translateX(-50%) translateY(100%);
   opacity: 0;
   pointer-events: none;
 }
@@ -638,17 +638,14 @@ body {
 /* ─── FLIGHT CARDS ─── */
 .flight-card {
   margin: 8px 0;
-  background: var(--layer-1-bg);
-  backdrop-filter: blur(var(--layer-1-blur));
-  -webkit-backdrop-filter: blur(var(--layer-1-blur));
-  border: 1px solid var(--layer-1-border);
+  background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: var(--radius-md);
   padding: 12px 14px;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--layer-1-shadow);
   transition: transform var(--motion-fast) var(--spring-snappy),
-              box-shadow var(--motion-fast) ease;
+              background var(--motion-fast) ease;
 }
 
 .flight-card:active {
@@ -926,12 +923,11 @@ body {
 }
 
 .airport-terminal {
-  padding: 16px;
-  margin-bottom: 20px;
-  background: var(--layer-1-bg);
-  backdrop-filter: blur(var(--layer-2-blur));
-  -webkit-backdrop-filter: blur(var(--layer-2-blur));
-  border: 1px solid var(--layer-1-border) !important;
+  padding: 0;
+  margin-bottom: 8px;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .terminal-top {
@@ -1269,27 +1265,30 @@ body {
 /* ─── EXPAND/COLLAPSE ─── */
 .schedule-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   gap: 8px;
-  margin-top: 12px;
-  margin-bottom: 18px;
+  margin-top: 18px;
+  margin-bottom: 24px;
 }
 
 .action-btn {
-  font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: .04em;
+  font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: .02em;
   padding: 10px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.04);
   color: var(--muted);
   cursor: pointer;
-  transition: all .2s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background .2s ease, transform .15s ease;
 }
 
 .action-btn:active {
-  background: rgba(255,255,255,0.09);
+  background: rgba(255,255,255,0.08);
   transform: scale(0.96);
 }
 
@@ -2230,11 +2229,11 @@ body {
 
 /* ─── AIRPORT TERMINAL ─── */
 .airport-terminal {
-  padding: 20px;
-  margin-bottom: 20px;
-  background:
-    radial-gradient(circle at top center, rgba(var(--color-primary-rgb),0.08), transparent 30%),
-    linear-gradient(180deg, #252018 0%, #1a1812 50%, #111113 100%);
+  padding: 0;
+  margin-bottom: 8px;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .board-head {
@@ -2541,6 +2540,104 @@ body {
   .food-grid { grid-template-columns: 1fr; }
 }
 
+/* ─── MICRO-INTERACTIONS ─── */
+.item-tap {
+  transition: transform 0.15s ease;
+}
+.item-tap:active {
+  transform: scale(0.97);
+}
+body.loading .content {
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* ─── VIBE SYSTEM ─── */
+.vibe-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 2px 7px;
+  border-radius: 6px;
+  display: inline-block;
+}
+.vibe-label.perfect {
+  background: rgba(91,159,232,0.14);
+  color: var(--blue);
+}
+.vibe-label.great {
+  background: rgba(232,144,74,0.14);
+  color: var(--amber);
+}
+
+.vibe-picks {
+  margin-bottom: 4px;
+}
+.vibe-pick-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-left: 2px solid var(--color-primary);
+  border-radius: 14px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.vibe-pick-card:active {
+  transform: scale(0.97);
+  background: rgba(255,255,255,0.06);
+}
+.vibe-pick-rank {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+.vibe-pick-body { flex: 1; min-width: 0; }
+.vibe-pick-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vibe-pick-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.vibe-pick-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+.vibe-pick-city {
+  font-size: 10px;
+  color: var(--subtle);
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 3px;
+}
+
+/* enhanced venue cards for Cena */
+.venue-card {
+  position: relative;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.venue-card:active {
+  transform: scale(0.97);
+}
+.venue-card .vibe-label {
+  margin-top: 4px;
+}
+
 </style>
 </head>
 <body>
@@ -2795,7 +2892,6 @@ body {
       </div>
       <div class="schedule-actions">
         <button class="action-btn" id="toggle-all" data-expanded="true">Recolher tudo</button>
-        <button class="action-btn action-btn-add" id="add-event-btn">+ Adicionar</button>
       </div>
       <div id="schedule-container"></div>
 
@@ -2835,8 +2931,11 @@ body {
       </div>
     </div>
 
-    <!-- ═══ TAB 4: NIGHTLIFE & FOOD ═══ -->
+    <!-- ═══ TAB 4: CENA ═══ -->
     <div class="tab-content" id="tab-nightlife">
+      <!-- Top Picks — rendered by renderCena() -->
+      <div id="cena-picks"></div>
+
       <div class="section-label" style="border-bottom-color:var(--paris)">Paris</div>
       <div class="venue-grid">
         <a class="venue-card" href="https://maps.google.com/?q=Caveau+de+la+Huchette+Paris">
@@ -3920,19 +4019,23 @@ function renderSchedule() {
 function setRegion(city) {
     const app = document.querySelector('.app');
     if (!app) return;
+    let region;
     if (city && city !== 'all') {
-        app.dataset.region = city;
+        region = city;
+        app.dataset.region = region;
     } else {
         // 'all' — determine region from today's travel day
         const today = new Date();
         const tripStart = new Date(2026, 5, 26);
         const dayNum = Math.floor((today - tripStart) / 86400000);
-        let region = 'paris';
+        region = 'paris';
         if (dayNum >= 16)      region = 'tallinn';
         else if (dayNum >= 12) region = 'istanbul';
         else if (dayNum >= 5)  region = 'milan';
         app.dataset.region = region;
     }
+    Store.setState({ region });
+    renderCena();
 }
 
 function initFilters() {
@@ -4220,47 +4323,64 @@ function renderGrana() {
     const c = Store.computed();
     const rate = s.eurBrl;
     const fmt = (n) => Math.round(n).toLocaleString('pt-BR');
-    const fmtEur = (n) => '€' + Math.round(n).toLocaleString('pt-BR');
+    const fmtEur = (n) => '€' + (Number.isInteger(n) ? n.toLocaleString('pt-BR') : n.toFixed(0));
     const fmtBrl = (n) => 'R$\u00a0' + fmt(n);
     const fmtRate = (r) => r.toFixed(2).replace('.', ',');
     const now = s.eurBrlUpdatedAt
         ? new Date(s.eurBrlUpdatedAt).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})
         : null;
 
-    const flightsBrl = c.totalFlightsBrl;
-    const hotelsBrl = c.knownHotelsBrl;
-    const expensesBrl = c.totalExpensesBrl;
-    const grandTotal = c.grandTotalBrl;
+    // ── Estimate Tallinn from known hotel nightly rates ───────────────────────
+    const pricedHotels = s.hotels.filter(h => h.eur != null || h.brl != null);
+    const knownBrlSum   = pricedHotels.reduce((sum, h) => sum + (c.hotelBrl(h) || 0), 0);
+    const knownNightSum = pricedHotels.reduce((sum, h) => sum + h.nights, 0);
+    const avgNightBrl   = knownNightSum > 0 ? knownBrlSum / knownNightSum : 80 * rate;
+    const tallinnH      = s.hotels.find(h => h.id === 'tallinn' && !h.eur && !h.brl);
+    const tallinnEstBrl = tallinnH ? Math.round(avgNightBrl * tallinnH.nights) : 0;
 
-    const expPct = grandTotal ? Math.round(expensesBrl / grandTotal * 100) : 0;
-    const htlPct = grandTotal ? Math.round(hotelsBrl / grandTotal * 100) : 0;
-    const fltPct = grandTotal ? Math.round(flightsBrl / grandTotal * 100) : 0;
+    const flightsBrl   = c.totalFlightsBrl;
+    const hotelsBrl    = c.knownHotelsBrl + tallinnEstBrl;
+    const expensesBrl  = c.totalExpensesBrl;
+    const grandTotal   = flightsBrl + hotelsBrl + expensesBrl;
+    const days         = 24;
+    const perDay       = grandTotal > 0 ? Math.round(grandTotal / days) : 0;
 
-    // Hotel rows
+    // Anomaly threshold: items > 1.5× average
+    const avgItem = (flightsBrl + hotelsBrl) / (s.internalFlights.length + s.hotels.length);
+
+    const pct = (v) => grandTotal > 0 ? Math.min(100, Math.round(v / grandTotal * 100)) : 0;
+
+    // ── Hotel rows ─────────────────────────────────────────────────────────────
     const hotelRows = s.hotels.map(h => {
-        const brl = c.hotelBrl(h);
-        const statusColor = h.status === 'paid' ? 'var(--green)' : h.status === 'confirmed' ? 'var(--blue)' : 'var(--amber)';
-        const statusLabel = h.status === 'paid' ? 'pago ✓' : h.status === 'confirmed' ? 'confirmado' : 'pendente';
-        const valStr = brl ? fmtBrl(brl) : '–';
-        const subStr = h.eur ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(h.eur)})</span>` : '';
+        const brl = (h.id === 'tallinn' && !h.eur && !h.brl) ? tallinnEstBrl : c.hotelBrl(h);
+        const isPaid      = h.status === 'paid';
+        const isPending   = h.id === 'tallinn' && !h.brl && !h.eur;
+        const isAnomaly   = brl && brl > avgItem * 1.5;
+        const statusColor = isPaid ? 'var(--green)' : h.status === 'confirmed' ? 'var(--blue)' : 'var(--amber)';
+        const statusLabel = isPaid ? 'pago ✓' : h.status === 'confirmed' ? 'confirmado' : 'estimado';
+        const displayBrl  = brl ? fmtBrl(brl) : null;
+        const subStr      = h.eur ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(h.eur)})</span>` : '';
+        const estimateNote = isPending && brl ? ` <span style="color:var(--amber);font-size:10px">est.</span>` : '';
+        const anomalyDot  = isAnomaly ? ' <span style="color:var(--amber)">⚠</span>' : '';
         return `<div class="orca-row">
             <span class="orca-cat-icon">🏨</span>
-            <span class="orca-cat-label">${h.name} · ${h.nights}n</span>
-            <span class="orca-cat-value" style="color:${brl ? 'var(--text)' : statusColor}">${brl ? valStr + subStr : '<span style="color:'+statusColor+'">'+statusLabel+'</span>'}</span>
+            <span class="orca-cat-label">${h.name} · ${h.nights}n${anomalyDot}</span>
+            <span class="orca-cat-value" style="color:${displayBrl ? (isAnomaly ? 'var(--amber)' : 'var(--text)') : statusColor}">${displayBrl ? displayBrl + subStr + estimateNote : '<span style="color:'+statusColor+'">'+statusLabel+'</span>'}</span>
         </div>`;
     }).join('');
 
-    // Flight rows (internal EU only)
+    // ── Flight rows ────────────────────────────────────────────────────────────
     const flightRows = s.internalFlights.map(f => {
         const brl = c.flightBrl(f);
-        const statusColor = f.status === 'confirmed' ? 'var(--green)' : f.brl === 0 ? 'var(--green)' : 'var(--amber)';
+        const isAnomaly = brl && brl > 0 && brl > avgItem * 1.5;
         const valStr = f.brl === 0 ? '<span style="color:var(--green)">empresa ✓</span>'
             : brl ? fmtBrl(brl) : '<span style="color:var(--amber)">pendente</span>';
-        const subStr = f.eur && brl ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(f.eur)})</span>` : '';
+        const subStr = f.eur && brl && brl > 0 ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(f.eur)})</span>` : '';
+        const anomalyDot = isAnomaly ? ' <span style="color:var(--amber)">⚠</span>' : '';
         return `<div class="orca-row">
             <span class="orca-cat-icon">✈️</span>
-            <span class="orca-cat-label">${f.flight} · ${f.leg}</span>
-            <span class="orca-cat-value">${valStr}${f.brl && f.brl > 0 ? subStr : ''}</span>
+            <span class="orca-cat-label">${f.flight} · ${f.route}${anomalyDot}</span>
+            <span class="orca-cat-value" style="color:${isAnomaly ? 'var(--amber)' : ''}">${valStr}${brl && brl > 0 ? subStr : ''}</span>
         </div>`;
     }).join('');
 
@@ -4273,16 +4393,17 @@ function renderGrana() {
                 <div class="fx-updated">${now ? 'Cotação ao vivo · ' + now : 'Taxa estimada · offline'}</div>
             </div>
             <div class="fx-right">
-                <div class="fx-need">${fmtBrl(grandTotal)}</div>
-                <div class="fx-need-label">Total viagem</div>
+                <div class="fx-need" style="font-size:clamp(18px,5vw,26px)">${fmtBrl(grandTotal)}</div>
+                <div class="fx-need-label">Total · ${fmtBrl(perDay)}/dia</div>
             </div>
         </div>
 
         <!-- Grand total card -->
-        <div class="orca-city-card" style="background:rgba(var(--color-primary-rgb),0.06);border-color:rgba(var(--color-primary-rgb),0.18);margin-bottom:4px">
-            <div style="padding:4px 0 10px">
+        <div class="orca-city-card grana-card-anim" style="background:rgba(var(--color-primary-rgb),0.06);border-color:rgba(var(--color-primary-rgb),0.18);margin-bottom:4px">
+            <div style="padding:4px 0 12px">
                 <div style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Total da Viagem</div>
-                <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--text)">${fmtBrl(grandTotal)}</div>
+                <div style="font-size:clamp(28px,7vw,42px);font-weight:700;letter-spacing:-1px;color:var(--text);line-height:1.1;word-break:break-word">${fmtBrl(grandTotal)}</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:4px">${fmtBrl(perDay)} por dia · 24 dias</div>
             </div>
             <div class="orca-row" style="padding:6px 0">
                 <span class="orca-cat-icon">✈️</span>
@@ -4291,17 +4412,17 @@ function renderGrana() {
                         <span class="orca-cat-label">Voos internos</span>
                         <span class="orca-cat-value">${fmtBrl(flightsBrl)}</span>
                     </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${fltPct}%;background:var(--blue)"></div></div>
+                    <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${pct(flightsBrl)}" style="width:0%;background:var(--blue)"></div></div>
                 </div>
             </div>
             <div class="orca-row" style="padding:6px 0">
                 <span class="orca-cat-icon">🏨</span>
                 <div style="flex:1">
                     <div style="display:flex;justify-content:space-between">
-                        <span class="orca-cat-label">Hospedagem</span>
+                        <span class="orca-cat-label">Hospedagem${tallinnEstBrl ? ' <span style="font-size:10px;color:var(--amber)">+est.</span>' : ''}</span>
                         <span class="orca-cat-value">${fmtBrl(hotelsBrl)}</span>
                     </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${htlPct}%;background:var(--purple)"></div></div>
+                    <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${pct(hotelsBrl)}" style="width:0%;background:var(--purple)"></div></div>
                 </div>
             </div>
             <div class="orca-row" style="padding:6px 0">
@@ -4311,21 +4432,20 @@ function renderGrana() {
                         <span class="orca-cat-label">Gastos & Ingressos</span>
                         <span class="orca-cat-value">${fmtBrl(expensesBrl)}</span>
                     </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${expPct}%;background:var(--amber)"></div></div>
+                    <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${pct(expensesBrl)}" style="width:0%;background:var(--amber)"></div></div>
                 </div>
             </div>
         </div>
 
         <!-- Voos internos -->
         <div class="section-label">Voos Internos · EU</div>
-        <div class="orca-city-card">
-            ${flightRows}
-        </div>
+        <div class="orca-city-card grana-card-anim">${flightRows}</div>
 
         <!-- Hospedagem -->
         <div class="section-label">Hospedagem</div>
-        <div class="orca-city-card">
+        <div class="orca-city-card grana-card-anim">
             ${hotelRows}
+            ${tallinnEstBrl ? `<div class="orca-row" style="border-top:1px solid var(--border);padding-top:6px;margin-top:2px"><span class="orca-cat-icon">💡</span><span class="orca-cat-label" style="color:var(--amber);font-size:12px">Tallinn estimado: ${fmtBrl(tallinnEstBrl)} (${Math.round(avgNightBrl)}/noite × 7)</span></div>` : ''}
             <div class="orca-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:8px">
                 <span class="orca-cat-icon">Σ</span>
                 <span class="orca-cat-label" style="font-weight:600">Total hospedagem</span>
@@ -4335,7 +4455,7 @@ function renderGrana() {
 
         <!-- Gastos por categoria -->
         <div class="section-label">Gastos · 22 dias</div>
-        <div class="orca-category-section">
+        <div class="orca-category-section grana-card-anim">
             ${[
                 { icon:'🎭', label:'Ingressos',        key:'tickets',   color:'var(--paris)' },
                 { icon:'🚇', label:'Transporte local', key:'transport', color:'var(--blue)' },
@@ -4345,9 +4465,9 @@ function renderGrana() {
                 { icon:'📦', label:'Delivery',         key:'delivery',  color:'var(--red)' },
                 { icon:'🆘', label:'Reserva (10%)',    key:'buffer',    color:'var(--muted)' },
             ].map(cat => {
-                const eur = s.expenses[cat.key];
-                const brl = Math.round(eur * rate);
-                const pct = Math.round(eur / c.totalExpensesEur * 100);
+                const eur   = s.expenses[cat.key];
+                const brl   = Math.round(eur * rate);
+                const catPct = c.totalExpensesEur > 0 ? Math.round(eur / c.totalExpensesEur * 100) : 0;
                 return `<div class="orca-row">
                     <span class="orca-cat-icon">${cat.icon}</span>
                     <div style="flex:1">
@@ -4355,12 +4475,28 @@ function renderGrana() {
                             <span class="orca-cat-label">${cat.label}</span>
                             <span class="orca-cat-value">${fmtBrl(brl)} <span style="color:var(--muted);font-size:10px">(${fmtEur(eur)})</span></span>
                         </div>
-                        <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${pct}%;background:${cat.color}"></div></div>
+                        <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${catPct}" style="width:0%;background:${cat.color}"></div></div>
                     </div>
                 </div>`;
             }).join('')}
         </div>
     `;
+
+    // Animate bars in after paint
+    requestAnimationFrame(() => {
+        el.querySelectorAll('.grana-bar').forEach(bar => {
+            setTimeout(() => { bar.style.width = bar.dataset.pct + '%'; }, 60);
+        });
+        el.querySelectorAll('.grana-card-anim').forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(8px)';
+            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 40 + i * 60);
+        });
+    });
 }
 
 // ─── EUR/BRL EXCHANGE RATE ───
@@ -4401,6 +4537,136 @@ async function hydrateLiveOps() {
     initCollapsibles();
 }
 
+// ═══════════════════════════════════════════════════════════════════
+// ─── CENA — VIBE SCORING ENGINE ─────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+
+const PEDRO_VIBE = {
+    music:  ['post-punk', 'electronic', 'experimental', 'jazz', 'industrial', 'darkwave', 'psych', 'ambient'],
+    venues: ['underground', 'intimate', 'alternative', 'indie', 'warehouse'],
+    avoid:  ['tourist', 'generic', 'mainstream'],
+};
+
+const VENUE_DATA = [
+    // ── PARIS ──
+    { name: 'Caveau de la Huchette', city: 'paris', desc: 'Jazz underground desde 1946', price: '€15–20', tags: ['jazz','underground'], url: 'https://maps.google.com/?q=Caveau+de+la+Huchette+Paris' },
+    { name: 'Glazart',               city: 'paris', desc: 'Post-punk · Darkwave · Coldwave nights', price: '€8–15', tags: ['post-punk','darkwave','underground'], url: 'https://maps.google.com/?q=Glazart+Paris' },
+    { name: 'Petit Bain',            city: 'paris', desc: 'Electronic · Experimental · Barge no Sena', price: '€10–20', tags: ['electronic','experimental','underground'], url: 'https://maps.google.com/?q=Petit+Bain+Paris' },
+    { name: 'Sunset/Sunrise',        city: 'paris', desc: 'Jazz+post-punk duplo venue', price: '€15–25', tags: ['jazz','post-punk','intimate'], url: 'https://maps.google.com/?q=Sunset+Sunrise+Rue+des+Lombards+Paris' },
+    { name: 'Concrete',              city: 'paris', desc: 'Industrial · Electronic · Warehouse no Sena', price: '€12–18', tags: ['industrial','electronic','warehouse'], url: 'https://maps.google.com/?q=Concrete+Paris' },
+    { name: "L'As du Fallafel",      city: 'paris', desc: 'Street food lendário · Marais', price: '€6–8', tags: ['food'], url: 'https://maps.google.com/?q=L%27As+du+Fallafel+Marais+Paris' },
+    { name: 'Rue Mouffetard',        city: 'paris', desc: 'Mercado medieval de rua · Latin Quarter', price: '€3–8', tags: ['food','market'], url: 'https://maps.google.com/?q=Rue+Mouffetard+Paris' },
+    // ── MILAN ──
+    { name: 'Tempio del Futuro Perduto', city: 'milan', desc: 'Experimental · Industrial · Tua referência estética', price: '€10–20', tags: ['experimental','industrial','underground','alternative'], url: 'https://maps.google.com/?q=Tempio+del+Futuro+Perduto+Milan' },
+    { name: 'Leoncavallo',           city: 'milan', desc: 'Post-punk · Squat culture · Centro sociale', price: '€5–12', tags: ['post-punk','underground','alternative'], url: 'https://maps.google.com/?q=Leoncavallo+Milan' },
+    { name: 'Cox 18',                city: 'milan', desc: 'Electronic · Experimental · Via Conchetta', price: '€8–15', tags: ['electronic','experimental','underground'], url: 'https://maps.google.com/?q=Cox+18+Milan' },
+    { name: 'Macao',                 city: 'milan', desc: 'Multimedia · Performance art · Viale Molise', price: '€10–20', tags: ['experimental','alternative','intimate'], url: 'https://maps.google.com/?q=Macao+Viale+Molise+Milan' },
+    { name: 'Blue Note Milano',      city: 'milan', desc: 'Jazz · Via Borsieri · World-class', price: '€15–30', tags: ['jazz','intimate'], url: 'https://maps.google.com/?q=Blue+Note+Milano' },
+    { name: 'Navigli Aperitivo',     city: 'milan', desc: 'Canais · Drink + buffet grátis 18h–20h', price: '€8–12', tags: ['food'], url: 'https://maps.google.com/?q=Navigli+Milan' },
+    // ── ISTANBUL ──
+    { name: 'Dorock XL',             city: 'istanbul', desc: 'Psych rock · Anatolian · Altın Gün vibes · Beyoğlu', price: '80–150 TRY', tags: ['psych','alternative','intimate'], url: 'https://maps.google.com/?q=Dorock+XL+Beyoglu+Istanbul' },
+    { name: 'Peyote',                city: 'istanbul', desc: 'Psychedelic rock · Underground · Beyoğlu', price: '50–120 TRY', tags: ['psych','underground','alternative'], url: 'https://maps.google.com/?q=Peyote+Istanbul+Beyoglu' },
+    { name: 'Arkaoda Kadıköy',       city: 'istanbul', desc: 'Underground electronic · Asian side · Ferry ride', price: '50–100 TRY', tags: ['electronic','underground'], url: 'https://maps.google.com/?q=Arkaoda+Kadikoy+Istanbul' },
+    { name: 'Balık Ekmek Eminönü',   city: 'istanbul', desc: 'Fish sandwich lendário · Galata Bridge', price: '€3–5', tags: ['food'], url: 'https://maps.google.com/?q=Balik+Ekmek+Eminonu+Istanbul' },
+    // ── TALLINN ──
+    { name: 'Telliskivi Creative City', city: 'tallinn', desc: 'Indie · Experimental · Fábrica soviética convertida', price: 'Free–€15', tags: ['experimental','alternative','indie'], url: 'https://maps.google.com/?q=Telliskivi+Creative+City+Tallinn' },
+    { name: 'Sveta Baar',            city: 'tallinn', desc: 'Electronic · Dark ambient · Post-industrial', price: '€5–15', tags: ['electronic','industrial','underground','ambient'], url: 'https://maps.google.com/?q=Sveta+Baar+Tallinn' },
+    { name: 'Hall',                  city: 'tallinn', desc: 'Electronic · Industrial · Rotermanni Quarter', price: '€8–15', tags: ['electronic','industrial','underground'], url: 'https://maps.google.com/?q=Hall+Tallinn+club' },
+    { name: 'Patarei Sea Fortress',  city: 'tallinn', desc: 'Prisão soviética → espaço de arte · Post-industrial', price: '€4–6', tags: ['experimental','alternative','underground'], url: 'https://maps.google.com/?q=Patarei+Sea+Fortress+Tallinn' },
+];
+
+function scoreVenue(v) {
+    let score = 0;
+    for (const tag of v.tags) {
+        if (PEDRO_VIBE.music.includes(tag))  score += 3;
+        if (PEDRO_VIBE.venues.includes(tag)) score += 2;
+        if (PEDRO_VIBE.avoid.includes(tag))  score -= 3;
+    }
+    return score;
+}
+
+function vibeLabel(score) {
+    if (score >= 7) return { text: '⚡ Perfeito', cls: 'perfect' };
+    if (score >= 4) return { text: '🔥 Boa pra você', cls: 'great' };
+    return null;
+}
+
+function renderCena() {
+    const el = document.getElementById('cena-picks');
+    if (!el) return;
+
+    const currentCity = Store.state.region === 'all' ? null : Store.state.region;
+
+    // Score all venues
+    const scored = VENUE_DATA.map(v => ({ ...v, score: scoreVenue(v) }));
+
+    // Top picks: score ≥ 4, optionally filtered by current city, sorted by score
+    const picks = scored
+        .filter(v => v.score >= 4 && (currentCity ? v.city === currentCity : true))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+
+    if (!picks.length) { el.innerHTML = ''; return; }
+
+    const cityColor = { paris: 'var(--paris)', milan: 'var(--milan)', istanbul: 'var(--istanbul)', tallinn: 'var(--tallinn)' };
+    const rankIcons = ['🥇','🥈','🥉','4️⃣','5️⃣'];
+
+    const cards = picks.map((v, i) => {
+        const lbl = vibeLabel(v.score);
+        const col  = cityColor[v.city] || 'var(--color-primary)';
+        return `<a class="vibe-pick-card item-tap" href="${v.url}" target="_blank" rel="noopener" style="border-left-color:${col}">
+            <span class="vibe-pick-rank">${rankIcons[i] || '·'}</span>
+            <div class="vibe-pick-body">
+                <div class="vibe-pick-name">${v.name}</div>
+                <div class="vibe-pick-desc">${v.desc}</div>
+                <div class="vibe-pick-footer">
+                    ${lbl ? `<span class="vibe-label ${lbl.cls}">${lbl.text}</span>` : ''}
+                    <span style="font-size:11px;color:var(--muted)">${v.price}</span>
+                </div>
+            </div>
+            <span class="vibe-pick-city" style="color:${col}">${v.city}</span>
+        </a>`;
+    }).join('');
+
+    const headerLabel = currentCity
+        ? `🔥 Top Picks · ${currentCity.charAt(0).toUpperCase() + currentCity.slice(1)}`
+        : '🔥 Top Picks · Toda a viagem';
+
+    el.innerHTML = `
+        <div class="section-label" style="margin-top:0">${headerLabel}</div>
+        <div class="vibe-picks">${cards}</div>
+    `;
+
+    // Stagger fade-in
+    requestAnimationFrame(() => {
+        el.querySelectorAll('.vibe-pick-card').forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(8px)';
+            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 40 + i * 55);
+        });
+    });
+
+    // Also inject vibe labels into the static venue cards
+    document.querySelectorAll('#tab-nightlife .venue-card').forEach(card => {
+        const name = card.querySelector('.venue-name')?.textContent?.trim();
+        if (!name) return;
+        const match = VENUE_DATA.find(v => v.name === name);
+        if (!match) return;
+        const lbl = vibeLabel(match.score ?? scoreVenue(match));
+        if (lbl && !card.querySelector('.vibe-label')) {
+            const tag = document.createElement('div');
+            tag.className = `vibe-label ${lbl.cls}`;
+            tag.textContent = lbl.text;
+            const priceEl = card.querySelector('.venue-price');
+            if (priceEl) priceEl.after(tag);
+        }
+    });
+}
+
 // ─── INIT ───
 document.addEventListener('DOMContentLoaded', () => {
     initTabs();
@@ -4416,7 +4682,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAddEvent();
     calculateBudget();
 
-    // Subscribe renderGrana and renderSchedule to Store changes (FX rate, weather)
+    // Subscribe renders to Store changes (FX rate, weather, etc.)
     Store.subscribe(() => {
         renderGrana();
         renderSchedule();
@@ -4424,9 +4690,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial render
     renderGrana();
+    renderCena();
 
     // Boot all services: currency, weather, flights
+    document.body.classList.add('loading');
     Services.loadAll().then(() => {
+        document.body.classList.remove('loading');
         renderRouteBoard();
         renderFlightBoard();
         renderMeetingLive();
