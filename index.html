@@ -117,8 +117,9 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html {
-  height: -webkit-fill-available;
+html, body {
+  height: 100%;
+  overflow: hidden;
 }
 html, body {
   background: #000000; /* true black — matches --bg */
@@ -126,15 +127,10 @@ html, body {
   font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  height: 100%;
-  overflow: hidden;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   font-feature-settings: 'tnum';
   overscroll-behavior: none;
-}
-body {
-  min-height: -webkit-fill-available;
 }
 
 /* ─── LIQUID GLASS UTILITY ─── */
@@ -180,7 +176,7 @@ body {
   flex-direction: column;
   position: fixed;
   inset: 0;
-  height: var(--vh, 100dvh);
+  height: var(--app-height, 100%);
   background: var(--bg);
   overflow: hidden;
 }
@@ -305,7 +301,8 @@ body {
 .tab-btn.active {
   color: var(--color-primary);
   background: rgba(var(--color-primary-rgb), 0.12);
-  box-shadow: inset 0 1px 0 rgba(var(--color-primary-rgb), 0.2);
+  box-shadow: inset 0 1px 0 rgba(var(--color-primary-rgb), 0.2),
+              0 0 18px rgba(var(--color-primary-rgb), 0.25);
 }
 
 .tab-btn .tab-icon {
@@ -573,6 +570,15 @@ body {
   font-size: 10px;
   color: var(--subtle);
   margin-top: 2px;
+}
+
+/* ─── BLINKING CLOCK COLON ─── */
+.clock-colon {
+  display: inline-block;
+  animation: blink-colon 1s steps(1) infinite;
+}
+@keyframes blink-colon {
+  50% { opacity: 0; }
 }
 
 /* ─── ROUTE ─── */
@@ -1431,6 +1437,31 @@ body {
   bottom: 0;
 }
 
+/* ─── TIMELINE FLOWING ENERGY GLOW ─── */
+.day-block::after {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: -28px;
+  width: 4px;
+  height: 60px;
+  background: radial-gradient(ellipse 2px 30px at center,
+    var(--city-color, rgba(255,255,255,0.5)),
+    transparent 100%);
+  animation: timelineFlow 2.8s linear infinite;
+  pointer-events: none;
+  border-radius: 2px;
+  z-index: 2;
+}
+.day-block:first-of-type::after { top: 6px; }
+
+@keyframes timelineFlow {
+  0%   { transform: translateY(0);     opacity: 0; }
+  12%  { opacity: 0.9; }
+  88%  { opacity: 0.6; }
+  100% { transform: translateY(260px); opacity: 0; }
+}
+
 /* Transition segment: gradient between two city colors */
 .day-block.city-transition::before {
   background: linear-gradient(
@@ -2275,6 +2306,31 @@ body {
 .clock-card[data-city="istanbul"] .clock-city { color: var(--istanbul); }
 .clock-card[data-city="tallinn"]  .clock-city { color: var(--tallinn); }
 
+/* Shared highlight style for dynamic assignment */
+.clock-card.clock-highlight,
+.clock-card.clock-active {
+  background: rgba(var(--color-primary-rgb), 0.06);
+  position: relative;
+  transition: background var(--motion-normal) var(--spring);
+}
+.clock-card.clock-highlight::before,
+.clock-card.clock-active::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  opacity: 0.55;
+  transition: background var(--motion-normal) var(--spring);
+}
+.clock-card.clock-highlight .clock-time,
+.clock-card.clock-active .clock-time {
+  color: var(--color-primary);
+  text-shadow: 0 0 24px rgba(var(--color-primary-rgb), 0.4);
+  transition: color var(--motion-normal) var(--spring),
+              text-shadow var(--motion-normal) ease;
+}
+
 .clock-time {
   font-size: 26px;
   letter-spacing: -1.5px;
@@ -2678,6 +2734,53 @@ body.loading .content {
   transition: all 0.1s ease;
 }
 
+/* ─── TOTAL VALUE OVERFLOW FIX ─── */
+.grana-total-value {
+  font-size: clamp(26px, 6vw, 42px) !important;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--text);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ─── TAB NAV ISOLATION ─── */
+.tab-nav {
+  isolation: isolate;
+}
+
+/* ─── VALUE PULSE ON UPDATE ─── */
+@keyframes valuePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(0.98); }
+}
+.value-updated {
+  animation: valuePulse 0.4s ease;
+}
+
+/* ─── WEATHER FADE TRANSITION ─── */
+.clock-weather {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  transition: opacity 0.3s ease;
+  animation: weather-pulse 5s ease-in-out infinite;
+}
+@keyframes weather-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ─── ITEM TAP HAPTIC ─── */
+.item-tap:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
 </style>
 </head>
 <body>
@@ -2724,22 +2827,24 @@ body.loading .content {
         </div>
       </div>
       <div class="clock-grid clock-grid-4">
-        <div class="clock-card">
+        <div class="clock-card" id="clock-card-sp">
           <div class="clock-time" id="clock-sp">--:--</div>
           <div class="clock-city">São Paulo</div>
           <div class="clock-tz">UTC −3</div>
+          <div class="clock-weather" id="clock-weather-sp"></div>
         </div>
-        <div class="clock-card clock-highlight">
+        <div class="clock-card" id="clock-card-eu">
           <div class="clock-time" id="clock-current">--:--</div>
           <div class="clock-city" id="clock-city-name">Paris</div>
           <div class="clock-tz" id="clock-tz">UTC +2</div>
+          <div class="clock-weather" id="clock-weather-eu"></div>
         </div>
-        <div class="clock-card">
+        <div class="clock-card" id="clock-card-ist">
           <div class="clock-time" id="clock-ist">--:--</div>
           <div class="clock-city" style="color:var(--istanbul)">Istanbul</div>
           <div class="clock-tz">UTC +3</div>
         </div>
-        <div class="clock-card">
+        <div class="clock-card" id="clock-card-tll">
           <div class="clock-time" id="clock-tll">--:--</div>
           <div class="clock-city" style="color:var(--tallinn)">Tallinn</div>
           <div class="clock-tz">UTC +3</div>
@@ -3228,7 +3333,7 @@ body.loading .content {
 
   <nav class="tab-nav">
     <button class="tab-btn active" data-tab="tab-overview"><i class="tab-icon">⌂</i>Home</button>
-    <button class="tab-btn" data-tab="tab-schedule"><i class="tab-icon">▤</i>Plano</button>
+    <button class="tab-btn" data-tab="tab-schedule"><i class="tab-icon">📅</i>Agenda</button>
     <button class="tab-btn" data-tab="tab-orca"><i class="tab-icon">€</i>Grana</button>
     <button class="tab-btn" data-tab="tab-nightlife"><i class="tab-icon">♫</i>Cena</button>
   </nav>
@@ -3238,12 +3343,12 @@ body.loading .content {
 'use strict';
 
 // ── iOS VIEWPORT FIX ──────────────────────────────────────────────
-function fixIOSViewport() {
-    const vh = window.innerHeight;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
+// Uses window.innerHeight (not 100vh/100dvh) to avoid Safari bottom bar gap
+function setAppHeight() {
+    document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
 }
-window.addEventListener('resize', fixIOSViewport);
-fixIOSViewport();
+window.addEventListener('resize', setAppHeight);
+setAppHeight();
 
 // ── COUNTER ANIMATION ─────────────────────────────────────────────
 function animateCounter(el, from, to, duration) {
@@ -4092,6 +4197,7 @@ function renderSchedule() {
                     ${ev.meta ? `<div class="ev-meta">${ev.meta}</div>` : ''}
                 </div>
             `;
+            evEl.classList.add('fade-in');
             eventsEl.appendChild(evEl);
         });
 
@@ -4099,6 +4205,26 @@ function renderSchedule() {
     });
 
     container.appendChild(timeline);
+
+    // Scroll-reactive timeline: highlight visible day blocks + stagger events
+    requestAnimationFrame(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const block = entry.target;
+                if (entry.isIntersecting) {
+                    block.classList.add('active');
+                    // Stagger-reveal events
+                    block.querySelectorAll('.fade-in:not(.show)').forEach((ev, i) => {
+                        setTimeout(() => ev.classList.add('show'), i * 55);
+                    });
+                } else {
+                    block.classList.remove('active');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+
+        container.querySelectorAll('.day-block').forEach(block => observer.observe(block));
+    });
 }
 
 function setRegion(city) {
@@ -4182,36 +4308,75 @@ function updateCountdown() {
 }
 
 // ─── CLOCKS ───
+function fmtWithColon(tz) {
+    const timeStr = formatTime(new Date(), tz);
+    const [h, m] = timeStr.split(':');
+    return `<span>${h}</span><span class="clock-colon">:</span><span>${m}</span>`;
+}
+
 function updateClocks() {
     const now = new Date();
-    const fmt = tz => formatTime(now, tz);
-    document.getElementById('clock-sp').textContent = fmt('America/Sao_Paulo');
 
-    // Fixed destination clocks
+    // Render with blinking colon
+    const spEl = document.getElementById('clock-sp');
+    if (spEl) spEl.innerHTML = fmtWithColon('America/Sao_Paulo');
+
     const istEl = document.getElementById('clock-ist');
     const tllEl = document.getElementById('clock-tll');
-    if (istEl) istEl.textContent = fmt('Europe/Istanbul');
-    if (tllEl) tllEl.textContent = fmt('Europe/Tallinn');
+    if (istEl) istEl.innerHTML = fmtWithColon('Europe/Istanbul');
+    if (tllEl) tllEl.innerHTML = fmtWithColon('Europe/Tallinn');
 
     const tripStart = new Date(2026, 5, 26);
     const tripEnd   = new Date(2026, 6, 19);
-    const dayNum = Math.floor((now - tripStart) / 86400000);
-    let tz = 'Europe/Paris', city = 'Paris', tzLabel = 'UTC +2', cityKey = 'paris';
+    const dayNum    = Math.floor((now - tripStart) / 86400000);
+    const isOnTrip  = now >= tripStart && now <= tripEnd;
 
+    let tz = 'Europe/Paris', city = 'Paris', tzLabel = 'UTC +2', cityKey = 'paris';
     if (dayNum >= 16)      { tz = 'Europe/Tallinn'; city = 'Tallinn'; tzLabel = 'UTC +3'; cityKey = 'tallinn'; }
     else if (dayNum >= 12) { tz = 'Europe/Istanbul'; city = 'Istanbul'; tzLabel = 'UTC +3'; cityKey = 'istanbul'; }
     else if (dayNum >= 5)  { tz = 'Europe/Rome'; city = 'Milan'; tzLabel = 'UTC +2'; cityKey = 'milan'; }
 
-    document.getElementById('clock-current').textContent = fmt(tz);
-    document.getElementById('clock-city-name').textContent = city;
-    document.getElementById('clock-tz').textContent = tzLabel;
+    const currentEl = document.getElementById('clock-current');
+    if (currentEl) currentEl.innerHTML = fmtWithColon(tz);
+    const cityNameEl = document.getElementById('clock-city-name');
+    if (cityNameEl) cityNameEl.textContent = city;
+    const tzEl = document.getElementById('clock-tz');
+    if (tzEl) tzEl.textContent = tzLabel;
 
-    // Highlight clock card for current city — update color-primary via data-city
-    const highlightCard = document.querySelector('.clock-card.clock-highlight');
-    if (highlightCard) highlightCard.dataset.city = cityKey;
+    // ── Dynamic clock highlight ──────────────────────────────────────────────
+    // Before trip: highlight São Paulo. During trip: highlight active EU city.
+    document.querySelectorAll('.clock-card').forEach(c => {
+        c.classList.remove('clock-highlight', 'clock-active');
+    });
+    if (isOnTrip) {
+        const euCard = document.getElementById('clock-card-eu');
+        if (euCard) {
+            euCard.classList.add('clock-highlight');
+            euCard.dataset.city = cityKey;
+        }
+    } else {
+        // Before/after trip: highlight São Paulo
+        const spCard = document.getElementById('clock-card-sp');
+        if (spCard) spCard.classList.add('clock-highlight');
+    }
+
+    // ── Weather for active city in clock ────────────────────────────────────
+    const activeKey = isOnTrip ? cityKey : 'sp';
+    const weatherEl = isOnTrip
+        ? document.getElementById('clock-weather-eu')
+        : document.getElementById('clock-weather-sp');
+
+    if (weatherEl && isOnTrip) {
+        const wf = Store.state.weatherCurrent[cityKey];
+        if (wf && wf.temperature_2m != null) {
+            const temp = Math.round(wf.temperature_2m);
+            const icon = weatherIcon(wf.weather_code || 0);
+            weatherEl.textContent = `${icon} ${temp}°`;
+        }
+    }
 
     // Update accent region if no city filter is active
-    if (currentFilter === 'all') setRegion(now >= tripStart && now <= tripEnd ? cityKey : 'paris');
+    if (currentFilter === 'all') setRegion(isOnTrip ? cityKey : 'paris');
 }
 
 
@@ -4488,8 +4653,8 @@ function renderGrana() {
         <div class="orca-city-card grana-card-anim" style="background:rgba(var(--color-primary-rgb),0.06);border-color:rgba(var(--color-primary-rgb),0.18);margin-bottom:4px">
             <div style="padding:4px 0 12px">
                 <div style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Total da Viagem</div>
-                <div style="font-size:clamp(28px,7vw,42px);font-weight:700;letter-spacing:-1px;color:var(--text);line-height:1.1;word-break:break-word">${fmtBrl(grandTotal)}</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:4px">${fmtBrl(perDay)} por dia · 24 dias</div>
+                <div class="grana-total-value" id="grana-grand-total">R$&nbsp;0</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:4px" id="grana-per-day">${fmtBrl(perDay)} por dia · 24 dias</div>
             </div>
             <div class="orca-row" style="padding:6px 0">
                 <span class="orca-cat-icon">✈️</span>
@@ -4568,11 +4733,14 @@ function renderGrana() {
         </div>
     `;
 
-    // Animate bars in after paint
+    // Animate bars and values in after paint
     requestAnimationFrame(() => {
+        // Bars grow together
         el.querySelectorAll('.grana-bar').forEach(bar => {
-            setTimeout(() => { bar.style.width = bar.dataset.pct + '%'; }, 60);
+            setTimeout(() => { bar.style.width = bar.dataset.pct + '%'; }, 80);
         });
+
+        // Cards fade in with stagger
         el.querySelectorAll('.grana-card-anim').forEach((card, i) => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(8px)';
@@ -4582,6 +4750,22 @@ function renderGrana() {
                 card.style.transform = 'translateY(0)';
             }, 40 + i * 60);
         });
+
+        // Grand total animates from 0 to final value (BRL formatted)
+        const totalEl = document.getElementById('grana-grand-total');
+        if (totalEl && grandTotal > 0) {
+            const startTime = performance.now();
+            const dur = 800;
+            const tick = (now) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / dur, 1);
+                const ease = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(grandTotal * ease);
+                totalEl.textContent = 'R$\u00a0' + current.toLocaleString('pt-BR');
+                if (progress < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+        }
     });
 }
 
@@ -4772,6 +4956,7 @@ document.addEventListener('DOMContentLoaded', () => {
     Store.subscribe(() => {
         renderGrana();
         renderSchedule();
+        updateClocks(); // refresh weather display in clock
     });
 
     // Initial render
@@ -4788,7 +4973,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initCollapsibles();
     });
 
-    setInterval(updateClocks, 60000);
+    setInterval(updateClocks, 1000); // 1s for real-time feel + colon sync
     setInterval(() => Services.loadAll(), 60000 * 60); // hourly refresh
     setInterval(renderFlightBoard, 60000 * 2);
     setInterval(renderMeetingLive, 60000 * 5);
