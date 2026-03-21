@@ -148,15 +148,35 @@ html, body {
   background: linear-gradient(180deg, #2a2a2e 0%, #1a1a1d 100%);
   border-top: 1px solid rgba(255,255,255,0.09);
   display: flex;
-  padding-bottom: max(env(safe-area-inset-bottom), 8px);
+.tab-nav {
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #2a2a2e 0%, #1a1a1d 100%);
+  border-top: 1px solid rgba(255,255,255,0.09);
+  display: flex;
+  padding-bottom: max(env(safe-area-inset-bottom), 34px);
   z-index: 100;
   box-shadow: 0 -1px 0 rgba(255,255,255,0.05), 0 -12px 40px rgba(0,0,0,0.7);
 }
 
+
 .tab-btn {
   flex: 1;
-  padding: 11px 4px 4px;
-  min-height: 50px;
+  padding: 10px 4px 8px;
+  min-height: 54px;
+  background: none;
+  border: none;
+  color: var(--subtle);
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .25s ease;
+  text-align: center;
+  border-top: 2px solid transparent;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
   background: none;
   border: none;
   color: var(--subtle);
@@ -191,6 +211,7 @@ html, body {
 }
 
 /* ─── CONTENT ─── */
+
 .content {
   flex: 1;
   min-height: 0;
@@ -198,7 +219,7 @@ html, body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  padding-bottom: calc(18px + env(safe-area-inset-bottom));
+  padding-bottom: calc(24px + max(env(safe-area-inset-bottom), 34px));
 }
 
 .tab-content {
@@ -600,6 +621,7 @@ html, body {
 }
 
 .flight-board,
+.flight-board,
 .split-flap-board {
   background: linear-gradient(180deg, #111113 0%, #050506 100%);
   border: 1px solid rgba(255,255,255,0.08);
@@ -632,9 +654,6 @@ html, body {
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
-.board-row:last-child,
-.flap-row:last-child { border-bottom: none; }
-
 .board-col,
 .flap-col {
   display: flex;
@@ -656,7 +675,6 @@ html, body {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 14px;
   font-weight: 700;
-  letter-spacing: -.01em;
   box-shadow: inset 0 -1px 0 rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.05), 0 1px 3px rgba(0,0,0,0.35);
 }
 
@@ -667,6 +685,36 @@ html, body {
 
 .split-char.space {
   opacity: .16;
+}
+.board-row:last-child,
+.flap-row:last-child { border-bottom: none; }
+
+.board-col,
+.flap-col {
+  display: flex;
+  gap: 2px;
+  min-width: 0;
+}
+
+.split-char {
+  min-width: 12px;
+  height: 20px;
+  padding: 0 2px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #f8f7f3 0%, #dbd7cf 48%, #bbb5aa 49%, #f4f1eb 100%);
+  color: #080809;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.24), 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.split-char.dark {
+  background: linear-gradient(180deg, #1b1b1d 0%, #050506 48%, #171719 49%, #212124 100%);
+  color: #f8f7f3;
 }
 
 .board-row.board-live .split-char,
@@ -795,18 +843,12 @@ html, body {
 
 @media (max-width: 760px) {
   .live-grid { grid-template-columns: 1fr; }
-  .board-head,
   .board-row,
-  .flap-row {
-    grid-template-columns: 72px minmax(0, 1fr) 76px 76px;
-    gap: 8px;
-  }
-  .split-char {
-    min-width: 14px;
-    height: 24px;
-    padding: 0 3px;
-    font-size: 12px;
-  }
+  .flap-row { grid-template-columns: 66px 1fr; }
+  .board-row .board-col:nth-child(3),
+  .board-row .board-col:nth-child(4),
+  .flap-row .flap-col:nth-child(3),
+  .flap-row .flap-col:nth-child(4) { grid-column: span 1; }
 }
 
 /* ─── BOOKING STATUS ─── */
@@ -901,32 +943,6 @@ html, body {
   font-weight: 600;
   flex: 1;
   letter-spacing: -.2px;
-}
-
-.day-submeta {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 2px;
-}
-
-.day-weather {
-  margin-top: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: .04em;
-  color: var(--text);
-}
-
-.day-weather strong {
-  color: var(--paris);
-  font-weight: 700;
 }
 
 .day-type {
@@ -1576,159 +1592,8 @@ html, body {
 .sub-content.active { display: block; animation: slideUp .3s cubic-bezier(.16,1,.3,1); }
 
 /* ─── TAB BTN smaller for 5 tabs ─── */
-.tab-btn { font-size: 10px; min-height: 48px; }
+.tab-btn { font-size: 10px; min-height: 52px; }
 .tab-btn .tab-icon { font-size: 20px; }
-
-
-/* ─── LIQUID GLASS POLISH ─── */
-:root {
-  --glass-fill: rgba(255,255,255,0.055);
-  --glass-fill-strong: rgba(255,255,255,0.09);
-  --glass-stroke: rgba(255,255,255,0.12);
-  --glass-shadow: 0 14px 34px rgba(0,0,0,0.28);
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at top left, rgba(200,169,110,0.08), transparent 28%),
-    radial-gradient(circle at top right, rgba(91,126,168,0.08), transparent 24%),
-    radial-gradient(circle at bottom center, rgba(255,255,255,0.04), transparent 30%);
-  opacity: .9;
-}
-
-.header,
-.tab-nav,
-.clock-grid,
-.stat-grid,
-.ops-card,
-.day-card,
-.check-group,
-.work-card,
-.venue-card,
-.budget-card,
-.orca-city-card,
-.fx-widget,
-.orca-total-card {
-  backdrop-filter: blur(24px) saturate(170%);
-  -webkit-backdrop-filter: blur(24px) saturate(170%);
-}
-
-.header {
-  background: linear-gradient(180deg, rgba(19,19,24,0.82), rgba(19,19,24,0.6));
-  box-shadow: 0 1px 0 rgba(255,255,255,0.07) inset, 0 14px 30px rgba(0,0,0,0.22);
-}
-
-.tab-nav {
-  background: linear-gradient(180deg, rgba(40,40,46,0.82) 0%, rgba(26,26,29,0.88) 100%);
-  box-shadow: 0 -1px 0 rgba(255,255,255,0.08), 0 -16px 44px rgba(0,0,0,0.36), inset 0 1px 0 rgba(255,255,255,0.05);
-}
-
-.tab-btn {
-  transition: transform .28s cubic-bezier(.16,1,.3,1), color .28s ease, opacity .28s ease;
-}
-
-.tab-btn:active {
-  transform: scale(0.94);
-}
-
-.tab-btn:not(.active) {
-  opacity: .84;
-}
-
-.content {
-  scroll-padding-top: 18px;
-}
-
-.tab-content.active {
-  animation: liquidRise .45s cubic-bezier(.16,1,.3,1);
-}
-
-@keyframes liquidRise {
-  0% { opacity: 0; transform: translateY(18px) scale(.985); filter: blur(8px); }
-  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-}
-
-.clock-grid,
-.stat-grid,
-.day-card,
-.check-group,
-.work-card,
-.venue-card,
-.budget-card,
-.orca-city-card,
-.fx-widget,
-.orca-total-card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
-  border-color: rgba(255,255,255,0.1);
-  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(255,255,255,0.02);
-}
-
-.ops-card,
-.airport-terminal {
-  background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.07);
-}
-
-.filter-bar {
-  background: linear-gradient(180deg, rgba(17,17,19,0.55), rgba(17,17,19,0.2));
-  padding-top: 6px;
-}
-
-.filter-btn {
-  color: color-mix(in srgb, var(--fc, rgba(255,255,255,0.48)) 76%, #f4efe6 24%);
-  border-color: color-mix(in srgb, var(--fc, rgba(255,255,255,0.24)) 45%, rgba(255,255,255,0.1) 55%);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--fc, rgba(255,255,255,0.08)) 14%, rgba(255,255,255,0.04) 86%), rgba(255,255,255,0.03));
-  box-shadow:
-    0 10px 24px rgba(0,0,0,0.22),
-    0 1px 0 rgba(255,255,255,0.1) inset,
-    0 -1px 0 rgba(255,255,255,0.03) inset,
-    0 0 0 1px rgba(255,255,255,0.02);
-}
-
-.filter-btn:not(.active) {
-  opacity: .95;
-}
-
-.filter-btn.active {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--fc, var(--paris)) 24%, rgba(255,255,255,0.14) 76%), rgba(255,255,255,0.08));
-  box-shadow:
-    0 0 24px color-mix(in srgb, var(--fc, var(--paris)) 24%, transparent),
-    0 12px 28px rgba(0,0,0,0.28),
-    0 1px 0 rgba(255,255,255,0.14) inset;
-}
-
-.flight-board,
-.split-flap-board {
-  background: linear-gradient(180deg, rgba(8,8,10,0.96), rgba(3,3,4,0.98));
-}
-
-.board-row,
-.flap-row {
-  transition: transform .24s cubic-bezier(.16,1,.3,1), background .24s ease;
-}
-
-.board-row:hover,
-.flap-row:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(90deg, rgba(255,255,255,0.03), transparent);
-}
-
-.split-char {
-  text-shadow: 0 1px 0 rgba(0,0,0,0.35);
-}
-
-.alert-bar,
-.hud-pill,
-.weather-chip,
-.meeting-chip {
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-}
 
 </style>
 </head>
@@ -1986,7 +1851,7 @@ body::before {
     <!-- ═══ TAB 2: SCHEDULE ═══ -->
     <div class="tab-content" id="tab-schedule">
       <div class="filter-bar" id="filter-bar">
-        <button class="filter-btn active" data-city="all" style="--fc:rgba(255,255,255,0.45)">Todos</button>
+        <button class="filter-btn active" data-city="all">Todos</button>
         <button class="filter-btn" data-city="paris" style="--fc:var(--paris)">Paris</button>
         <button class="filter-btn" data-city="milan" style="--fc:var(--milan)">Milan</button>
         <button class="filter-btn" data-city="istanbul" style="--fc:var(--istanbul)">Istanbul</button>
@@ -2548,16 +2413,10 @@ const meetingTemplates = [
     { label: 'Golden Hour PM', baseCity: 'São Paulo', baseTz: 'America/Sao_Paulo', start: '16:00', end: '17:15', note: 'fechamento de dia / handoff' }
 ];
 
-
-const monthMap = { Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06', Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12' };
-let scheduleWeather = {};
-
-function splitFlapText(value, options = {}) {
-    const { dark = false, width = String(value).length || 1 } = options;
-    return String(value).padEnd(width, ' ').slice(0, width).split('').map(char => {
+function splitFlapText(value, dark = false) {
+    return String(value).padEnd(10, ' ').slice(0, 10).split('').map(char => {
         const safe = char === ' ' ? '&nbsp;' : char;
-        const klass = `split-char${dark ? ' dark' : ''}${char === ' ' ? ' space' : ''}`;
-        return `<span class="${klass}">${safe}</span>`;
+        return `<span class="split-char${dark ? ' dark' : ''}">${safe}</span>`;
     }).join('');
 }
 
@@ -2584,36 +2443,16 @@ function weatherLabel(code) {
     return map[code] || 'tempo variável';
 }
 
-function shortStamp(dateLike) {
-    return new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' }).format(new Date(dateLike)).replace('/', '');
-}
-
-
-function toTripIso(dateLabel) {
-    const [day, mon] = dateLabel.split(' ');
-    return `2026-${monthMap[mon]}-${String(day).padStart(2, '0')}`;
-}
-
-function scheduleWeatherSummary(cityKey, isoDate) {
-    const entry = scheduleWeather?.[cityKey]?.[isoDate];
-    const cityName = cityMeta[cityKey]?.name || cityKey;
-    if (!entry) return `${cityName} · meteo sazonal carregando…`;
-    const temp = typeof entry.temp === 'number' ? `${entry.temp}°C` : `${entry.temp}`;
-    const rain = typeof entry.rainChance === 'number' ? `${entry.rainChance}%` : `${entry.rainChance}`;
-    return `${cityName} · ${temp} · chuva ${rain}`;
-}
-
 function flightPhase(flight) {
     const now = Date.now();
     const dep = new Date(flight.departure).getTime();
     const arr = new Date(flight.arrival).getTime();
-    const hours = Math.max(1, Math.round((dep - now) / 3600000));
     if (now < dep) {
-        if (hours > 48) return { status: 'AGEND', detail: shortStamp(flight.departure), live: false };
-        return { status: `T-${String(hours).padStart(2, '0')}`, detail: formatTime(new Date(flight.departure), 'UTC'), live: false };
+        const hours = Math.max(1, Math.round((dep - now) / 3600000));
+        return { status: `T-${hours}h`, detail: 'agendado', live: false };
     }
-    if (now > arr) return { status: 'DONE', detail: shortStamp(flight.arrival), live: false };
-    return { status: 'LIVE', detail: 'TRACK', live: true };
+    if (now > arr) return { status: 'DONE', detail: 'concluído', live: false };
+    return { status: 'AIR', detail: 'janela de voo', live: true };
 }
 
 // ─── TABS ───
@@ -2663,16 +2502,13 @@ function renderSchedule() {
         const typeLabel = day.type.charAt(0).toUpperCase() + day.type.slice(1);
         const linkCount = day.events.filter(e => e.link).length;
         const evCount = day.events.length;
-        const isoDate = toTripIso(day.date);
-        const weatherLine = scheduleWeatherSummary(day.city, isoDate);
 
         card.innerHTML = `
             <div class="day-header">
                 <div class="day-accent ${day.city}"></div>
                 <div style="flex:1">
                     <div class="day-date">${day.date} · ${day.day}</div>
-                    <div class="day-submeta">${evCount} atividades${linkCount ? ' · ' + linkCount + ' com mapa' : ''}</div>
-                    <div class="day-weather"><strong>●</strong><span>${weatherLine}</span></div>
+                    <div style="font-size:10px;color:var(--muted);margin-top:1px">${evCount} atividades${linkCount ? ' · ' + linkCount + ' com mapa' : ''}</div>
                 </div>
                 <span class="day-type ${typeClass}">${typeLabel}</span>
                 <span class="day-caret">›</span>
@@ -2770,14 +2606,14 @@ function updateClocks() {
 function renderRouteBoard() {
     const board = document.getElementById('route-board');
     if (!board) return;
-    board.innerHTML = `<div class="board-head"><span>flight</span><span>rota</span><span>slot</span><span>fase</span></div>` + liveFlights.map(flight => {
+    board.innerHTML = liveFlights.map(flight => {
         const phase = flightPhase(flight);
         return `
           <div class="flap-row ${phase.live ? 'board-live' : ''}">
-            <div class="flap-col">${splitFlapText(flight.flight, { dark: true, width: 6 })}</div>
-            <div class="flap-col">${splitFlapText(flight.route, { width: 8 })}</div>
-            <div class="flap-col">${splitFlapText(shortStamp(flight.departure), { dark: true, width: 4 })}</div>
-            <div class="flap-col">${splitFlapText(phase.status, { width: 5 })}</div>
+            <div class="flap-col">${splitFlapText(flight.flight, true)}</div>
+            <div class="flap-col">${splitFlapText(flight.route)}</div>
+            <div class="flap-col">${splitFlapText(new Date(flight.departure).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }), true)}</div>
+            <div class="flap-col">${splitFlapText(phase.status)}</div>
           </div>`;
     }).join('');
 }
@@ -2811,14 +2647,14 @@ async function renderWeather() {
 async function renderFlightBoard() {
     const board = document.getElementById('flight-board');
     if (!board) return;
-    board.innerHTML = `<div class="board-head"><span>flight</span><span>rota</span><span>slot</span><span>status</span></div>` + liveFlights.map(flight => {
+    board.innerHTML = liveFlights.map(flight => {
         const phase = flightPhase(flight);
         return `
           <div class="board-row ${phase.live ? 'board-live' : ''}" data-callsign="${flight.callsign}">
-            <div class="board-col">${splitFlapText(flight.flight, { dark: true, width: 6 })}</div>
-            <div class="board-col">${splitFlapText(flight.route, { width: 8 })}</div>
-            <div class="board-col">${splitFlapText(phase.detail, { dark: true, width: 5 })}</div>
-            <div class="board-col">${splitFlapText(phase.status, { width: 6 })}</div>
+            <div class="board-col">${splitFlapText(flight.flight, true)}</div>
+            <div class="board-col">${splitFlapText(flight.route)}</div>
+            <div class="board-col">${splitFlapText(phase.detail, true)}</div>
+            <div class="board-col">${splitFlapText(phase.status)}</div>
           </div>`;
     }).join('');
 
@@ -2831,10 +2667,10 @@ async function renderFlightBoard() {
             if (!row) return;
             if (active) {
                 row.classList.add('board-live');
-                const status = `${Math.round((active.alt_baro || active.alt_geom || 0) / 1000)}KFT`;
-                const detail = `${Math.round(active.gs || 0)}KT`;
-                row.children[2].innerHTML = splitFlapText(detail, { dark: true, width: 5 });
-                row.children[3].innerHTML = splitFlapText(status, { width: 6 });
+                const status = `${Math.round(active.alt_baro || active.alt_geom || 0)/1000}KFT`;
+                const detail = `${Math.round(active.gs || 0)}KT ${Math.round(active.track || 0)}°`;
+                row.children[2].innerHTML = splitFlapText(detail, true);
+                row.children[3].innerHTML = splitFlapText(status);
             }
         } catch (error) {
             /* keep scheduled fallback */
@@ -2859,41 +2695,6 @@ function zonedMeetingRange(baseTz, start, end, targetTz) {
     const startDate = new Date(`${dateInBase}T${String(sh).padStart(2,'0')}:${String(sm).padStart(2,'0')}:00${baseOffset}`);
     const endDate = new Date(`${dateInBase}T${String(eh).padStart(2,'0')}:${String(em).padStart(2,'0')}:00${baseOffset}`);
     return `${formatTime(startDate, targetTz)}–${formatTime(endDate, targetTz)}`;
-}
-
-
-async function fetchScheduleWeather() {
-    const groups = scheduleData.reduce((acc, day) => {
-        (acc[day.city] ||= []).push(toTripIso(day.date));
-        return acc;
-    }, {});
-
-    await Promise.all(Object.entries(groups).map(async ([cityKey, dates]) => {
-        const city = cityMeta[cityKey];
-        if (!city) return;
-        const start = dates[0];
-        const end = dates[dates.length - 1];
-        try {
-            const url = `https://seasonal-api.open-meteo.com/v1/seasonal?latitude=${city.lat}&longitude=${city.lon}&daily=temperature_2m_mean,precipitation_sum&timezone=auto&start_date=${start}&end_date=${end}`;
-            const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
-            const data = await response.json();
-            const daily = data.daily || {};
-            const precipMembers = Object.keys(daily).filter(key => key.startsWith('precipitation_sum_member'));
-            scheduleWeather[cityKey] = {};
-            (daily.time || []).forEach((date, index) => {
-                const wetMembers = precipMembers.filter(key => (daily[key]?.[index] || 0) >= 0.2).length;
-                const rainChance = precipMembers.length ? Math.round((wetMembers / precipMembers.length) * 100) : 0;
-                scheduleWeather[cityKey][date] = {
-                    temp: Math.round(daily.temperature_2m_mean?.[index] ?? 0),
-                    rainChance
-                };
-            });
-        } catch (error) {
-            scheduleWeather[cityKey] = Object.fromEntries(dates.map(date => [date, { temp: '—', rainChance: '—' }]));
-        }
-    }));
-
-    renderSchedule();
 }
 
 async function renderMeetingLive() {
@@ -3058,7 +2859,6 @@ document.addEventListener('DOMContentLoaded', () => {
     calculateBudget();
     fetchEurBrl();
     hydrateLiveOps();
-    fetchScheduleWeather();
     setInterval(updateClocks, 60000);
     setInterval(renderFlightBoard, 60000 * 2);
     setInterval(renderMeetingLive, 60000 * 5);
