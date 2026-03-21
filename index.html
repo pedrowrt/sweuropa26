@@ -251,11 +251,10 @@ body {
   50% { opacity: 1; transform: scale(1.25); box-shadow: 0 0 10px currentColor, 0 0 3px currentColor; }
 }
 
-/* ─── FLOATING TAB NAV (iOS 26 Liquid Glass Pill) ─── */
-/* ─── FLOATING TAB BAR — Layer 3, true glass ─── */
+/* ─── FLOATING TAB NAV ─── */
 .tab-nav {
   position: fixed;
-  bottom: max(env(safe-area-inset-bottom, 0px), 14px);
+  bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
   width: auto;
@@ -264,14 +263,14 @@ body {
   display: flex;
   gap: 2px;
   padding: 5px;
-  /* True glass — bg must be transparent enough for content to show */
   background: rgba(8,8,10,0.72);
   backdrop-filter: blur(var(--layer-3-blur)) saturate(160%) brightness(0.85);
   -webkit-backdrop-filter: blur(var(--layer-3-blur)) saturate(160%) brightness(0.85);
   border: 1px solid var(--layer-3-border);
-  border-radius: var(--radius-pill);
+  border-radius: 28px;
+  overflow: hidden;
   z-index: 200;
-  box-shadow: var(--layer-3-shadow);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
   transition: transform var(--motion-normal) var(--spring), opacity var(--motion-fast) ease;
 }
 
@@ -281,24 +280,6 @@ body {
   pointer-events: none;
 }
 
-/* Gradient fade behind the floating tab bar — improves readability of
-   content scrolling beneath it without blocking interaction */
-.tab-nav::before {
-  content: '';
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
-  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 199;
-  transition: opacity var(--motion-normal) ease;
-}
-
-.tab-nav.scrolled-down::before {
-  opacity: 0;
-}
 
 .tab-btn {
   flex: 1;
@@ -354,8 +335,6 @@ body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  /* Respect only the device safe area — tab bar floats as overlay */
-  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .tab-content {
@@ -365,13 +344,6 @@ body {
   margin: 0 auto;
 }
 
-/* Visual buffer so the last item scrolls above the floating tab bar.
-   This is a content-flow spacer, not a layout hack — tab bar remains an overlay. */
-.tab-content::after {
-  content: '';
-  display: block;
-  height: 110px;
-}
 
 /* Plan tab: full-bleed continuous scroll */
 #tab-schedule.tab-content {
@@ -2652,6 +2624,34 @@ body {
         </div>
       </div>
 
+      <!-- Work Window — Janela de trabalho -->
+      <div class="work-window-bar">
+        <div class="wwb-header">
+          <span class="wwb-label">Janela de trabalho</span>
+          <span class="wwb-badge">🇧🇷 Brasília</span>
+        </div>
+        <div class="wwb-times">
+          <div class="wwb-brt">
+            <span class="wwb-time">10:00</span>
+            <span class="wwb-sep">–</span>
+            <span class="wwb-time">16:00</span>
+            <span class="wwb-tz">BRT (UTC −3)</span>
+          </div>
+        </div>
+        <div class="wwb-destinations">
+          <div class="wwb-dest-row">
+            <span class="wwb-dest-flag" style="color:var(--paris)">🇫🇷🇮🇹</span>
+            <span class="wwb-dest-name" style="color:var(--paris)">Paris · Milan</span>
+            <span class="wwb-dest-time">15:00 – 21:00</span>
+          </div>
+          <div class="wwb-dest-row">
+            <span class="wwb-dest-flag" style="color:var(--istanbul)">🇹🇷🇪🇪</span>
+            <span class="wwb-dest-name" style="color:var(--istanbul)">Istanbul · Tallinn</span>
+            <span class="wwb-dest-time">16:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
       <div class="section-label">Rota Aérea</div>
       <div class="airport-terminal sku-card">
         <div class="terminal-top">
@@ -3057,222 +3057,10 @@ body {
 
     <!-- ═══ TAB 6: ORÇAMENTO ═══ -->
     <div class="tab-content" id="tab-orca">
-      <div class="budget-tab">
-
-        <!-- EUR/BRL Exchange Widget -->
-        <div class="fx-widget">
-          <div class="fx-left">
-            <div class="fx-rate" id="fx-rate">R$&nbsp;6,20</div>
-            <div class="fx-label">1 EUR em Reais</div>
-            <div class="fx-updated" id="fx-updated">Buscando cotação…</div>
-          </div>
-          <div class="fx-right">
-            <div class="fx-need" id="fx-need">~R$&nbsp;8.041</div>
-            <div class="fx-need-label">Total viagem</div>
-          </div>
-        </div>
-
-        <!-- Grand Totals — three tiers -->
-        <div class="orca-totals-row">
-          <div class="orca-total-mini">
-            <div class="orca-total-mini-value">€1.306</div>
-            <div class="orca-total-mini-label">Gastos & Ingressos</div>
-            <div class="orca-total-mini-sub">excl. voos & hospedagem</div>
-          </div>
-          <div class="orca-total-mini orca-total-mid">
-            <div class="orca-total-mini-value">€1.761</div>
-            <div class="orca-total-mini-label">+ Hospedagem IST/TLL</div>
-            <div class="orca-total-mini-sub">+R$2.822 (~€455) reservado</div>
-          </div>
-          <div class="orca-total-mini orca-total-full">
-            <div class="orca-total-mini-value">€3.5k</div>
-            <div class="orca-total-mini-label">Tudo incluído</div>
-            <div class="orca-total-mini-sub">+ voos ~€1.715 est.</div>
-          </div>
-        </div>
-
-        <!-- Paris -->
-        <div class="section-label" style="margin-top:0">Por Destino</div>
-        <div class="orca-city-card">
-          <div class="orca-city-header">
-            <span style="width:3px;height:20px;border-radius:2px;background:var(--paris);flex-shrink:0"></span>
-            <div class="orca-city-name">Paris · 5 noites</div>
-            <div class="orca-city-total" style="color:var(--paris)">~€328</div>
-          </div>
-          <div class="orca-row"><span class="orca-cat-icon">🎭</span><span class="orca-cat-label">Ingressos</span><span class="orca-cat-value">~€116</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🚇</span><span class="orca-cat-label">Transporte local</span><span class="orca-cat-value">~€12</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🍽</span><span class="orca-cat-label">Alimentação</span><span class="orca-cat-value">~€150</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🛒</span><span class="orca-cat-label">Mercado / Groceries</span><span class="orca-cat-value">~€30</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">👕</span><span class="orca-cat-label">Lavanderia</span><span class="orca-cat-value">grátis</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">📦</span><span class="orca-cat-label">Uber Eats / Delivery</span><span class="orca-cat-value">~€20</span></div>
-        </div>
-
-        <!-- Milan -->
-        <div class="orca-city-card">
-          <div class="orca-city-header">
-            <span style="width:3px;height:20px;border-radius:2px;background:var(--milan);flex-shrink:0"></span>
-            <div class="orca-city-name">Milan · 7 noites</div>
-            <div class="orca-city-total" style="color:var(--milan)">~€375</div>
-          </div>
-          <div class="orca-row"><span class="orca-cat-icon">🎭</span><span class="orca-cat-label">Ingressos</span><span class="orca-cat-value">~€75</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🚇</span><span class="orca-cat-label">Transporte local</span><span class="orca-cat-value">~€18</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🍽</span><span class="orca-cat-label">Alimentação</span><span class="orca-cat-value">~€200</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🛒</span><span class="orca-cat-label">Mercado / Groceries</span><span class="orca-cat-value">~€45</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">👕</span><span class="orca-cat-label">Lavanderia (7 noites)</span><span class="orca-cat-value">~€12</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">📦</span><span class="orca-cat-label">Uber Eats / Delivery</span><span class="orca-cat-value">~€25</span></div>
-        </div>
-
-        <!-- Istanbul -->
-        <div class="orca-city-card">
-          <div class="orca-city-header">
-            <span style="width:3px;height:20px;border-radius:2px;background:var(--istanbul);flex-shrink:0"></span>
-            <div class="orca-city-name">Istanbul · 4 noites</div>
-            <div class="orca-city-total" style="color:var(--istanbul)">~€226</div>
-          </div>
-          <div class="orca-row"><span class="orca-cat-icon">🎭</span><span class="orca-cat-label">Ingressos</span><span class="orca-cat-value">~€102</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🚇</span><span class="orca-cat-label">Transporte local</span><span class="orca-cat-value">~€8</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🍽</span><span class="orca-cat-label">Alimentação</span><span class="orca-cat-value">~€80</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🛒</span><span class="orca-cat-label">Mercado / Groceries</span><span class="orca-cat-value">~€20</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">👕</span><span class="orca-cat-label">Lavanderia</span><span class="orca-cat-value">grátis</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">📦</span><span class="orca-cat-label">Uber Eats / Delivery</span><span class="orca-cat-value">~€16</span></div>
-        </div>
-
-        <!-- Tallinn -->
-        <div class="orca-city-card">
-          <div class="orca-city-header">
-            <span style="width:3px;height:20px;border-radius:2px;background:var(--tallinn);flex-shrink:0"></span>
-            <div class="orca-city-name">Tallinn · 6 noites</div>
-            <div class="orca-city-total" style="color:var(--tallinn)">~€258</div>
-          </div>
-          <div class="orca-row"><span class="orca-cat-icon">🎭</span><span class="orca-cat-label">Ingressos</span><span class="orca-cat-value">~€49</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🚇</span><span class="orca-cat-label">Transporte local</span><span class="orca-cat-value">~€6</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🍽</span><span class="orca-cat-label">Alimentação</span><span class="orca-cat-value">~€150</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🛒</span><span class="orca-cat-label">Mercado / Groceries</span><span class="orca-cat-value">~€30</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">👕</span><span class="orca-cat-label">Lavanderia (6 noites)</span><span class="orca-cat-value">~€8</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">📦</span><span class="orca-cat-label">Uber Eats / Delivery</span><span class="orca-cat-value">~€15</span></div>
-        </div>
-
-        <!-- Hospedagem -->
-        <div class="section-label">Hospedagem · já reservado</div>
-        <div class="orca-city-card">
-          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Paris — 10 Rue Mondetour</span><span class="orca-cat-value" style="color:var(--green)">pago ✓</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Milan — Casa Dani, P.za Napoli</span><span class="orca-cat-value" style="color:var(--green)">pago ✓</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Istanbul — Saratoga Sultanahmet</span><span class="orca-cat-value" style="color:var(--green)">R$&nbsp;2.559<span style="color:var(--muted);font-size:10px"> (~€412)</span></span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">IST pernoite — Nenessa Airport</span><span class="orca-cat-value" style="color:var(--green)">R$&nbsp;263<span style="color:var(--muted);font-size:10px"> (~€42)</span></span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Tallinn — Tallink City Hotel</span><span class="orca-cat-value" style="color:var(--amber)">a confirmar</span></div>
-          <div class="orca-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:8px"><span class="orca-cat-icon">Σ</span><span class="orca-cat-label" style="font-weight:600">Total IST/TLL em BRL</span><span class="orca-cat-value" style="color:var(--paris)">R$&nbsp;2.822 <span style="color:var(--muted);font-size:10px">(~€455)</span></span></div>
-        </div>
-
-        <!-- Food breakdown -->
-        <div class="section-label">Alimentação · preços locais</div>
-        <div class="food-grid">
-          <div class="food-card" style="--fc:var(--paris)">
-            <div class="food-city">Paris · 5d</div>
-            <div class="food-items">Fallafel €6 · Crêpe €4 · Baguette €3 · Almoço €10–14 · Jantar €12–18</div>
-            <div class="food-total">~€125–185</div>
-          </div>
-          <div class="food-card" style="--fc:var(--milan)">
-            <div class="food-city">Milan · 7d</div>
-            <div class="food-items">Panzerotto €3 · Pizza €4 · Aperitivo buffet €8–12 · Jantar €12–18</div>
-            <div class="food-total">~€155–230</div>
-          </div>
-          <div class="food-card" style="--fc:var(--istanbul)">
-            <div class="food-city">Istanbul · 4d</div>
-            <div class="food-items">Balık ekmek €3 · Simit €1 · Kebab €5 · Çay grátis · Jantar €8–12</div>
-            <div class="food-total">~€60–90</div>
-          </div>
-          <div class="food-card" style="--fc:var(--tallinn)">
-            <div class="food-city">Tallinn · 6d</div>
-            <div class="food-items">Lihapirukas €2 · Kohvik €6–8 · Almoço €8–12 · Jantar €10–15</div>
-            <div class="food-total">~€125–185</div>
-          </div>
-        </div>
-
-        <!-- By Category totals -->
-        <div class="section-label">Por Categoria · 22 dias total</div>
-        <div class="orca-category-section">
-          <div class="orca-row">
-            <span class="orca-cat-icon">🎭</span>
-            <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <span class="orca-cat-label">Ingressos</span>
-                <span class="orca-cat-value">~€342</span>
-              </div>
-              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:29%;background:var(--paris)"></div></div>
-            </div>
-          </div>
-          <div class="orca-row">
-            <span class="orca-cat-icon">🚇</span>
-            <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <span class="orca-cat-label">Transporte local</span>
-                <span class="orca-cat-value">~€44</span>
-              </div>
-              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:4%;background:var(--blue)"></div></div>
-            </div>
-          </div>
-          <div class="orca-row">
-            <span class="orca-cat-icon">🍽</span>
-            <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <span class="orca-cat-label">Alimentação</span>
-                <span class="orca-cat-value">~€580</span>
-              </div>
-              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:49%;background:var(--amber)"></div></div>
-            </div>
-          </div>
-          <div class="orca-row">
-            <span class="orca-cat-icon">🛒</span>
-            <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <span class="orca-cat-label">Mercado / Groceries</span>
-                <span class="orca-cat-value">~€125</span>
-              </div>
-              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:11%;background:var(--green)"></div></div>
-            </div>
-          </div>
-          <div class="orca-row">
-            <span class="orca-cat-icon">👕</span>
-            <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <span class="orca-cat-label">Lavanderia</span>
-                <span class="orca-cat-value">~€20</span>
-              </div>
-              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:2%;background:var(--purple)"></div></div>
-            </div>
-          </div>
-          <div class="orca-row">
-            <span class="orca-cat-icon">📦</span>
-            <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <span class="orca-cat-label">Uber Eats / Delivery</span>
-                <span class="orca-cat-value">~€76</span>
-              </div>
-              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:6%;background:var(--red)"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Emergency buffer + final total -->
-        <div class="orca-city-card">
-          <div class="orca-row">
-            <span class="orca-cat-icon">🆘</span>
-            <span class="orca-cat-label">Reserva emergência (10%)</span>
-            <span class="orca-cat-value" style="color:var(--muted)">+€119</span>
-          </div>
-          <div class="orca-row" style="background:rgba(200,169,110,0.05)">
-            <span class="orca-cat-icon">💶</span>
-            <span class="orca-cat-label" style="font-weight:700;font-size:14px;color:var(--text)">Total Final Estimado</span>
-            <span class="orca-cat-value" style="color:var(--paris);font-size:16px;font-weight:700">~€1.306</span>
-          </div>
-          <div class="orca-row">
-            <span class="orca-cat-icon">💳</span>
-            <span class="orca-cat-label">Em Reais (cotação live)</span>
-            <span class="orca-cat-value" id="fx-total-brl" style="color:var(--text)">~R$&nbsp;8.097</span>
-          </div>
-        </div>
-
+      <div class="budget-tab" id="grana-dashboard">
+        <!-- rendered by renderGrana() -->
       </div>
+
     </div>
   </div>
 
@@ -3286,6 +3074,292 @@ body {
 </div>
 
 <script>
+'use strict';
+
+// ═══════════════════════════════════════════════════════════════════
+// ─── CENTRALIZED DATA STORE  (Zustand-pattern, vanilla JS) ─────────
+// Principle: API/MCP → normalize → store → computed → UI
+// Components NEVER compute — they only read from Store.state
+// ═══════════════════════════════════════════════════════════════════
+
+const Store = (() => {
+  // ── TYPED STATE ──────────────────────────────────────────────────
+  let state = {
+    // Core
+    region: 'paris',
+    tripStart: new Date(2026, 5, 26),
+    tripEnd:   new Date(2026, 6, 19),
+
+    // Currency — fetched once, cached 1h
+    eurBrl: 6.20,
+    eurBrlUpdatedAt: null,
+
+    // Weather forecast cache (keyed by city slug, value = OpenMeteo daily obj)
+    weatherForecast: {},     // { paris: {...}, milan: {...}, ... }
+    weatherCurrent:  {},     // { paris: {...}, milan: {...}, ... }
+    weatherFetchedAt: null,
+
+    // Flight telemetry (keyed by callsign)
+    flightTelemetry: {},     // { TAP500: { alt, speed, live }, ... }
+
+    // ── HOTELS — sourced from MCP email (Booking.com) ────────────
+    // Prices in original currency + BRL where confirmed
+    hotels: [
+      { id: 'paris',    name: '10 Rue Mondetour, 1er',     city: 'paris',
+        nights: 5, eur: null,   brl: null,    status: 'paid',
+        note: 'Apartamento pago', ref: null, source: 'airbnb' },
+      { id: 'milan',    name: 'Casa Dani, P.za Napoli 30', city: 'milan',
+        nights: 7, eur: null,   brl: null,    status: 'paid',
+        note: 'Apartamento pago', ref: null, source: 'airbnb' },
+      { id: 'istanbul', name: 'Saratoga Hotel Sultanahmet', city: 'istanbul',
+        nights: 4, eur: 423.72, brl: null,    status: 'confirmed',
+        note: 'Café da manhã incluído · pag. 29 jun', ref: '5609832287', source: 'booking.com' },
+      { id: 'istanbul_layover', name: 'Nenessa Airport Hotel', city: 'istanbul',
+        nights: 1, eur: null,   brl: 263,     status: 'confirmed',
+        note: 'Pernoite pré-voo TK15', ref: null, source: 'booking.com' },
+      { id: 'tallinn',  name: 'Tallink City Hotel',         city: 'tallinn',
+        nights: 7, eur: null,   brl: null,    status: 'pending',
+        note: '6 noites + 1 sáb estimada', ref: null, source: 'booking.com' },
+    ],
+
+    // ── INTERNAL EU FLIGHTS ONLY ─────────────────────────────────
+    // EXCLUDED: TP500 (GRU→ORY) and TK15 (IST→GRU)
+    // Prices sourced from Booking.com confirmation emails
+    internalFlights: [
+      { flight: 'EJU4939', route: 'ORY→LIN', leg: 'Paris → Milan',
+        airline: 'easyJet', date: '01 Jul', eur: 62.15, brl: null,
+        status: 'confirmed', ref: 'KCBDMTQ', source: 'easyjet' },
+      { flight: 'TK1896',  route: 'MXP→IST', leg: 'Milan → Istanbul',
+        airline: 'Turkish Airlines', date: '08 Jul', eur: null, brl: 1720.44,
+        status: 'confirmed', ref: 'TD6F2P', source: 'booking.com' },
+      { flight: 'TK1423',  route: 'IST→TLL', leg: 'Istanbul → Tallinn',
+        airline: 'Turkish Airlines', date: '12 Jul', eur: null, brl: 2016.66,
+        status: 'confirmed', ref: 'S5H6JG', source: 'booking.com' },
+      { flight: 'TK1424',  route: 'TLL→IST', leg: 'Tallinn → Istanbul',
+        airline: 'Turkish Airlines', date: '18 Jul', eur: null, brl: 0,
+        status: 'confirmed', ref: 'SLXHR7', source: 'empresa' },
+    ],
+
+    // ── EXPENSES — in EUR (estimated per destination) ─────────────
+    expenses: {
+      tickets:   342,   // ingressos
+      transport:  44,   // transporte local
+      food:      580,   // alimentação
+      groceries: 125,   // mercado
+      laundry:    20,   // lavanderia
+      delivery:   76,   // delivery
+      buffer:    119,   // reserva emergência 10%
+    },
+  };
+
+  // ── SUBSCRIBERS ─────────────────────────────────────────────────
+  const listeners = new Set();
+
+  function notify() {
+    listeners.forEach(fn => fn(state));
+  }
+
+  function setState(patch) {
+    state = { ...state, ...patch };
+    persist();
+    notify();
+  }
+
+  // ── COMPUTED GETTERS ─────────────────────────────────────────────
+  // These are pure functions of state — called by UI, never cached
+  function computed() {
+    const rate = state.eurBrl;
+
+    // Convert hotel cost to BRL
+    function hotelBrl(h) {
+      if (h.brl != null) return h.brl;
+      if (h.eur != null) return Math.round(h.eur * rate);
+      return null;
+    }
+
+    // Only known hotels (not 'paid_unknown')
+    const knownHotelsBrl = state.hotels
+      .filter(h => h.status !== 'paid' || h.brl != null || h.eur != null)
+      .reduce((sum, h) => {
+        const v = hotelBrl(h);
+        return sum + (v || 0);
+      }, 0);
+
+    // Flights in BRL
+    function flightBrl(f) {
+      if (f.brl != null) return f.brl;
+      if (f.eur != null) return Math.round(f.eur * rate);
+      return null;
+    }
+
+    const confirmedFlightsBrl = state.internalFlights
+      .filter(f => f.status === 'confirmed')
+      .reduce((sum, f) => sum + (flightBrl(f) || 0), 0);
+
+    const totalFlightsBrl = state.internalFlights
+      .reduce((sum, f) => sum + (flightBrl(f) || 0), 0);
+
+    // Total expenses in BRL
+    const e = state.expenses;
+    const totalExpensesEur = e.tickets + e.transport + e.food + e.groceries + e.laundry + e.delivery + e.buffer;
+    const totalExpensesBrl = Math.round(totalExpensesEur * rate);
+
+    // Grand totals
+    const grandTotalBrl = knownHotelsBrl + totalFlightsBrl + totalExpensesBrl;
+
+    return {
+      hotelBrl,
+      flightBrl,
+      knownHotelsBrl,
+      confirmedFlightsBrl,
+      totalFlightsBrl,
+      totalExpensesEur,
+      totalExpensesBrl,
+      grandTotalBrl,
+    };
+  }
+
+  // ── PERSISTENCE — localStorage with TTL ─────────────────────────
+  const CACHE_KEY = 'eu26-store-v2';
+
+  function persist() {
+    try {
+      const cacheable = {
+        eurBrl: state.eurBrl,
+        eurBrlUpdatedAt: state.eurBrlUpdatedAt,
+        weatherForecast: state.weatherForecast,
+        weatherCurrent: state.weatherCurrent,
+        weatherFetchedAt: state.weatherFetchedAt,
+      };
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cacheable));
+    } catch(_) {}
+  }
+
+  function hydrate() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return;
+      const cached = JSON.parse(raw);
+      const now = Date.now();
+      // FX rate: 1h TTL
+      if (cached.eurBrl && cached.eurBrlUpdatedAt && (now - cached.eurBrlUpdatedAt) < 3_600_000) {
+        state.eurBrl = cached.eurBrl;
+        state.eurBrlUpdatedAt = cached.eurBrlUpdatedAt;
+      }
+      // Weather: 2h TTL
+      if (cached.weatherFetchedAt && (now - cached.weatherFetchedAt) < 7_200_000) {
+        state.weatherForecast = cached.weatherForecast || {};
+        state.weatherCurrent  = cached.weatherCurrent  || {};
+        state.weatherFetchedAt = cached.weatherFetchedAt;
+      }
+    } catch(_) {}
+  }
+
+  hydrate();
+
+  return {
+    get state() { return state; },
+    setState,
+    computed,
+    subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); },
+  };
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// ─── SERVICES LAYER ────────────────────────────────────────────────
+// Each domain has ONE source of truth. No duplicate calls.
+// API / MCP → normalize → Store.setState
+// ═══════════════════════════════════════════════════════════════════
+
+const Services = {
+
+  // ── CURRENCY — real-time BRL, cached 1h ─────────────────────────
+  async fetchEurBrl() {
+    // If already fresh, skip
+    const { eurBrlUpdatedAt } = Store.state;
+    if (eurBrlUpdatedAt && Date.now() - eurBrlUpdatedAt < 3_600_000) return;
+
+    const apis = [
+      'https://api.exchangerate-api.com/v4/latest/EUR',
+      'https://open.er-api.com/v6/latest/EUR',
+    ];
+    for (const url of apis) {
+      try {
+        const r = await fetch(url, { signal: AbortSignal.timeout(5000) });
+        const d = await r.json();
+        const rate = d.rates?.BRL;
+        if (rate) {
+          Store.setState({ eurBrl: rate, eurBrlUpdatedAt: Date.now() });
+          return rate;
+        }
+      } catch(_) {}
+    }
+  },
+
+  // ── WEATHER — forecast if within 16 days, else current ──────────
+  async fetchWeather() {
+    // Skip if fresh
+    const { weatherFetchedAt } = Store.state;
+    if (weatherFetchedAt && Date.now() - weatherFetchedAt < 7_200_000) return;
+
+    const cities = Object.entries(cityMeta);
+    const forecast = {};
+    const current  = {};
+
+    await Promise.all(cities.map(async ([key, city]) => {
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}`
+          + `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code`
+          + `&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m`
+          + `&timezone=auto&forecast_days=16`;
+        const r = await fetch(url, { signal: AbortSignal.timeout(7000) });
+        const d = await r.json();
+        forecast[key] = d.daily;
+        current[key]  = d.current;
+      } catch(_) {}
+    }));
+
+    Store.setState({
+      weatherForecast: forecast,
+      weatherCurrent:  current,
+      weatherFetchedAt: Date.now(),
+    });
+  },
+
+  // ── FLIGHTS — live ADS-B telemetry ──────────────────────────────
+  async fetchFlightTelemetry() {
+    const updates = {};
+    await Promise.all(liveFlights.map(async (f) => {
+      try {
+        const r = await fetch(`https://api.adsb.one/v2/callsign/${encodeURIComponent(f.callsign)}`,
+          { signal: AbortSignal.timeout(5000) });
+        const d = await r.json();
+        const ac = Array.isArray(d.ac) && d.ac[0];
+        if (ac) {
+          updates[f.callsign] = {
+            alt: Math.round((ac.alt_baro || ac.alt_geom || 0) / 1000),
+            speed: Math.round(ac.gs || 0),
+            live: true,
+          };
+        }
+      } catch(_) {}
+    }));
+    if (Object.keys(updates).length) {
+      Store.setState({ flightTelemetry: { ...Store.state.flightTelemetry, ...updates } });
+    }
+  },
+
+  // ── LOAD ALL — orchestrator called on init ───────────────────────
+  async loadAll() {
+    // Fire all services concurrently — each normalizes into Store
+    await Promise.allSettled([
+      Services.fetchEurBrl(),
+      Services.fetchWeather(),
+      Services.fetchFlightTelemetry(),
+    ]);
+  },
+};
+
 // ─── SCHEDULE DATA ───
 const scheduleData = [
     { date: "26 Jun", day: "Sex", type: "chegada", city: "paris", events: [
@@ -3735,7 +3809,6 @@ function renderSchedule() {
         if (isCollapsed) block.classList.add('collapsed');
         block.dataset.city = day.city;
         block.dataset.date = day.date;
-        block.setAttribute('draggable', 'true');
 
         if (transitions.has(i)) {
             block.classList.add('city-transition');
@@ -3746,9 +3819,9 @@ function renderSchedule() {
 
         const cityName = cityMeta[day.city]?.name || day.city;
 
-        // Weather string
+        // Weather string — read from Store (set by Services.fetchWeather)
         let weatherHTML = '';
-        const fw2 = weatherCache[day.city];
+        const fw2 = Store.state.weatherForecast[day.city];
         if (fw2 && fw2.time) {
             const idx2 = fw2.time.indexOf(dateKeyFromSchedule(day.date));
             if (idx2 !== -1) {
@@ -3760,11 +3833,18 @@ function renderSchedule() {
             }
         }
 
+        // Weekday-derived type: weekends = livre, weekdays = trabalho
+        // Special types (chegada/partida) keep their original type
+        const weekendDays = ['Sáb', 'Dom'];
+        const computedType = (day.type === 'chegada' || day.type === 'partida')
+            ? day.type
+            : (weekendDays.includes(day.day) ? 'livre' : 'trabalho');
+
         // Date parts: "26 Jun" → "26" + "jun"
         const dateParts = day.date.split(' ');
         const dateNum = dateParts[0] || '';
         const dateMon = (dateParts[1] || '').toLowerCase();
-        const typeLabel = day.type.charAt(0).toUpperCase() + day.type.slice(1);
+        const typeLabel = computedType.charAt(0).toUpperCase() + computedType.slice(1);
 
         block.innerHTML = `
             <div class="day-header">
@@ -3783,7 +3863,7 @@ function renderSchedule() {
         const eventsEl = block.querySelector('.day-events');
 
         // Work-hours row for trabalho days
-        if (day.type === 'trabalho') {
+        if (computedType === 'trabalho') {
             const workOffsets = { paris: 5, milan: 5, istanbul: 6, tallinn: 6 };
             const offset = workOffsets[day.city] || 5;
             const startH = 10 + offset;
@@ -4130,6 +4210,159 @@ function calculateBudget() {
     if (el) el.textContent = '~€' + Math.round(total);
 }
 
+// ─── GRANA DASHBOARD ─────────────────────────────────────────────────────────
+// BRL-first financial dashboard. Reads from Store — never computes inline.
+function renderGrana() {
+    const el = document.getElementById('grana-dashboard');
+    if (!el) return;
+
+    const s = Store.state;
+    const c = Store.computed();
+    const rate = s.eurBrl;
+    const fmt = (n) => Math.round(n).toLocaleString('pt-BR');
+    const fmtEur = (n) => '€' + Math.round(n).toLocaleString('pt-BR');
+    const fmtBrl = (n) => 'R$\u00a0' + fmt(n);
+    const fmtRate = (r) => r.toFixed(2).replace('.', ',');
+    const now = s.eurBrlUpdatedAt
+        ? new Date(s.eurBrlUpdatedAt).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})
+        : null;
+
+    const flightsBrl = c.totalFlightsBrl;
+    const hotelsBrl = c.knownHotelsBrl;
+    const expensesBrl = c.totalExpensesBrl;
+    const grandTotal = c.grandTotalBrl;
+
+    const expPct = grandTotal ? Math.round(expensesBrl / grandTotal * 100) : 0;
+    const htlPct = grandTotal ? Math.round(hotelsBrl / grandTotal * 100) : 0;
+    const fltPct = grandTotal ? Math.round(flightsBrl / grandTotal * 100) : 0;
+
+    // Hotel rows
+    const hotelRows = s.hotels.map(h => {
+        const brl = c.hotelBrl(h);
+        const statusColor = h.status === 'paid' ? 'var(--green)' : h.status === 'confirmed' ? 'var(--blue)' : 'var(--amber)';
+        const statusLabel = h.status === 'paid' ? 'pago ✓' : h.status === 'confirmed' ? 'confirmado' : 'pendente';
+        const valStr = brl ? fmtBrl(brl) : '–';
+        const subStr = h.eur ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(h.eur)})</span>` : '';
+        return `<div class="orca-row">
+            <span class="orca-cat-icon">🏨</span>
+            <span class="orca-cat-label">${h.name} · ${h.nights}n</span>
+            <span class="orca-cat-value" style="color:${brl ? 'var(--text)' : statusColor}">${brl ? valStr + subStr : '<span style="color:'+statusColor+'">'+statusLabel+'</span>'}</span>
+        </div>`;
+    }).join('');
+
+    // Flight rows (internal EU only)
+    const flightRows = s.internalFlights.map(f => {
+        const brl = c.flightBrl(f);
+        const statusColor = f.status === 'confirmed' ? 'var(--green)' : f.brl === 0 ? 'var(--green)' : 'var(--amber)';
+        const valStr = f.brl === 0 ? '<span style="color:var(--green)">empresa ✓</span>'
+            : brl ? fmtBrl(brl) : '<span style="color:var(--amber)">pendente</span>';
+        const subStr = f.eur && brl ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(f.eur)})</span>` : '';
+        return `<div class="orca-row">
+            <span class="orca-cat-icon">✈️</span>
+            <span class="orca-cat-label">${f.flight} · ${f.leg}</span>
+            <span class="orca-cat-value">${valStr}${f.brl && f.brl > 0 ? subStr : ''}</span>
+        </div>`;
+    }).join('');
+
+    el.innerHTML = `
+        <!-- FX Rate header -->
+        <div class="fx-widget">
+            <div class="fx-left">
+                <div class="fx-rate">R$&nbsp;${fmtRate(rate)}</div>
+                <div class="fx-label">1 EUR em Reais</div>
+                <div class="fx-updated">${now ? 'Cotação ao vivo · ' + now : 'Taxa estimada · offline'}</div>
+            </div>
+            <div class="fx-right">
+                <div class="fx-need">${fmtBrl(grandTotal)}</div>
+                <div class="fx-need-label">Total viagem</div>
+            </div>
+        </div>
+
+        <!-- Grand total card -->
+        <div class="orca-city-card" style="background:rgba(var(--color-primary-rgb),0.06);border-color:rgba(var(--color-primary-rgb),0.18);margin-bottom:4px">
+            <div style="padding:4px 0 10px">
+                <div style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Total da Viagem</div>
+                <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--text)">${fmtBrl(grandTotal)}</div>
+            </div>
+            <div class="orca-row" style="padding:6px 0">
+                <span class="orca-cat-icon">✈️</span>
+                <div style="flex:1">
+                    <div style="display:flex;justify-content:space-between">
+                        <span class="orca-cat-label">Voos internos</span>
+                        <span class="orca-cat-value">${fmtBrl(flightsBrl)}</span>
+                    </div>
+                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${fltPct}%;background:var(--blue)"></div></div>
+                </div>
+            </div>
+            <div class="orca-row" style="padding:6px 0">
+                <span class="orca-cat-icon">🏨</span>
+                <div style="flex:1">
+                    <div style="display:flex;justify-content:space-between">
+                        <span class="orca-cat-label">Hospedagem</span>
+                        <span class="orca-cat-value">${fmtBrl(hotelsBrl)}</span>
+                    </div>
+                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${htlPct}%;background:var(--purple)"></div></div>
+                </div>
+            </div>
+            <div class="orca-row" style="padding:6px 0">
+                <span class="orca-cat-icon">🎟️</span>
+                <div style="flex:1">
+                    <div style="display:flex;justify-content:space-between">
+                        <span class="orca-cat-label">Gastos & Ingressos</span>
+                        <span class="orca-cat-value">${fmtBrl(expensesBrl)}</span>
+                    </div>
+                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${expPct}%;background:var(--amber)"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voos internos -->
+        <div class="section-label">Voos Internos · EU</div>
+        <div class="orca-city-card">
+            ${flightRows}
+        </div>
+
+        <!-- Hospedagem -->
+        <div class="section-label">Hospedagem</div>
+        <div class="orca-city-card">
+            ${hotelRows}
+            <div class="orca-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:8px">
+                <span class="orca-cat-icon">Σ</span>
+                <span class="orca-cat-label" style="font-weight:600">Total hospedagem</span>
+                <span class="orca-cat-value" style="color:var(--color-primary)">${fmtBrl(hotelsBrl)}</span>
+            </div>
+        </div>
+
+        <!-- Gastos por categoria -->
+        <div class="section-label">Gastos · 22 dias</div>
+        <div class="orca-category-section">
+            ${[
+                { icon:'🎭', label:'Ingressos',        key:'tickets',   color:'var(--paris)' },
+                { icon:'🚇', label:'Transporte local', key:'transport', color:'var(--blue)' },
+                { icon:'🍽', label:'Alimentação',      key:'food',      color:'var(--amber)' },
+                { icon:'🛒', label:'Mercado',          key:'groceries', color:'var(--green)' },
+                { icon:'👕', label:'Lavanderia',       key:'laundry',   color:'var(--purple)' },
+                { icon:'📦', label:'Delivery',         key:'delivery',  color:'var(--red)' },
+                { icon:'🆘', label:'Reserva (10%)',    key:'buffer',    color:'var(--muted)' },
+            ].map(cat => {
+                const eur = s.expenses[cat.key];
+                const brl = Math.round(eur * rate);
+                const pct = Math.round(eur / c.totalExpensesEur * 100);
+                return `<div class="orca-row">
+                    <span class="orca-cat-icon">${cat.icon}</span>
+                    <div style="flex:1">
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <span class="orca-cat-label">${cat.label}</span>
+                            <span class="orca-cat-value">${fmtBrl(brl)} <span style="color:var(--muted);font-size:10px">(${fmtEur(eur)})</span></span>
+                        </div>
+                        <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${pct}%;background:${cat.color}"></div></div>
+                    </div>
+                </div>`;
+            }).join('')}
+        </div>
+    `;
+}
+
 // ─── EUR/BRL EXCHANGE RATE ───
 async function fetchEurBrl() {
     try {
@@ -4172,7 +4405,7 @@ async function hydrateLiveOps() {
 document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     initMaisTabs();
-    setRegion('all'); // set initial region accent from current travel date
+    setRegion('all');
     renderSchedule();
     initFilters();
     initCollapsibles();
@@ -4181,26 +4414,29 @@ document.addEventListener('DOMContentLoaded', () => {
     initChecklist();
     initInstallBanner();
     initAddEvent();
-    initDragDrop();
     calculateBudget();
-    fetchEurBrl();
-    hydrateLiveOps();
+
+    // Subscribe renderGrana and renderSchedule to Store changes (FX rate, weather)
+    Store.subscribe(() => {
+        renderGrana();
+        renderSchedule();
+    });
+
+    // Initial render
+    renderGrana();
+
+    // Boot all services: currency, weather, flights
+    Services.loadAll().then(() => {
+        renderRouteBoard();
+        renderFlightBoard();
+        renderMeetingLive();
+        initCollapsibles();
+    });
+
     setInterval(updateClocks, 60000);
+    setInterval(() => Services.loadAll(), 60000 * 60); // hourly refresh
     setInterval(renderFlightBoard, 60000 * 2);
     setInterval(renderMeetingLive, 60000 * 5);
-    setInterval(fetchForecastWeather, 60000 * 60); // hourly forecast refresh
-
-    document.querySelectorAll('[data-tab="tab-orca"]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            setTimeout(() => {
-                document.querySelectorAll('.orca-bar-fill').forEach(bar => {
-                    const w = bar.style.width;
-                    bar.style.width = '0';
-                    requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = w; }));
-                });
-            }, 100);
-        });
-    });
 });
 </script>
 </body>
