@@ -150,7 +150,7 @@ html, body {
   -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(0.95);
   border-top: 1px solid rgba(255,255,255,0.07);
   display: flex;
-  padding-bottom: max(env(safe-area-inset-bottom), 6px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   z-index: 100;
   box-shadow: 0 -1px 0 rgba(255,255,255,0.04), 0 -8px 32px rgba(0,0,0,0.55);
 }
@@ -205,7 +205,7 @@ html, body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  padding-bottom: calc(16px + max(env(safe-area-inset-bottom), 6px));
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
 }
 
 .tab-content {
@@ -760,7 +760,7 @@ html, body {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 24px;
 }
 
 .terminal-code,
@@ -872,81 +872,85 @@ html, body {
 .bs-partial { background: linear-gradient(180deg, rgba(200,160,70,0.2), rgba(200,160,70,0.1)); color: var(--amber); }
 .bs-urgent { background: linear-gradient(180deg, rgba(199,91,78,0.2), rgba(199,91,78,0.1)); color: var(--red); }
 
-/* ─── DAY CARDS ─── */
+/* ─── DAY CARDS — sidebar layout ─── */
 .day-card {
-  background: linear-gradient(180deg, var(--surface2) 0%, var(--surface) 100%);
+  display: flex;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  margin-bottom: 12px;
+  border-radius: 18px;
+  margin-bottom: 10px;
   overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
   transition: all .3s cubic-bezier(.16,1,.3,1);
   animation: fadeScale .4s cubic-bezier(.16,1,.3,1) both;
 }
 
 .day-card:active { transform: scale(0.99); }
 
-.day-header {
+/* Left sidebar */
+.day-sidebar {
+  width: 76px;
+  flex-shrink: 0;
+  padding: 14px 10px 14px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
+  gap: 5px;
+  border-right: 1px solid var(--border);
+  background: var(--surface2);
   cursor: pointer;
   user-select: none;
-  min-height: 56px;
-  transition: background .2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.day-header:active {
-  background: var(--surface3);
-}
-
-.day-accent {
-  width: 4px;
-  height: 32px;
-  border-radius: 2px;
-  flex-shrink: 0;
-  box-shadow: 0 0 6px currentColor;
-}
-
-.day-accent.paris { background: var(--paris); color: var(--paris); }
-.day-accent.milan { background: var(--milan); color: var(--milan); }
-.day-accent.istanbul { background: var(--istanbul); color: var(--istanbul); }
-.day-accent.tallinn { background: var(--tallinn); color: var(--tallinn); }
-
-.day-date {
-  font-size: 16px;
-  font-weight: 600;
-  flex: 1;
+.day-sidebar-dow {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
   letter-spacing: -.2px;
 }
 
-.day-type {
-  font-family: 'SF Mono', ui-monospace, monospace;
+.day-sidebar-date {
   font-size: 10px;
-  letter-spacing: .04em;
-  padding: 4px 9px;
-  border-radius: 6px;
+  color: var(--muted);
+  letter-spacing: .01em;
+}
+
+.day-sidebar-accent {
+  width: 24px;
+  height: 3px;
+  border-radius: 2px;
+  margin: 3px 0;
+}
+
+.day-sidebar-type {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 8px;
+  padding: 3px 6px;
+  border-radius: 5px;
   text-transform: uppercase;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  letter-spacing: .05em;
+  text-align: center;
 }
 
-.dt-chegada { background: linear-gradient(180deg, rgba(91,126,168,0.2), rgba(91,126,168,0.1)); color: var(--blue); }
-.dt-livre { background: linear-gradient(180deg, rgba(109,154,94,0.2), rgba(109,154,94,0.1)); color: var(--green); }
-.dt-trabalho { background: linear-gradient(180deg, rgba(138,122,184,0.2), rgba(138,122,184,0.1)); color: var(--purple); }
-.dt-partida { background: linear-gradient(180deg, rgba(200,160,70,0.2), rgba(200,160,70,0.1)); color: var(--amber); }
-
-.day-caret {
-  font-size: 14px;
-  color: var(--subtle);
-  transition: transform .3s cubic-bezier(.16,1,.3,1);
-  flex-shrink: 0;
+.day-sidebar-weather {
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 4px;
+  text-align: center;
+  line-height: 1.5;
+  letter-spacing: .01em;
 }
 
-.day-card.open .day-caret { transform: rotate(90deg); }
+/* Right main content */
+.day-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
 
 .day-body {
-  border-top: 1px solid var(--border);
   overflow: hidden;
   max-height: 0;
   transition: max-height .4s cubic-bezier(.16,1,.3,1), opacity .3s ease;
@@ -954,9 +958,24 @@ html, body {
 }
 
 .day-card.open .day-body {
-  max-height: 2000px;
+  max-height: 3000px;
   opacity: 1;
 }
+
+/* Legacy - keep but hide old header elements */
+.day-header { display: none; }
+.day-accent { display: none; }
+.day-date { display: none; }
+.day-caret { display: none; }
+
+/* Type pill colors */
+.day-type, .day-sidebar-type {
+  box-shadow: none;
+}
+.dt-chegada, .day-sidebar-type.dt-chegada { background: rgba(91,126,168,0.18); color: var(--blue); }
+.dt-livre, .day-sidebar-type.dt-livre { background: rgba(109,154,94,0.18); color: var(--green); }
+.dt-trabalho, .day-sidebar-type.dt-trabalho { background: rgba(138,122,184,0.18); color: var(--purple); }
+.dt-partida, .day-sidebar-type.dt-partida { background: rgba(200,160,70,0.18); color: var(--amber); }
 
 /* ─── CITY FILTER ─── */
 .filter-bar {
@@ -1098,6 +1117,52 @@ html, body {
 .slot.s-transport { background: rgba(91,126,168,0.06); }
 .slot.s-transport .slot-name { color: var(--blue); }
 .slot.s-work { background: rgba(138,122,184,0.06); }
+
+/* ─── WORK HOURS BANNER ─── */
+.work-hours-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(138,122,184,0.08);
+  border-bottom: 1px solid rgba(138,122,184,0.15);
+}
+.work-hours-brt {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--purple);
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.work-hours-arrow {
+  font-size: 12px;
+  color: var(--muted);
+}
+.work-hours-local {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--text);
+  letter-spacing: .04em;
+}
+.work-hours-note {
+  font-size: 10px;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+/* ─── SLOT DRAG HANDLE ─── */
+.slot-handle {
+  color: var(--subtle);
+  font-size: 15px;
+  cursor: grab;
+  padding: 0 2px;
+  flex-shrink: 0;
+  line-height: 1;
+  align-self: center;
+  opacity: 0.5;
+  user-select: none;
+}
+.slot-handle:active { cursor: grabbing; }
 
 /* ─── CHECKLIST ─── */
 .check-group {
@@ -2019,7 +2084,6 @@ html, body {
             <div class="terminal-code">boarding sequence · 26 jun → 19 jul</div>
             <div class="header-title" style="font-size:22px;margin-top:6px;letter-spacing:-.3px"><em>Departures</em> & Transfers</div>
           </div>
-          <div class="terminal-gate">AIRSIDE</div>
         </div>
         <div class="split-flap-board" id="route-board"></div>
         <div class="route" style="margin-top:16px">
@@ -2115,7 +2179,7 @@ html, body {
       </a>
       <a class="booking-row booking-link" href="https://maps.google.com/?q=Saratoga+Hotel+Sultanahmet+Istanbul">
         <div class="b-icon b-ok">🏨</div>
-        <div class="b-text">Istanbul — Saratoga Sultanahmet · R$2.559</div>
+        <div class="b-text">Istanbul — Saratoga Sultanahmet</div>
         <span class="b-status bs-ok">Confirmada</span>
       </a>
       <a class="booking-row booking-link" href="https://maps.google.com/?q=Tallink+City+Hotel+Tallinn">
@@ -2419,12 +2483,12 @@ html, body {
             <div class="orca-total-mini-sub">excl. voos & hospedagem</div>
           </div>
           <div class="orca-total-mini orca-total-mid">
-            <div class="orca-total-mini-value">€2.261</div>
-            <div class="orca-total-mini-label">+ Hospedagem</div>
-            <div class="orca-total-mini-sub">~€955 est. acomodação</div>
+            <div class="orca-total-mini-value">€1.761</div>
+            <div class="orca-total-mini-label">+ Hospedagem IST/TLL</div>
+            <div class="orca-total-mini-sub">+R$2.822 (~€455) reservado</div>
           </div>
           <div class="orca-total-mini orca-total-full">
-            <div class="orca-total-mini-value">€4.0k</div>
+            <div class="orca-total-mini-value">€3.5k</div>
             <div class="orca-total-mini-label">Tudo incluído</div>
             <div class="orca-total-mini-sub">+ voos ~€1.715 est.</div>
           </div>
@@ -2494,11 +2558,12 @@ html, body {
         <!-- Hospedagem -->
         <div class="section-label">Hospedagem · já reservado</div>
         <div class="orca-city-card">
-          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Saratoga Hotel — Istanbul</span><span class="orca-cat-value" style="color:var(--green)">R$&nbsp;2.559</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Nenessa Airport — IST layover</span><span class="orca-cat-value" style="color:var(--green)">R$&nbsp;263</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Paris — 10 Rue Mondetour</span><span class="orca-cat-value" style="color:var(--green)">OK ✓</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Milan — Casa Dani P.za Napoli</span><span class="orca-cat-value" style="color:var(--green)">OK ✓</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Tallinn — Tallink City Hotel</span><span class="orca-cat-value" style="color:var(--amber)">Confirmar</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Paris — 10 Rue Mondetour</span><span class="orca-cat-value" style="color:var(--green)">pago ✓</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Milan — Casa Dani, P.za Napoli</span><span class="orca-cat-value" style="color:var(--green)">pago ✓</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Istanbul — Saratoga Sultanahmet</span><span class="orca-cat-value" style="color:var(--green)">R$&nbsp;2.559<span style="color:var(--muted);font-size:10px"> (~€412)</span></span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">IST pernoite — Nenessa Airport</span><span class="orca-cat-value" style="color:var(--green)">R$&nbsp;263<span style="color:var(--muted);font-size:10px"> (~€42)</span></span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Tallinn — Tallink City Hotel</span><span class="orca-cat-value" style="color:var(--amber)">a confirmar</span></div>
+          <div class="orca-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:8px"><span class="orca-cat-icon">Σ</span><span class="orca-cat-label" style="font-weight:600">Total IST/TLL em BRL</span><span class="orca-cat-value" style="color:var(--paris)">R$&nbsp;2.822 <span style="color:var(--muted);font-size:10px">(~€455)</span></span></div>
         </div>
 
         <!-- Food breakdown -->
@@ -2755,7 +2820,7 @@ const scheduleData = [
         { time: "19:35", name: "TLL→IST Turkish TK1424", meta: "Ref SLXHR7", link: "" },
         { time: "23:10", name: "Chegada IST → shuttle Nenessa Airport Hotel", meta: "", link: "" }
     ]},
-    { date: "19 Jul", day: "Dom", type: "partida", city: "paris", events: [
+    { date: "19 Jul", day: "Dom", type: "partida", city: "istanbul", events: [
         { time: "12:30", name: "Check-out Nenessa", meta: "", link: "" },
         { time: "10:25", name: "IST→GRU Turkish TK15", meta: "Ref SLXHR7, Seat 26C", link: "" },
         { time: "17:45", name: "Chegada GRU", meta: "FIM DA VIAGEM", link: "" }
@@ -3033,6 +3098,7 @@ function renderSchedule() {
         card.dataset.city = day.city;
         card.dataset.date = day.date;
         card.setAttribute('draggable', 'true');
+        card.style.borderLeft = `3px solid var(--${day.city})`;
 
         const typeMap = { chegada: 'dt-chegada', livre: 'dt-livre', trabalho: 'dt-trabalho', partida: 'dt-partida' };
         const typeClass = typeMap[day.type] || 'dt-livre';
@@ -3043,47 +3109,73 @@ function renderSchedule() {
         const cityName = cityMeta[day.city]?.name || day.city;
         const cityColor = `var(--${day.city})`;
 
-        // Look up weather forecast for this day
-        let weatherHtml = '';
-        const dateKey = dateKeyFromSchedule(day.date);
-        const fw = weatherCache[day.city];
-        if (fw && fw.time) {
-            const idx = fw.time.indexOf(dateKey);
-            if (idx !== -1) {
-                const maxT = Math.round(fw.temperature_2m_max[idx]);
-                const minT = Math.round(fw.temperature_2m_min[idx]);
-                const rain = fw.precipitation_probability_max[idx];
-                const icon = weatherIcon(fw.weather_code[idx]);
-                const rainStr = rain > 35 ? ` · 💧${rain}%` : '';
-                weatherHtml = `<span class="day-weather-tag">${icon} ${maxT}°/${minT}°${rainStr}</span>`;
+        // Build weather sidebar text
+        let weatherSidebar = '';
+        const fw2 = weatherCache[day.city];
+        if (fw2 && fw2.time) {
+            const idx2 = fw2.time.indexOf(dateKeyFromSchedule(day.date));
+            if (idx2 !== -1) {
+                const maxT2 = Math.round(fw2.temperature_2m_max[idx2]);
+                const minT2 = Math.round(fw2.temperature_2m_min[idx2]);
+                const rain2 = fw2.precipitation_probability_max[idx2];
+                const icon2 = weatherIcon(fw2.weather_code[idx2]);
+                weatherSidebar = `<div class="day-sidebar-weather">${icon2}<br>${maxT2}°/${minT2}°${rain2 > 35 ? `<br>💧${rain2}%` : ''}</div>`;
             }
         }
 
+        // Date parts: "26 Jun" → "26" + "jun"
+        const dateParts = day.date.split(' ');
+        const dateNum = dateParts[0] || '';
+        const dateMon = (dateParts[1] || '').toLowerCase();
+
         card.innerHTML = `
-            <div class="day-header">
-                <div class="day-accent ${day.city}"></div>
-                <div style="flex:1">
-                    <div class="day-date">${day.date} · ${day.day}</div>
-                    <div class="day-subline">
-                        <span class="day-city-tag" style="color:${cityColor}">${cityName}</span>
-                        <span>${evCount} ativ${linkCount ? ' · ' + linkCount + ' mapas' : ''}</span>
-                        ${weatherHtml}
-                    </div>
-                </div>
-                <span class="day-type ${typeClass}">${typeLabel}</span>
-                <span class="day-caret">›</span>
+            <div class="day-sidebar">
+                <div class="day-sidebar-dow">${day.day}</div>
+                <div class="day-sidebar-date">${dateNum} ${dateMon}</div>
+                <div class="day-sidebar-accent" style="background:${cityColor}"></div>
+                <div class="day-sidebar-type ${typeClass}">${typeLabel}</div>
+                ${weatherSidebar}
             </div>
-            <div class="day-body"></div>
+            <div class="day-main">
+                <div class="day-body"></div>
+            </div>
         `;
 
         const body = card.querySelector('.day-body');
+
+        // Work-hours banner for trabalho days
+        if (day.type === 'trabalho') {
+            const workOffsets = { paris: 5, milan: 5, istanbul: 6, tallinn: 6 };
+            const offset = workOffsets[day.city] || 5;
+            const startH = 10 + offset;
+            const endH = 16 + offset;
+            const localStart = `${String(startH).padStart(2,'0')}:00`;
+            const localEnd = `${String(endH).padStart(2,'0')}:00`;
+            const cityLabel = { paris: 'Paris (UTC+2)', milan: 'Milão (UTC+2)', istanbul: 'Istanbul (UTC+3)', tallinn: 'Tallinn (UTC+3)' }[day.city] || '';
+            const banner = document.createElement('div');
+            banner.className = 'work-hours-banner';
+            banner.innerHTML = `
+                <span class="work-hours-brt">🇧🇷 10:00–16:00</span>
+                <span class="work-hours-arrow">→</span>
+                <span class="work-hours-local">${localStart}–${localEnd}</span>
+                <span class="work-hours-note">${cityLabel}</span>
+            `;
+            body.appendChild(banner);
+        }
+
         day.events.forEach(ev => {
             const slot = document.createElement('div');
             let cls = 'slot';
-            if (ev.name.startsWith('FECHADO') || ev.time === 'FECHADO') cls += ' s-closed';
-            else if (/[A-Z]{3}→[A-Z]{3}|RER|Orlyval|Malpensa|Bus|Bolt|T1→|M11/.test(ev.name + ' ' + ev.meta)) cls += ' s-transport';
-            else if (ev.time === '⚠️') cls += ' s-alert';
+            const isClosed = ev.name.startsWith('FECHADO') || ev.time === 'FECHADO';
+            const isTransport = /[A-Z]{3}→[A-Z]{3}|RER|Orlyval|Malpensa|Bus|Bolt|T1→|M11/.test(ev.name + ' ' + ev.meta);
+            const isAlert = ev.time === '⚠️';
+            if (isClosed) cls += ' s-closed';
+            else if (isTransport) cls += ' s-transport';
+            else if (isAlert) cls += ' s-alert';
             slot.className = cls;
+
+            const isActivity = !isClosed && !isTransport && !isAlert;
+            const handleHTML = isActivity ? '<div class="slot-handle">⠿</div>' : '';
 
             let nameHTML = ev.name;
             if (ev.link) {
@@ -3091,6 +3183,7 @@ function renderSchedule() {
             }
 
             slot.innerHTML = `
+                ${handleHTML}
                 <div class="slot-time">${ev.time}</div>
                 <div class="slot-body">
                     <div class="slot-name">${nameHTML}</div>
@@ -3100,7 +3193,7 @@ function renderSchedule() {
             body.appendChild(slot);
         });
 
-        card.querySelector('.day-header').addEventListener('click', () => card.classList.toggle('open'));
+        card.querySelector('.day-sidebar').addEventListener('click', () => card.classList.toggle('open'));
         card.style.animationDelay = (i * 30) + 'ms';
         container.appendChild(card);
     });
