@@ -281,6 +281,25 @@ body {
   pointer-events: none;
 }
 
+/* Gradient fade behind the floating tab bar — improves readability of
+   content scrolling beneath it without blocking interaction */
+.tab-nav::before {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 199;
+  transition: opacity var(--motion-normal) ease;
+}
+
+.tab-nav.scrolled-down::before {
+  opacity: 0;
+}
+
 .tab-btn {
   flex: 1;
   padding: 7px 10px 6px;
@@ -335,8 +354,8 @@ body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  /* Clear the floating tab bar pill (≈72px) + safe area + breathing room */
-  padding-bottom: calc(90px + max(env(safe-area-inset-bottom, 0px), 8px));
+  /* Respect only the device safe area — tab bar floats as overlay */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .tab-content {
@@ -344,6 +363,15 @@ body {
   padding: 18px;
   max-width: 780px;
   margin: 0 auto;
+}
+
+/* Visual buffer so the last item scrolls above the floating tab bar.
+   This is a content-flow spacer, not a layout hack — tab bar remains an overlay. */
+.tab-content::after {
+  content: '';
+  display: block;
+  /* ~tab bar pill height (54px) + bottom gap (14px) + breathing room (16px) */
+  height: 84px;
 }
 
 /* Plan tab: full-bleed continuous scroll */
@@ -1067,6 +1095,12 @@ body {
   box-shadow: none;
   transition: all .3s var(--spring);
   animation: fadeScale .4s var(--spring) both;
+}
+
+/* Clear separation between days — macro spacing for visual parsing */
+.day-card + .day-card {
+  margin-top: 48px;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .day-card:first-child {
