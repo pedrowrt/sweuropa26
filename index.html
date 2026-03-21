@@ -4003,7 +4003,7 @@ function renderSchedule() {
 
         const cityName = cityMeta[day.city]?.name || day.city;
 
-        // Weather string — read from Store (set by Services.fetchWeather)
+        // Weather string — forecast first, fallback to current
         let weatherHTML = '';
         const fw2 = Store.state.weatherForecast[day.city];
         if (fw2 && fw2.time) {
@@ -4014,6 +4014,13 @@ function renderSchedule() {
                 const rain2 = fw2.precipitation_probability_max[idx2];
                 const icon2 = weatherIcon(fw2.weather_code[idx2]);
                 weatherHTML = `<span class="dh-weather">${icon2} ${maxT2}°/${minT2}°${rain2 > 35 ? ` 💧${rain2}%` : ''}</span>`;
+            }
+        }
+        if (!weatherHTML) {
+            const cur = Store.state.weatherCurrent[day.city];
+            if (cur && cur.temperature_2m != null) {
+                const curIcon = weatherIcon(cur.weather_code);
+                weatherHTML = `<span class="dh-weather">${curIcon} ${Math.round(cur.temperature_2m)}°C</span>`;
             }
         }
 
@@ -4099,6 +4106,29 @@ function renderSchedule() {
     });
 
     container.appendChild(timeline);
+
+    // Timeline scroll reactivity
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            entry.target.classList.toggle('active', entry.isIntersecting);
+        });
+    }, { threshold: 0.3 });
+    container.querySelectorAll('.day-block').forEach(b => observer.observe(b));
+
+    // Event fade-in
+    const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+                fadeObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    container.querySelectorAll('.event').forEach((ev, i) => {
+        ev.classList.add('fade-in');
+        ev.style.transitionDelay = (i % 8 * 30) + 'ms';
+        fadeObserver.observe(ev);
+    });
 }
 
 function setRegion(city) {
@@ -4344,10 +4374,13 @@ async function renderMeetingLive() {
 
 // ─── CHECKLIST PERSISTENCE ───
 function updateChecklistCounts() {
-    const items = Array.from(document.querySelectorAll('#sub-check input[type="checkbox"]'));
-    const checked = items.filter(cb => cb.checked).length;
-    const count = document.getElementById('count-pre');
-    if (count) count.textContent = `${checked}/${items.length}`;
+    const items = Array.from(document.querySelectorAll('#sub-check input[type="checkbox"], #tab-overview input[type="checkbox"]'));
+    const unique = [...new Map(items.map(i => [i.id, i])).values()];
+    const checked = unique.filter(cb => cb.checked).length;
+    ['count-pre', 'count-pre2'].forEach(id => {
+        const count = document.getElementById(id);
+        if (count) count.textContent = `${checked}/${unique.length}`;
+    });
 }
 
 function initChecklist() {
@@ -4488,7 +4521,7 @@ function renderGrana() {
         <div class="orca-city-card grana-card-anim" style="background:rgba(var(--color-primary-rgb),0.06);border-color:rgba(var(--color-primary-rgb),0.18);margin-bottom:4px">
             <div style="padding:4px 0 12px">
                 <div style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Total da Viagem</div>
-                <div style="font-size:clamp(28px,7vw,42px);font-weight:700;letter-spacing:-1px;color:var(--text);line-height:1.1;word-break:break-word">${fmtBrl(grandTotal)}</div>
+                <div class="grana-total-animated" data-target="${grandTotal}" style="font-size:clamp(28px,7vw,42px);font-weight:700;letter-spacing:-1px;color:var(--text);line-height:1.1;word-break:break-word">${fmtBrl(grandTotal)}</div>
                 <div style="font-size:12px;color:var(--muted);margin-top:4px">${fmtBrl(perDay)} por dia · 24 dias</div>
             </div>
             <div class="orca-row" style="padding:6px 0">
@@ -4568,11 +4601,17 @@ function renderGrana() {
         </div>
     `;
 
-    // Animate bars in after paint
+    // Animate bars + counters in after paint
     requestAnimationFrame(() => {
         el.querySelectorAll('.grana-bar').forEach(bar => {
             setTimeout(() => { bar.style.width = bar.dataset.pct + '%'; }, 60);
         });
+        // Animate main total counter
+        const totalEl = el.querySelector('.grana-total-animated');
+        if (totalEl) {
+            const target = parseInt(totalEl.dataset.target || '0', 10);
+            animateCounter(totalEl, 0, target, 600);
+        }
         el.querySelectorAll('.grana-card-anim').forEach((card, i) => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(8px)';
@@ -4755,6 +4794,7 @@ function renderCena() {
 
 // ─── INIT ───
 document.addEventListener('DOMContentLoaded', () => {
+    fixIOSViewport();
     initTabs();
     initMaisTabs();
     setRegion('all');
