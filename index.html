@@ -117,7 +117,10 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body {
+html {
+  height: 100%;
+}
+body {
   height: 100%;
   overflow: hidden;
 }
@@ -136,8 +139,6 @@ html, body {
 /* ─── LIQUID GLASS UTILITY ─── */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   border: 1px solid var(--glass-border);
   border-radius: 20px;
   box-shadow: var(--glass-shadow);
@@ -146,8 +147,6 @@ html, body {
 /* ─── SKEUOMORPHIC BASE (now uses depth layer 1) ─── */
 .sku-card {
   background: rgba(255,255,255,0.045);
-  backdrop-filter: blur(var(--layer-2-blur)) saturate(140%);
-  -webkit-backdrop-filter: blur(var(--layer-2-blur)) saturate(140%);
   border: 1px solid var(--layer-1-border);
   border-radius: var(--radius-md);
   box-shadow:
@@ -179,14 +178,19 @@ html, body {
   height: var(--app-height, 100%);
   background: var(--bg);
   overflow: hidden;
+  /* GPU layer: prevent iOS compositor thrashing */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* ─── HEADER (compact, Layer 3 floating glass) ─── */
 .header {
   padding: max(10px, env(safe-area-inset-top)) 18px 10px;
   background: var(--layer-3-bg);
-  backdrop-filter: blur(var(--layer-3-blur)) saturate(180%);
-  -webkit-backdrop-filter: blur(var(--layer-3-blur)) saturate(180%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--layer-3-border);
   box-shadow: 0 1px 0 rgba(255,255,255,0.025), 0 4px 16px rgba(0,0,0,0.4);
   flex-shrink: 0;
@@ -312,6 +316,24 @@ html, body {
   font-style: normal;
   transition: transform var(--motion-normal) var(--spring-snappy);
 }
+/* SVG icons in tab bar */
+.tab-icon-svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 0 auto 2px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--motion-normal) var(--spring-snappy);
+}
+.tab-btn:active .tab-icon-svg { transform: scale(0.83); }
+.tab-btn.active .tab-icon-svg {
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 5px rgba(var(--color-primary-rgb), 0.55));
+}
 
 .tab-btn:active { transform: scale(0.90); }
 .tab-btn:active .tab-icon { transform: scale(0.83); }
@@ -333,6 +355,10 @@ html, body {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   padding-bottom: 120px;
+  /* GPU layer for iOS scroll compositing */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: scroll-position;
 }
 
 .tab-content {
@@ -463,8 +489,6 @@ html, body {
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--layer-1-bg);
-  backdrop-filter: blur(var(--layer-2-blur)) saturate(140%);
-  -webkit-backdrop-filter: blur(var(--layer-2-blur)) saturate(140%);
   box-shadow: var(--layer-2-shadow), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
@@ -524,8 +548,6 @@ html, body {
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--layer-1-bg);
-  backdrop-filter: blur(var(--layer-2-blur)) saturate(160%);
-  -webkit-backdrop-filter: blur(var(--layer-2-blur)) saturate(160%);
   box-shadow: var(--layer-2-shadow), inset 0 1px 0 rgba(255,255,255,0.045);
 }
 
@@ -784,8 +806,6 @@ html, body {
 
 .airport-ops-card {
   background: var(--layer-1-bg);
-  backdrop-filter: blur(var(--layer-1-blur));
-  -webkit-backdrop-filter: blur(var(--layer-1-blur));
 }
 
 .flight-board,
@@ -1219,8 +1239,6 @@ html, body {
   top: 0;
   z-index: 10;
   background: rgba(0,0,0,0.82);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   padding: 10px 0 12px;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -1238,8 +1256,6 @@ html, body {
   border-radius: 20px;
   /* Liquid glass */
   background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
   /* City color always visible, softer when not active */
   color: color-mix(in srgb, var(--fc, var(--muted)) 55%, var(--muted));
   border: 1px solid color-mix(in srgb, var(--fc, rgba(255,255,255,0)) 18%, rgba(255,255,255,0.13));
@@ -1438,6 +1454,7 @@ html, body {
 }
 
 /* ─── TIMELINE FLOWING ENERGY GLOW ─── */
+/* Animation is OFF by default — enabled only when block is in viewport */
 .day-block::after {
   content: '';
   position: absolute;
@@ -1448,18 +1465,31 @@ html, body {
   background: radial-gradient(ellipse 2px 30px at center,
     var(--city-color, rgba(255,255,255,0.5)),
     transparent 100%);
-  animation: timelineFlow 2.8s linear infinite;
+  animation: none; /* disabled off-screen */
   pointer-events: none;
   border-radius: 2px;
   z-index: 2;
 }
 .day-block:first-of-type::after { top: 6px; }
 
+/* Only animate when the block is visible (.animate set by IntersectionObserver) */
+.day-block.animate::after {
+  animation: timelineFlow 2.8s linear infinite;
+}
+
 @keyframes timelineFlow {
   0%   { transform: translateY(0);     opacity: 0; }
   12%  { opacity: 0.9; }
   88%  { opacity: 0.6; }
   100% { transform: translateY(260px); opacity: 0; }
+}
+
+/* ─── SCROLL FEEDBACK — inactive day-blocks fade out ─── */
+.day-block {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.day-block:not(.active) {
+  opacity: 0.45;
 }
 
 /* Transition segment: gradient between two city colors */
@@ -1598,8 +1628,6 @@ html, body {
 /* ─── WORK WINDOW BAR (Work tab) ─── */
 .work-window-bar {
   background: rgba(138,122,184,0.08);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   border: 1px solid rgba(138,122,184,0.18);
   border-radius: 20px;
   padding: 18px 20px;
@@ -1955,8 +1983,6 @@ html, body {
 .venue-card {
   display: block;
   background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 14px;
   padding: 14px 16px;
@@ -1989,8 +2015,6 @@ html, body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   box-shadow:
     0 6px 24px rgba(0,0,0,0.35),
     0 1px 0 rgba(255,220,150,0.08) inset;
@@ -2276,29 +2300,6 @@ html, body {
   grid-template-columns: repeat(4, 1fr);
 }
 
-.clock-highlight {
-  background: rgba(var(--color-primary-rgb), 0.06);
-  position: relative;
-  transition: background var(--motion-normal) var(--spring);
-}
-
-.clock-highlight::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
-  opacity: 0.55;
-  transition: background var(--motion-normal) var(--spring);
-}
-
-.clock-highlight .clock-time {
-  color: var(--color-primary);
-  text-shadow: 0 0 24px rgba(var(--color-primary-rgb), 0.4);
-  transition: color var(--motion-normal) var(--spring),
-              text-shadow var(--motion-normal) ease;
-}
-
 /* Dynamic clock card — city-colored accent */
 .clock-card[data-city] .clock-city { color: var(--muted); }
 .clock-card[data-city="paris"]    .clock-city { color: var(--paris); }
@@ -2389,8 +2390,6 @@ html, body {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   background: rgba(20,20,24,0.97);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   border-radius: 20px 20px 0 0;
   border-top: 1px solid var(--border2);
   z-index: 301;
@@ -2508,8 +2507,6 @@ html, body {
   border-radius: 16px;
   padding: 16px 12px;
   text-align: center;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .orca-total-mid { border-color: rgba(var(--color-primary-rgb),0.18); background: rgba(var(--color-primary-rgb),0.05); }
@@ -2698,10 +2695,6 @@ body.loading .content {
   0%, 100% { background: var(--bg); }
   50% { background: rgba(5,5,8,1); }
 }
-.app {
-  animation: breathe 6s ease-in-out infinite;
-}
-
 /* ─── TIMELINE ACTIVE ─── */
 .day-block.active {
   opacity: 1;
@@ -2727,11 +2720,6 @@ body.loading .content {
 }
 .dh-weather {
   animation: weather-pulse 4s ease-in-out infinite;
-}
-
-/* ─── COUNTER ANIMATION ─── */
-.grana-counter {
-  transition: all 0.1s ease;
 }
 
 /* ─── TOTAL VALUE OVERFLOW FIX ─── */
@@ -2775,11 +2763,20 @@ body.loading .content {
   50% { opacity: 0.7; }
 }
 
-/* ─── ITEM TAP HAPTIC ─── */
+/* ─── GLOBAL TAP FEEDBACK ─── */
+button, .venue-card, .vibe-pick-card, .booking-row, .check-item label {
+  transition: transform 0.12s ease;
+}
+button:active, .venue-card:active, .vibe-pick-card:active {
+  transform: scale(0.96);
+}
 .item-tap:active {
   transform: scale(0.97);
   transition: transform 0.1s ease;
 }
+
+/* ─── LOADING STATE ─── */
+.loading * { pointer-events: none; }
 
 </style>
 </head>
@@ -3333,7 +3330,7 @@ body.loading .content {
 
   <nav class="tab-nav">
     <button class="tab-btn active" data-tab="tab-overview"><i class="tab-icon">⌂</i>Home</button>
-    <button class="tab-btn" data-tab="tab-schedule"><i class="tab-icon">📅</i>Agenda</button>
+    <button class="tab-btn" data-tab="tab-schedule"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>Agenda</button>
     <button class="tab-btn" data-tab="tab-orca"><i class="tab-icon">€</i>Grana</button>
     <button class="tab-btn" data-tab="tab-nightlife"><i class="tab-icon">♫</i>Cena</button>
   </nav>
@@ -3810,9 +3807,6 @@ const meetingTemplates = [
     { label: 'Golden Hour PM', baseCity: 'São Paulo', baseTz: 'America/Sao_Paulo', start: '16:00', end: '17:15', note: 'fechamento de dia / handoff' }
 ];
 
-// ─── WEATHER FORECAST CACHE ───
-const weatherCache = {};
-
 function dateKeyFromSchedule(dateStr) {
     const parts = dateStr.split(' ');
     const months = { Jan:'01', Fev:'02', Mar:'03', Abr:'04', Mai:'05', Jun:'06', Jul:'07', Ago:'08', Set:'09', Out:'10', Nov:'11', Dez:'12',
@@ -3830,19 +3824,6 @@ function weatherIcon(code) {
     if (code === 71 || code === 73 || code === 75) return '🌨️';
     if (code === 95 || code === 96 || code === 99) return '⛈️';
     return '🌤️';
-}
-
-async function fetchForecastWeather() {
-    const cities = Object.entries(cityMeta);
-    await Promise.all(cities.map(async ([key, city]) => {
-        try {
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&timezone=auto&forecast_days=16`;
-            const response = await fetch(url, { signal: AbortSignal.timeout(6000) });
-            const data = await response.json();
-            weatherCache[key] = data.daily;
-        } catch(e) {}
-    }));
-    renderSchedule();
 }
 
 function splitFlapText(value, dark = false) {
@@ -3901,6 +3882,10 @@ function flightPhase(flight) {
 
 // ─── TABS ───
 function initTabs() {
+    const nav = document.querySelector('.tab-nav');
+    if (!nav || nav.dataset.tabsInit) return;
+    nav.dataset.tabsInit = '1';
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -4206,19 +4191,19 @@ function renderSchedule() {
 
     container.appendChild(timeline);
 
-    // Scroll-reactive timeline: highlight visible day blocks + stagger events
+    // Scroll-reactive timeline: highlight visible blocks, toggle glow, stagger events
     requestAnimationFrame(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const block = entry.target;
                 if (entry.isIntersecting) {
-                    block.classList.add('active');
-                    // Stagger-reveal events
+                    block.classList.add('active', 'animate');
+                    // Stagger-reveal events once
                     block.querySelectorAll('.fade-in:not(.show)').forEach((ev, i) => {
                         setTimeout(() => ev.classList.add('show'), i * 55);
                     });
                 } else {
-                    block.classList.remove('active');
+                    block.classList.remove('active', 'animate');
                 }
             });
         }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
@@ -4360,8 +4345,33 @@ function updateClocks() {
         if (spCard) spCard.classList.add('clock-highlight');
     }
 
+    // ── City color — apply to clock time + city name only (not the card) ──────
+    const cityColors = {
+        paris:    getComputedStyle(document.documentElement).getPropertyValue('--paris').trim(),
+        milan:    getComputedStyle(document.documentElement).getPropertyValue('--milan').trim(),
+        istanbul: getComputedStyle(document.documentElement).getPropertyValue('--istanbul').trim(),
+        tallinn:  getComputedStyle(document.documentElement).getPropertyValue('--tallinn').trim(),
+    };
+    // Reset all clock cards to default text color
+    document.querySelectorAll('.clock-card').forEach(card => {
+        const timeEl = card.querySelector('.clock-time');
+        const cityEl = card.querySelector('.clock-city');
+        if (timeEl) timeEl.style.color = '';
+        if (cityEl && !cityEl.style.getPropertyValue('color').includes('var')) cityEl.style.color = '';
+    });
+    // Color the active clock's time + city name
+    const activeCard = isOnTrip
+        ? document.getElementById('clock-card-eu')
+        : document.getElementById('clock-card-sp');
+    if (activeCard) {
+        const activeColor = isOnTrip ? (cityColors[cityKey] || '') : '';
+        const timeEl = activeCard.querySelector('.clock-time');
+        const cityEl = activeCard.querySelector('.clock-city');
+        if (timeEl) timeEl.style.color = activeColor;
+        if (cityEl && isOnTrip) cityEl.style.color = activeColor;
+    }
+
     // ── Weather for active city in clock ────────────────────────────────────
-    const activeKey = isOnTrip ? cityKey : 'sp';
     const weatherEl = isOnTrip
         ? document.getElementById('clock-weather-eu')
         : document.getElementById('clock-weather-sp');
@@ -4379,32 +4389,6 @@ function updateClocks() {
     if (currentFilter === 'all') setRegion(isOnTrip ? cityKey : 'paris');
 }
 
-
-async function renderWeather() {
-    const grid = document.getElementById('weather-grid');
-    if (!grid) return;
-    grid.innerHTML = Object.values(cityMeta).map(city => `
-      <div class="weather-chip">
-        <div class="weather-top"><span class="weather-city">${city.name}</span><span class="weather-temp">--°</span></div>
-        <div class="weather-meta">buscando clima atual…</div>
-      </div>`).join('');
-
-    const cities = Object.entries(cityMeta);
-    await Promise.all(cities.map(async ([key, city], index) => {
-        try {
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m&timezone=auto`;
-            const response = await fetch(url, { signal: AbortSignal.timeout(6000) });
-            const data = await response.json();
-            const current = data.current;
-            const card = grid.children[index];
-            card.querySelector('.weather-temp').textContent = `${Math.round(current.temperature_2m)}°C`;
-            card.querySelector('.weather-meta').textContent = `${weatherLabel(current.weather_code)} · sensação ${Math.round(current.apparent_temperature)}°C · vento ${Math.round(current.wind_speed_10m)} km/h · ${city.airport}`;
-        } catch (error) {
-            const card = grid.children[index];
-            card.querySelector('.weather-meta').textContent = `clima offline · consulte ${city.airport} na chegada`;
-        }
-    }));
-}
 
 async function renderFlightBoard() {
     // Update inline flight card badges
@@ -4543,24 +4527,6 @@ function initInstallBanner() {
         banner.classList.remove('show');
         try { localStorage.setItem('eu26-install-dismissed', '1'); } catch(e) {}
     });
-}
-
-// ─── BUDGET CALCULATOR ───
-function calculateBudget() {
-    let total = 0;
-    scheduleData.forEach(day => {
-        day.events.forEach(ev => {
-            const euroMatches = (ev.meta || '').match(/€(\d+[.,]?\d*)/g);
-            if (euroMatches) {
-                euroMatches.forEach(e => {
-                    const val = parseFloat(e.replace('€','').replace(',','.'));
-                    if (!isNaN(val) && val < 200) total += val;
-                });
-            }
-        });
-    });
-    const el = document.getElementById('budget-total');
-    if (el) el.textContent = '~€' + Math.round(total);
 }
 
 // ─── GRANA DASHBOARD ─────────────────────────────────────────────────────────
@@ -4769,43 +4735,6 @@ function renderGrana() {
     });
 }
 
-// ─── EUR/BRL EXCHANGE RATE ───
-async function fetchEurBrl() {
-    try {
-        const apis = [
-            'https://api.exchangerate-api.com/v4/latest/EUR',
-            'https://open.er-api.com/v6/latest/EUR'
-        ];
-        let rate = null;
-        for (const url of apis) {
-            try {
-                const r = await fetch(url, { signal: AbortSignal.timeout(4000) });
-                const d = await r.json();
-                rate = d.rates && d.rates.BRL ? d.rates.BRL : null;
-                if (rate) break;
-            } catch (error) {}
-        }
-        if (!rate) throw new Error('no rate');
-
-        const fmt = r => r.toFixed(2).replace('.', ',');
-        document.getElementById('fx-rate').textContent = 'R$ ' + fmt(rate);
-        document.getElementById('fx-updated').textContent = 'Cotação ao vivo · ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
-        const totalEur = 1306;
-        const totalBrl = Math.round(totalEur * rate);
-        document.getElementById('fx-need').textContent = '~R$ ' + totalBrl.toLocaleString('pt-BR');
-        const fxTotal = document.getElementById('fx-total-brl');
-        if (fxTotal) fxTotal.textContent = '~R$ ' + totalBrl.toLocaleString('pt-BR');
-    } catch (error) {
-        const el = document.getElementById('fx-updated');
-        if (el) el.textContent = 'Taxa offline · approx R$ 6,20/EUR';
-    }
-}
-
-async function hydrateLiveOps() {
-    renderRouteBoard();
-    await Promise.allSettled([fetchForecastWeather(), renderFlightBoard(), renderMeetingLive()]);
-    initCollapsibles();
-}
 
 // ═══════════════════════════════════════════════════════════════════
 // ─── CENA — VIBE SCORING ENGINE ─────────────────────────────────────
@@ -4950,7 +4879,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initChecklist();
     initInstallBanner();
     initAddEvent();
-    calculateBudget();
 
     // Subscribe renders to Store changes (FX rate, weather, etc.)
     Store.subscribe(() => {
@@ -4965,7 +4893,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Boot all services: currency, weather, flights
     document.body.classList.add('loading');
-    Services.loadAll().then(() => {
+    Services.loadAll().finally(() => {
         document.body.classList.remove('loading');
         renderRouteBoard();
         renderFlightBoard();
