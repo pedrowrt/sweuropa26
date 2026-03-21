@@ -180,7 +180,7 @@ body {
   flex-direction: column;
   position: fixed;
   inset: 0;
-  height: 100dvh;
+  height: var(--vh, 100dvh);
   background: var(--bg);
   overflow: hidden;
 }
@@ -254,7 +254,7 @@ body {
 /* ─── FLOATING TAB NAV ─── */
 .tab-nav {
   position: fixed;
-  bottom: 0;
+  bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
   width: auto;
@@ -263,14 +263,14 @@ body {
   display: flex;
   gap: 2px;
   padding: 5px;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  background: rgba(0,0,0,0.28);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid var(--layer-3-border);
-  border-radius: 28px 28px 0 0;
+  border-radius: 28px;
   overflow: hidden;
   z-index: 200;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 0 1px rgba(255,255,255,0.05);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
   transition: transform var(--motion-normal) var(--spring), opacity var(--motion-fast) ease;
 }
 
@@ -335,6 +335,7 @@ body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+  padding-bottom: 120px;
 }
 
 .tab-content {
@@ -1278,17 +1279,15 @@ body {
   letter-spacing: .02em;
   padding: 10px 16px;
   border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.04);
+  border: none;
+  background: transparent;
   color: var(--muted);
   cursor: pointer;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: background .2s ease, transform .15s ease;
+  transition: color .2s ease, transform .15s ease;
 }
 
 .action-btn:active {
-  background: rgba(255,255,255,0.08);
+  color: var(--text);
   transform: scale(0.96);
 }
 
@@ -2638,6 +2637,47 @@ body.loading .content {
   margin-top: 4px;
 }
 
+/* ─── BREATHING EFFECT ─── */
+@keyframes breathe {
+  0%, 100% { background: var(--bg); }
+  50% { background: rgba(5,5,8,1); }
+}
+.app {
+  animation: breathe 6s ease-in-out infinite;
+}
+
+/* ─── TIMELINE ACTIVE ─── */
+.day-block.active {
+  opacity: 1;
+  transform: scale(1.01);
+  transition: transform 0.3s var(--spring), opacity 0.3s ease;
+}
+
+/* ─── EVENT FADE-IN ─── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s var(--spring);
+}
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── WEATHER LIVE PULSE ─── */
+@keyframes weather-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+.dh-weather {
+  animation: weather-pulse 4s ease-in-out infinite;
+}
+
+/* ─── COUNTER ANIMATION ─── */
+.grana-counter {
+  transition: all 0.1s ease;
+}
+
 </style>
 </head>
 <body>
@@ -2877,6 +2917,29 @@ body.loading .content {
         <div class="b-icon b-warn">🎭</div>
         <div class="b-text">Hodjapasha Sema</div>
         <span class="b-status bs-urgent">Reservar</span>
+      </div>
+
+      <div class="section-label" style="margin-top:28px">Checklist Pré-Viagem</div>
+      <div class="check-group open" style="margin-bottom:80px">
+        <div class="check-group-header">
+          <div class="check-group-title">Reservas & Documentos</div>
+          <div class="check-group-count" id="count-pre2"></div>
+        </div>
+        <div class="check-group-body">
+          <div class="check-item"><input type="checkbox" id="h1" checked><label for="h1">Apartamento Paris confirmado ✓</label></div>
+          <div class="check-item"><input type="checkbox" id="h2"><label for="h2">Reservar Cenacolo Vinciano (vivaticket.com)</label></div>
+          <div class="check-item"><input type="checkbox" id="h3"><label for="h3">Reservar Cerimônia Sema (hodjapasha.com)</label></div>
+          <div class="check-item"><input type="checkbox" id="h4"><label for="h4">Confirmar hospedagem Tallinn — Tallink City Hotel</label></div>
+          <div class="check-item"><input type="checkbox" id="h5"><label for="h5">Confirmar voos SLXHR7 (TLL→IST→GRU)</label></div>
+          <div class="check-item"><input type="checkbox" id="h6"><label for="h6">Reservar Catacumbas Paris (catacombes.paris.fr)</label></div>
+          <div class="check-item"><input type="checkbox" id="h7"><label for="h7">Negociar horário reuniões Nick & Tefi para fuso europeu</label></div>
+          <div class="check-item"><input type="checkbox" id="h8"><label for="h8">Check-in online TAP (abre 36h antes)</label></div>
+          <div class="check-item"><input type="checkbox" id="h9"><label for="h9">Baixar mapas offline: Paris, Milan, Istanbul, Tallinn</label></div>
+          <div class="check-item"><input type="checkbox" id="h10"><label for="h10">Comprar adaptador tomada EU (tipo C/F)</label></div>
+          <div class="check-item"><input type="checkbox" id="h11"><label for="h11">Contratar seguro viagem</label></div>
+          <div class="check-item"><input type="checkbox" id="h12"><label for="h12">Imprimir boarding pass easyJet (papel)</label></div>
+          <div class="check-item"><input type="checkbox" id="h13"><label for="h13">Ativar roaming ou comprar eSIM europeu</label></div>
+        </div>
       </div>
 
     </div>
@@ -3168,12 +3231,34 @@ body.loading .content {
     <button class="tab-btn" data-tab="tab-schedule"><i class="tab-icon">▤</i>Plano</button>
     <button class="tab-btn" data-tab="tab-orca"><i class="tab-icon">€</i>Grana</button>
     <button class="tab-btn" data-tab="tab-nightlife"><i class="tab-icon">♫</i>Cena</button>
-    <button class="tab-btn" data-tab="tab-mais"><i class="tab-icon">☰</i>Mais</button>
   </nav>
 </div>
 
 <script>
 'use strict';
+
+// ── iOS VIEWPORT FIX ──────────────────────────────────────────────
+function fixIOSViewport() {
+    const vh = window.innerHeight;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+window.addEventListener('resize', fixIOSViewport);
+fixIOSViewport();
+
+// ── COUNTER ANIMATION ─────────────────────────────────────────────
+function animateCounter(el, from, to, duration) {
+    if (!el) return;
+    const start = performance.now();
+    const update = (now) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3); // cubic ease-out
+        const current = Math.round(from + (to - from) * ease);
+        el.textContent = current.toLocaleString('pt-BR');
+        if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+}
 
 // ═══════════════════════════════════════════════════════════════════
 // ─── CENTRALIZED DATA STORE  (Zustand-pattern, vanilla JS) ─────────
@@ -3205,8 +3290,8 @@ const Store = (() => {
     // Prices in original currency + BRL where confirmed
     hotels: [
       { id: 'paris',    name: '10 Rue Mondetour, 1er',     city: 'paris',
-        nights: 5, eur: null,   brl: null,    status: 'paid',
-        note: 'Apartamento pago', ref: null, source: 'airbnb' },
+        nights: 5, eur: 428,   brl: null,    status: 'paid',
+        note: 'Apartamento pago · custo real', ref: null, source: 'airbnb' },
       { id: 'milan',    name: 'Casa Dani, P.za Napoli 30', city: 'milan',
         nights: 7, eur: null,   brl: null,    status: 'paid',
         note: 'Apartamento pago', ref: null, source: 'airbnb' },
@@ -3217,8 +3302,8 @@ const Store = (() => {
         nights: 1, eur: null,   brl: 263,     status: 'confirmed',
         note: 'Pernoite pré-voo TK15', ref: null, source: 'booking.com' },
       { id: 'tallinn',  name: 'Tallink City Hotel',         city: 'tallinn',
-        nights: 7, eur: null,   brl: null,    status: 'pending',
-        note: '6 noites + 1 sáb estimada', ref: null, source: 'booking.com' },
+        nights: 7, nightsUser: 1, nightsCompany: 6, eur: null, brl: null, status: 'pending',
+        note: '1 noite (restante pago pela empresa)', ref: null, source: 'booking.com' },
     ],
 
     // ── INTERNAL EU FLIGHTS ONLY ─────────────────────────────────
@@ -4336,7 +4421,8 @@ function renderGrana() {
     const knownNightSum = pricedHotels.reduce((sum, h) => sum + h.nights, 0);
     const avgNightBrl   = knownNightSum > 0 ? knownBrlSum / knownNightSum : 80 * rate;
     const tallinnH      = s.hotels.find(h => h.id === 'tallinn' && !h.eur && !h.brl);
-    const tallinnEstBrl = tallinnH ? Math.round(avgNightBrl * tallinnH.nights) : 0;
+    const tallinnUserNights = tallinnH?.nightsUser ?? 1;
+    const tallinnEstBrl = tallinnH ? Math.round(avgNightBrl * tallinnUserNights) : 0;
 
     const flightsBrl   = c.totalFlightsBrl;
     const hotelsBrl    = c.knownHotelsBrl + tallinnEstBrl;
@@ -4364,7 +4450,7 @@ function renderGrana() {
         const anomalyDot  = isAnomaly ? ' <span style="color:var(--amber)">⚠</span>' : '';
         return `<div class="orca-row">
             <span class="orca-cat-icon">🏨</span>
-            <span class="orca-cat-label">${h.name} · ${h.nights}n${anomalyDot}</span>
+            <span class="orca-cat-label">${h.name} · ${h.id === 'tallinn' && h.nightsUser ? h.nightsUser + 'n usuário' : h.nights + 'n'}${anomalyDot}</span>
             <span class="orca-cat-value" style="color:${displayBrl ? (isAnomaly ? 'var(--amber)' : 'var(--text)') : statusColor}">${displayBrl ? displayBrl + subStr + estimateNote : '<span style="color:'+statusColor+'">'+statusLabel+'</span>'}</span>
         </div>`;
     }).join('');
