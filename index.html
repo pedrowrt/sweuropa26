@@ -145,19 +145,15 @@ html, body {
 /* ─── TAB NAV ─── */
 .tab-nav {
   flex-shrink: 0;
-  background: linear-gradient(180deg, #2a2a2e 0%, #1a1a1d 100%);
-  border-top: 1px solid rgba(255,255,255,0.09);
-  display: flex;
-.tab-nav {
-  flex-shrink: 0;
-  background: linear-gradient(180deg, #2a2a2e 0%, #1a1a1d 100%);
-  border-top: 1px solid rgba(255,255,255,0.09);
+  background: rgba(17,17,19,0.88);
+  backdrop-filter: blur(32px) saturate(200%) brightness(0.95);
+  -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(0.95);
+  border-top: 1px solid rgba(255,255,255,0.07);
   display: flex;
   padding-bottom: max(env(safe-area-inset-bottom), 34px);
   z-index: 100;
-  box-shadow: 0 -1px 0 rgba(255,255,255,0.05), 0 -12px 40px rgba(0,0,0,0.7);
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.04), 0 -8px 32px rgba(0,0,0,0.55);
 }
-
 
 .tab-btn {
   flex: 1;
@@ -171,21 +167,7 @@ html, body {
   letter-spacing: .04em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all .25s ease;
-  text-align: center;
-  border-top: 2px solid transparent;
-  -webkit-tap-highlight-color: transparent;
-  position: relative;
-}
-  background: none;
-  border: none;
-  color: var(--subtle);
-  font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all .25s ease;
+  transition: all .3s cubic-bezier(.16,1,.3,1);
   text-align: center;
   border-top: 2px solid transparent;
   -webkit-tap-highlight-color: transparent;
@@ -195,19 +177,23 @@ html, body {
 .tab-btn.active {
   color: var(--paris);
   border-top-color: var(--paris);
-  text-shadow: 0 0 8px rgba(200,169,110,0.3);
+  text-shadow: 0 0 10px rgba(200,169,110,0.35);
 }
 
 .tab-btn .tab-icon {
   display: block;
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 3px;
   font-style: normal;
-  transition: transform .25s ease;
+  transition: transform .3s cubic-bezier(.16,1,.3,1);
+}
+
+.tab-btn:active .tab-icon {
+  transform: scale(0.88);
 }
 
 .tab-btn.active .tab-icon {
-  transform: scale(1.15);
+  transform: scale(1.18);
 }
 
 /* ─── CONTENT ─── */
@@ -662,29 +648,8 @@ html, body {
   flex-wrap: nowrap;
 }
 
-.split-char {
-  min-width: 16px;
-  height: 28px;
-  padding: 0 4px;
-  border-radius: 5px;
-  background: linear-gradient(180deg, #242428 0%, #0d0d10 48%, #18181c 49%, #222226 100%);
-  color: #f4f0e8;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 14px;
-  font-weight: 700;
-  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.05), 0 1px 3px rgba(0,0,0,0.35);
-}
-
-.split-char.dark {
-  background: linear-gradient(180deg, #433629 0%, #241d15 48%, #352a1f 49%, #4a3d2d 100%);
-  color: #f4ddaa;
-}
-
 .split-char.space {
-  opacity: .16;
+  opacity: .18;
 }
 .board-row:last-child,
 .flap-row:last-child { border-bottom: none; }
@@ -696,25 +661,36 @@ html, body {
   min-width: 0;
 }
 
+/* ─── SPLIT-FLAP TILES (single definition) ─── */
 .split-char {
-  min-width: 12px;
-  height: 20px;
-  padding: 0 2px;
-  border-radius: 3px;
-  background: linear-gradient(180deg, #f8f7f3 0%, #dbd7cf 48%, #bbb5aa 49%, #f4f1eb 100%);
-  color: #080809;
+  min-width: 14px;
+  height: 26px;
+  padding: 0 4px;
+  border-radius: 4px;
+  /* Classic departure board: cream tile, dark ink */
+  background: linear-gradient(180deg, #eceae2 0%, #d4d0c8 48%, #b8b4ac 49%, #e6e2da 100%);
+  color: #0c0c10;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 11px;
-  font-weight: 700;
-  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.24), 0 1px 0 rgba(255,255,255,0.06);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .01em;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    inset 0 -1px 0 rgba(0,0,0,0.28),
+    0 2px 4px rgba(0,0,0,0.5);
 }
 
+/* Dark variant: amber on near-black (flight numbers, dates) */
 .split-char.dark {
-  background: linear-gradient(180deg, #1b1b1d 0%, #050506 48%, #171719 49%, #212124 100%);
-  color: #f8f7f3;
+  background: linear-gradient(180deg, #1e1e22 0%, #070708 48%, #141418 49%, #1c1c22 100%);
+  color: #c8a96e;
+  box-shadow:
+    inset 0 1px 0 rgba(200,169,110,0.12),
+    inset 0 -1px 0 rgba(0,0,0,0.5),
+    0 2px 4px rgba(0,0,0,0.55);
 }
 
 .board-row.board-live .split-char,
@@ -1009,34 +985,36 @@ html, body {
   padding: 9px 18px;
   min-height: 38px;
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.13);
   /* Liquid glass */
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  color: var(--muted);
+  /* City color always visible, softer when not active */
+  color: color-mix(in srgb, var(--fc, var(--muted)) 55%, var(--muted));
+  border: 1px solid color-mix(in srgb, var(--fc, rgba(255,255,255,0)) 18%, rgba(255,255,255,0.13));
   cursor: pointer;
-  transition: all .3s cubic-bezier(.16,1,.3,1);
+  transition: all .35s cubic-bezier(.16,1,.3,1);
   -webkit-tap-highlight-color: transparent;
   box-shadow:
-    0 2px 12px rgba(0,0,0,0.35),
-    0 1px 0 rgba(255,255,255,0.08) inset,
-    0 -1px 0 rgba(0,0,0,0.2) inset;
+    0 2px 12px rgba(0,0,0,0.3),
+    0 1px 0 rgba(255,255,255,0.07) inset,
+    0 -1px 0 rgba(0,0,0,0.18) inset;
 }
 
 .filter-btn.active {
   color: var(--fc, var(--paris));
   border-color: var(--fc, var(--paris));
-  background: rgba(255,255,255,0.1);
+  background: color-mix(in srgb, var(--fc, var(--paris)) 12%, rgba(255,255,255,0.08));
   box-shadow:
-    0 0 16px color-mix(in srgb, var(--fc, var(--paris)) 25%, transparent),
+    0 0 18px color-mix(in srgb, var(--fc, var(--paris)) 28%, transparent),
     0 2px 12px rgba(0,0,0,0.35),
-    0 1px 0 rgba(255,255,255,0.1) inset;
-  text-shadow: 0 0 12px var(--fc, var(--paris));
+    0 1px 0 rgba(255,255,255,0.12) inset;
+  text-shadow: 0 0 14px var(--fc, var(--paris));
+  transform: scale(1.02);
 }
 
 .filter-btn:active {
-  transform: scale(0.93);
+  transform: scale(0.92);
   background: rgba(255,255,255,0.04);
 }
 
@@ -1595,6 +1573,96 @@ html, body {
 .tab-btn { font-size: 10px; min-height: 52px; }
 .tab-btn .tab-icon { font-size: 20px; }
 
+/* ─── DAY SUBLINE: city name + weather ─── */
+.day-subline {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.day-city-tag {
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: .02em;
+}
+
+.day-weather-tag {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ─── FLIGHT LIVE BADGE ─── */
+.flight-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 7px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  color: var(--muted);
+  margin-top: 9px;
+  transition: all .4s cubic-bezier(.16,1,.3,1);
+}
+
+.flight-live-badge::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+}
+
+.flight-live-badge.airborne {
+  background: rgba(109,154,94,0.12);
+  border-color: rgba(109,154,94,0.3);
+  color: var(--green);
+  animation: pulseBadge 2.4s ease infinite;
+}
+
+.flight-live-badge.airborne::before {
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+}
+
+.flight-live-badge.done {
+  color: var(--subtle);
+  background: transparent;
+  border-color: rgba(255,255,255,0.05);
+}
+
+.flight-live-badge.done::before {
+  background: var(--subtle);
+}
+
+@keyframes pulseBadge {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(109,154,94,0.3); }
+  50% { opacity: 0.75; box-shadow: 0 0 0 4px rgba(109,154,94,0); }
+}
+
+/* ─── AIRPORT TERMINAL ─── */
+.airport-terminal {
+  padding: 20px;
+  margin-bottom: 20px;
+  background:
+    radial-gradient(circle at top center, rgba(200,169,110,0.1), transparent 30%),
+    linear-gradient(180deg, #252018 0%, #1a1812 50%, #111113 100%);
+}
+
+.board-head {
+  font-size: 9px;
+  letter-spacing: .16em;
+}
+
 </style>
 </head>
 <body>
@@ -1659,43 +1727,14 @@ html, body {
         </div>
       </div>
 
-      <div class="section-label">Radar em tempo real</div>
-      <div class="live-grid">
-        <div class="ops-card airport-ops-card">
-          <div class="ops-header">
-            <div>
-              <div class="ops-title">Flight deck</div>
-              <div class="ops-kicker">voos + aeroportos + telemetria ao vivo</div>
-            </div>
-            <div class="terminal-gate">OPS LIVE</div>
-          </div>
-          <div class="airport-hud">
-            <div class="hud-pill"><strong>Atualização:</strong> <span id="ops-updated">conectando…</span></div>
-            <div class="hud-pill"><strong>Fuso:</strong> agenda refaz horários localmente</div>
-            <div class="hud-pill"><strong>Meteo:</strong> clima nos destinos em tempo real</div>
-          </div>
-          <div class="flight-board" id="flight-board"></div>
-          <span class="ops-footnote">Quando o callsign estiver no ar, o painel mostra altitude, velocidade e last seen. Se não houver ADS-B no momento, ele cai para o estado agendado/offline.</span>
-        </div>
-        <div class="ops-card">
-          <div class="ops-header">
-            <div>
-              <div class="ops-title">Temperatura nos destinos</div>
-              <div class="ops-kicker">Open-Meteo current weather</div>
-            </div>
-          </div>
-          <div class="weather-grid" id="weather-grid"></div>
-        </div>
-      </div>
-
-      <div class="section-label">Rota aérea · terminal skeumórfico</div>
+      <div class="section-label">Rota Aérea</div>
       <div class="airport-terminal sku-card">
         <div class="terminal-top">
           <div>
-            <div class="terminal-code">eu26 airside board</div>
-            <div class="header-title" style="font-size:20px;margin-top:4px"><em>Departures</em> & Transfers</div>
+            <div class="terminal-code">boarding sequence · 26 jun → 19 jul</div>
+            <div class="header-title" style="font-size:22px;margin-top:6px;letter-spacing:-.3px"><em>Departures</em> & Transfers</div>
           </div>
-          <div class="terminal-meta">boarding sequence · 26 jun → 19 jul</div>
+          <div class="terminal-gate">AIRSIDE</div>
         </div>
         <div class="split-flap-board" id="route-board"></div>
         <div class="route" style="margin-top:16px">
@@ -1704,60 +1743,66 @@ html, body {
             <div class="route-name" style="color:var(--muted)">São Paulo</div>
             <div class="route-dates">26 jun</div>
           </div>
-          <div class="flight-card">
+          <div class="flight-card" id="fcard-TP500">
             <div class="flight-top"><span class="flight-airline">TAP</span><span class="flight-number">TP500</span></div>
             <div class="flight-route">GRU<span class="arrow">→</span>LIS<span class="arrow">→</span>ORY</div>
-            <div class="flight-details"><span>26 jun · conexão Lisboa</span><span>check-in sugerido 06:20</span><span>status live no painel acima</span></div>
+            <div class="flight-details"><span>26 jun · conexão Lisboa</span><span>check-in sugerido 06:20</span></div>
+            <div class="flight-live-badge" id="fbadge-TP500">carregando…</div>
           </div>
           <div class="route-stop">
             <div class="route-dot paris"></div>
             <div class="route-name">Paris</div>
             <div class="route-dates">26 jun — 01 jul · 5n</div>
           </div>
-          <div class="flight-card">
+          <div class="flight-card" id="fcard-EJU4939">
             <div class="flight-top"><span class="flight-airline">easyJet</span><span class="flight-number">EJU4939</span></div>
             <div class="flight-route">ORY<span class="arrow">→</span>LIN</div>
             <div class="flight-details"><span>01 jul · 11:10</span><span>ref <span class="flight-ref">KCBDMTQ</span></span><span>buffer recomendado: 2h</span></div>
+            <div class="flight-live-badge" id="fbadge-EJU4939">carregando…</div>
           </div>
           <div class="route-stop">
             <div class="route-dot milan"></div>
             <div class="route-name">Milan</div>
             <div class="route-dates">01 jul — 08 jul · 7n</div>
           </div>
-          <div class="flight-card">
+          <div class="flight-card" id="fcard-TK1896">
             <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK1896</span></div>
             <div class="flight-route">MXP<span class="arrow">→</span>IST</div>
             <div class="flight-details"><span>08 jul · 14:55</span><span>Malpensa Express antes do meio-dia</span></div>
+            <div class="flight-live-badge" id="fbadge-TK1896">carregando…</div>
           </div>
           <div class="route-stop">
             <div class="route-dot istanbul"></div>
             <div class="route-name">Istanbul</div>
             <div class="route-dates">08 jul — 12 jul · 4n</div>
           </div>
-          <div class="flight-card">
+          <div class="flight-card" id="fcard-TK1423">
             <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK1423</span></div>
             <div class="flight-route">IST<span class="arrow">→</span>TLL</div>
             <div class="flight-details"><span>12 jul · 15:10</span><span>ref <span class="flight-ref">S5H6JG</span></span></div>
+            <div class="flight-live-badge" id="fbadge-TK1423">carregando…</div>
           </div>
           <div class="route-stop">
             <div class="route-dot tallinn"></div>
             <div class="route-name">Tallinn</div>
             <div class="route-dates">12 jul — 18 jul · 6n</div>
           </div>
-          <div class="flight-card">
+          <div class="flight-card" id="fcard-TK1424">
             <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK1424</span></div>
             <div class="flight-route">TLL<span class="arrow">→</span>IST</div>
             <div class="flight-details"><span>18 jul · 19:35</span><span>pernoite IST</span><span>ref <span class="flight-ref">SLXHR7</span></span></div>
+            <div class="flight-live-badge" id="fbadge-TK1424">carregando…</div>
           </div>
           <div class="route-stop">
             <div class="route-dot istanbul"></div>
             <div class="route-name" style="color:var(--muted)">Istanbul (pernoite)</div>
             <div class="route-dates">18–19 jul</div>
           </div>
-          <div class="flight-card">
+          <div class="flight-card" id="fcard-TK15">
             <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK15</span></div>
             <div class="flight-route">IST<span class="arrow">→</span>GRU</div>
             <div class="flight-details"><span>19 jul · 10:25</span><span>ref <span class="flight-ref">SLXHR7</span></span><span class="flight-seat">Seat 26C</span></div>
+            <div class="flight-live-badge" id="fbadge-TK15">carregando…</div>
           </div>
           <div class="route-stop">
             <div class="route-dot return"></div>
@@ -2413,10 +2458,46 @@ const meetingTemplates = [
     { label: 'Golden Hour PM', baseCity: 'São Paulo', baseTz: 'America/Sao_Paulo', start: '16:00', end: '17:15', note: 'fechamento de dia / handoff' }
 ];
 
+// ─── WEATHER FORECAST CACHE ───
+const weatherCache = {};
+
+function dateKeyFromSchedule(dateStr) {
+    const parts = dateStr.split(' ');
+    const months = { Jan:'01', Fev:'02', Mar:'03', Abr:'04', Mai:'05', Jun:'06', Jul:'07', Ago:'08', Set:'09', Out:'10', Nov:'11', Dez:'12',
+                     Feb:'02', Apr:'04', May:'05', Aug:'08', Sep:'09', Oct:'10', Dec:'12' };
+    const m = months[parts[1]] || '06';
+    return `2026-${m}-${String(parts[0]).padStart(2,'0')}`;
+}
+
+function weatherIcon(code) {
+    if (code === 0 || code === 1) return '☀️';
+    if (code === 2) return '⛅';
+    if (code === 3) return '☁️';
+    if (code === 45 || code === 48) return '🌫️';
+    if ([51,53,55,61,63,65,80,81,82].includes(code)) return '🌧️';
+    if (code === 71 || code === 73 || code === 75) return '🌨️';
+    if (code === 95 || code === 96 || code === 99) return '⛈️';
+    return '🌤️';
+}
+
+async function fetchForecastWeather() {
+    const cities = Object.entries(cityMeta);
+    await Promise.all(cities.map(async ([key, city]) => {
+        try {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&timezone=auto&forecast_days=16`;
+            const response = await fetch(url, { signal: AbortSignal.timeout(6000) });
+            const data = await response.json();
+            weatherCache[key] = data.daily;
+        } catch(e) {}
+    }));
+    renderSchedule();
+}
+
 function splitFlapText(value, dark = false) {
-    return String(value).padEnd(10, ' ').slice(0, 10).split('').map(char => {
-        const safe = char === ' ' ? '&nbsp;' : char;
-        return `<span class="split-char${dark ? ' dark' : ''}">${safe}</span>`;
+    return String(value).padEnd(8, ' ').slice(0, 8).split('').map(char => {
+        const isSpace = char === ' ';
+        const cls = 'split-char' + (dark ? ' dark' : '') + (isSpace ? ' space' : '');
+        return `<span class="${cls}">${isSpace ? '&nbsp;' : char}</span>`;
     }).join('');
 }
 
@@ -2503,12 +2584,35 @@ function renderSchedule() {
         const linkCount = day.events.filter(e => e.link).length;
         const evCount = day.events.length;
 
+        const cityName = cityMeta[day.city]?.name || day.city;
+        const cityColor = `var(--${day.city})`;
+
+        // Look up weather forecast for this day
+        let weatherHtml = '';
+        const dateKey = dateKeyFromSchedule(day.date);
+        const fw = weatherCache[day.city];
+        if (fw && fw.time) {
+            const idx = fw.time.indexOf(dateKey);
+            if (idx !== -1) {
+                const maxT = Math.round(fw.temperature_2m_max[idx]);
+                const minT = Math.round(fw.temperature_2m_min[idx]);
+                const rain = fw.precipitation_probability_max[idx];
+                const icon = weatherIcon(fw.weather_code[idx]);
+                const rainStr = rain > 35 ? ` · 💧${rain}%` : '';
+                weatherHtml = `<span class="day-weather-tag">${icon} ${maxT}°/${minT}°${rainStr}</span>`;
+            }
+        }
+
         card.innerHTML = `
             <div class="day-header">
                 <div class="day-accent ${day.city}"></div>
                 <div style="flex:1">
                     <div class="day-date">${day.date} · ${day.day}</div>
-                    <div style="font-size:10px;color:var(--muted);margin-top:1px">${evCount} atividades${linkCount ? ' · ' + linkCount + ' com mapa' : ''}</div>
+                    <div class="day-subline">
+                        <span class="day-city-tag" style="color:${cityColor}">${cityName}</span>
+                        <span>${evCount} ativ${linkCount ? ' · ' + linkCount + ' mapas' : ''}</span>
+                        ${weatherHtml}
+                    </div>
                 </div>
                 <span class="day-type ${typeClass}">${typeLabel}</span>
                 <span class="day-caret">›</span>
@@ -2645,40 +2749,38 @@ async function renderWeather() {
 }
 
 async function renderFlightBoard() {
-    const board = document.getElementById('flight-board');
-    if (!board) return;
-    board.innerHTML = liveFlights.map(flight => {
+    // Update inline flight card badges
+    liveFlights.forEach(flight => {
+        const badge = document.getElementById(`fbadge-${flight.flight}`);
+        if (!badge) return;
         const phase = flightPhase(flight);
-        return `
-          <div class="board-row ${phase.live ? 'board-live' : ''}" data-callsign="${flight.callsign}">
-            <div class="board-col">${splitFlapText(flight.flight, true)}</div>
-            <div class="board-col">${splitFlapText(flight.route)}</div>
-            <div class="board-col">${splitFlapText(phase.detail, true)}</div>
-            <div class="board-col">${splitFlapText(phase.status)}</div>
-          </div>`;
-    }).join('');
+        badge.textContent = `${phase.status} · ${phase.detail}`;
+        badge.className = 'flight-live-badge';
+        if (phase.live) badge.classList.add('airborne');
+        else if (phase.detail === 'concluído') badge.classList.add('done');
+    });
 
+    // Also update the route-board split-flap display
+    renderRouteBoard();
+
+    // Fetch live ADS-B telemetry and update badges
     await Promise.all(liveFlights.map(async (flight) => {
         try {
             const response = await fetch(`https://api.adsb.one/v2/callsign/${encodeURIComponent(flight.callsign)}`, { signal: AbortSignal.timeout(5000) });
             const data = await response.json();
             const active = Array.isArray(data.ac) && data.ac[0];
-            const row = board.querySelector(`[data-callsign="${flight.callsign}"]`);
-            if (!row) return;
+            const badge = document.getElementById(`fbadge-${flight.flight}`);
+            if (!badge) return;
             if (active) {
-                row.classList.add('board-live');
-                const status = `${Math.round(active.alt_baro || active.alt_geom || 0)/1000}KFT`;
-                const detail = `${Math.round(active.gs || 0)}KT ${Math.round(active.track || 0)}°`;
-                row.children[2].innerHTML = splitFlapText(detail, true);
-                row.children[3].innerHTML = splitFlapText(status);
+                const alt = Math.round((active.alt_baro || active.alt_geom || 0) / 1000);
+                const spd = Math.round(active.gs || 0);
+                badge.textContent = `✈ ${alt}kft · ${spd}kt`;
+                badge.className = 'flight-live-badge airborne';
             }
         } catch (error) {
             /* keep scheduled fallback */
         }
     }));
-
-    const updated = document.getElementById('ops-updated');
-    if (updated) updated.textContent = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 }
 
 function timeToParts(timeString) {
@@ -2841,7 +2943,7 @@ async function fetchEurBrl() {
 
 async function hydrateLiveOps() {
     renderRouteBoard();
-    await Promise.allSettled([renderWeather(), renderFlightBoard(), renderMeetingLive()]);
+    await Promise.allSettled([fetchForecastWeather(), renderFlightBoard(), renderMeetingLive()]);
     initCollapsibles();
 }
 
@@ -2862,7 +2964,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateClocks, 60000);
     setInterval(renderFlightBoard, 60000 * 2);
     setInterval(renderMeetingLive, 60000 * 5);
-    setInterval(renderWeather, 60000 * 15);
+    setInterval(fetchForecastWeather, 60000 * 60); // hourly forecast refresh
 
     document.querySelectorAll('[data-tab="tab-orca"]').forEach(btn => {
         btn.addEventListener('click', () => {
