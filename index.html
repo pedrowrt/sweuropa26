@@ -1,4 +1,6 @@
-<html lang="pt-BR"><head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -115,8 +117,9 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html {
-  height: -webkit-fill-available;
+html, body {
+  height: 100%;
+  overflow: hidden;
 }
 html, body {
   background: #000000; /* true black — matches --bg */
@@ -124,15 +127,10 @@ html, body {
   font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  height: 100%;
-  overflow: hidden;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   font-feature-settings: 'tnum';
   overscroll-behavior: none;
-}
-body {
-  min-height: -webkit-fill-available;
 }
 
 /* ─── LIQUID GLASS UTILITY ─── */
@@ -176,9 +174,9 @@ body {
 .app {
   display: flex;
   flex-direction: column;
-  /* position:fixed inset:0 — the only truly reliable iOS PWA layout */
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0;
+  height: var(--app-height, 100%);
   background: var(--bg);
   overflow: hidden;
 }
@@ -252,7 +250,7 @@ body {
 /* ─── FLOATING TAB NAV ─── */
 .tab-nav {
   position: fixed;
-  bottom: 14px;
+  bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
   width: auto;
@@ -261,19 +259,19 @@ body {
   display: flex;
   gap: 2px;
   padding: 5px;
-  background: rgba(8,8,10,0.72);
-  backdrop-filter: blur(var(--layer-3-blur)) saturate(160%) brightness(0.85);
-  -webkit-backdrop-filter: blur(var(--layer-3-blur)) saturate(160%) brightness(0.85);
+  background: rgba(0,0,0,0.28);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid var(--layer-3-border);
   border-radius: 28px;
   overflow: hidden;
   z-index: 200;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
   transition: transform var(--motion-normal) var(--spring), opacity var(--motion-fast) ease;
 }
 
 .tab-nav.scrolled-down {
-  transform: translateX(-50%) translateY(calc(100% + 20px));
+  transform: translateX(-50%) translateY(100%);
   opacity: 0;
   pointer-events: none;
 }
@@ -303,7 +301,8 @@ body {
 .tab-btn.active {
   color: var(--color-primary);
   background: rgba(var(--color-primary-rgb), 0.12);
-  box-shadow: inset 0 1px 0 rgba(var(--color-primary-rgb), 0.2);
+  box-shadow: inset 0 1px 0 rgba(var(--color-primary-rgb), 0.2),
+              0 0 18px rgba(var(--color-primary-rgb), 0.25);
 }
 
 .tab-btn .tab-icon {
@@ -333,6 +332,7 @@ body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+  padding-bottom: 120px;
 }
 
 .tab-content {
@@ -572,6 +572,15 @@ body {
   margin-top: 2px;
 }
 
+/* ─── BLINKING CLOCK COLON ─── */
+.clock-colon {
+  display: inline-block;
+  animation: blink-colon 1s steps(1) infinite;
+}
+@keyframes blink-colon {
+  50% { opacity: 0; }
+}
+
 /* ─── ROUTE ─── */
 .route { position: relative; padding-left: 26px; margin-bottom: 18px; }
 .route::before {
@@ -636,17 +645,14 @@ body {
 /* ─── FLIGHT CARDS ─── */
 .flight-card {
   margin: 8px 0;
-  background: var(--layer-1-bg);
-  backdrop-filter: blur(var(--layer-1-blur));
-  -webkit-backdrop-filter: blur(var(--layer-1-blur));
-  border: 1px solid var(--layer-1-border);
+  background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: var(--radius-md);
   padding: 12px 14px;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--layer-1-shadow);
   transition: transform var(--motion-fast) var(--spring-snappy),
-              box-shadow var(--motion-fast) ease;
+              background var(--motion-fast) ease;
 }
 
 .flight-card:active {
@@ -924,12 +930,11 @@ body {
 }
 
 .airport-terminal {
-  padding: 16px;
-  margin-bottom: 20px;
-  background: var(--layer-1-bg);
-  backdrop-filter: blur(var(--layer-2-blur));
-  -webkit-backdrop-filter: blur(var(--layer-2-blur));
-  border: 1px solid var(--layer-1-border) !important;
+  padding: 0;
+  margin-bottom: 8px;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .terminal-top {
@@ -1267,27 +1272,28 @@ body {
 /* ─── EXPAND/COLLAPSE ─── */
 .schedule-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   gap: 8px;
-  margin-top: 12px;
-  margin-bottom: 18px;
+  margin-top: 18px;
+  margin-bottom: 24px;
 }
 
 .action-btn {
-  font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: .04em;
+  font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: .02em;
   padding: 10px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  border: none;
+  background: transparent;
   color: var(--muted);
   cursor: pointer;
-  transition: all .2s ease;
+  transition: color .2s ease, transform .15s ease;
 }
 
 .action-btn:active {
-  background: rgba(255,255,255,0.09);
+  color: var(--text);
   transform: scale(0.96);
 }
 
@@ -1429,6 +1435,31 @@ body {
 /* Last block: line ends at the dot, not below */
 .day-block:last-of-type::before {
   bottom: 0;
+}
+
+/* ─── TIMELINE FLOWING ENERGY GLOW ─── */
+.day-block::after {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: -28px;
+  width: 4px;
+  height: 60px;
+  background: radial-gradient(ellipse 2px 30px at center,
+    var(--city-color, rgba(255,255,255,0.5)),
+    transparent 100%);
+  animation: timelineFlow 2.8s linear infinite;
+  pointer-events: none;
+  border-radius: 2px;
+  z-index: 2;
+}
+.day-block:first-of-type::after { top: 6px; }
+
+@keyframes timelineFlow {
+  0%   { transform: translateY(0);     opacity: 0; }
+  12%  { opacity: 0.9; }
+  88%  { opacity: 0.6; }
+  100% { transform: translateY(260px); opacity: 0; }
 }
 
 /* Transition segment: gradient between two city colors */
@@ -2228,11 +2259,11 @@ body {
 
 /* ─── AIRPORT TERMINAL ─── */
 .airport-terminal {
-  padding: 20px;
-  margin-bottom: 20px;
-  background:
-    radial-gradient(circle at top center, rgba(var(--color-primary-rgb),0.08), transparent 30%),
-    linear-gradient(180deg, #252018 0%, #1a1812 50%, #111113 100%);
+  padding: 0;
+  margin-bottom: 8px;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .board-head {
@@ -2274,6 +2305,31 @@ body {
 .clock-card[data-city="milan"]    .clock-city { color: var(--milan); }
 .clock-card[data-city="istanbul"] .clock-city { color: var(--istanbul); }
 .clock-card[data-city="tallinn"]  .clock-city { color: var(--tallinn); }
+
+/* Shared highlight style for dynamic assignment */
+.clock-card.clock-highlight,
+.clock-card.clock-active {
+  background: rgba(var(--color-primary-rgb), 0.06);
+  position: relative;
+  transition: background var(--motion-normal) var(--spring);
+}
+.clock-card.clock-highlight::before,
+.clock-card.clock-active::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  opacity: 0.55;
+  transition: background var(--motion-normal) var(--spring);
+}
+.clock-card.clock-highlight .clock-time,
+.clock-card.clock-active .clock-time {
+  color: var(--color-primary);
+  text-shadow: 0 0 24px rgba(var(--color-primary-rgb), 0.4);
+  transition: color var(--motion-normal) var(--spring),
+              text-shadow var(--motion-normal) ease;
+}
 
 .clock-time {
   font-size: 26px;
@@ -2539,6 +2595,192 @@ body {
   .food-grid { grid-template-columns: 1fr; }
 }
 
+/* ─── MICRO-INTERACTIONS ─── */
+.item-tap {
+  transition: transform 0.15s ease;
+}
+.item-tap:active {
+  transform: scale(0.97);
+}
+body.loading .content {
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* ─── VIBE SYSTEM ─── */
+.vibe-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 2px 7px;
+  border-radius: 6px;
+  display: inline-block;
+}
+.vibe-label.perfect {
+  background: rgba(91,159,232,0.14);
+  color: var(--blue);
+}
+.vibe-label.great {
+  background: rgba(232,144,74,0.14);
+  color: var(--amber);
+}
+
+.vibe-picks {
+  margin-bottom: 4px;
+}
+.vibe-pick-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-left: 2px solid var(--color-primary);
+  border-radius: 14px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.vibe-pick-card:active {
+  transform: scale(0.97);
+  background: rgba(255,255,255,0.06);
+}
+.vibe-pick-rank {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+.vibe-pick-body { flex: 1; min-width: 0; }
+.vibe-pick-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vibe-pick-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.vibe-pick-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+.vibe-pick-city {
+  font-size: 10px;
+  color: var(--subtle);
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 3px;
+}
+
+/* enhanced venue cards for Cena */
+.venue-card {
+  position: relative;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.venue-card:active {
+  transform: scale(0.97);
+}
+.venue-card .vibe-label {
+  margin-top: 4px;
+}
+
+/* ─── BREATHING EFFECT ─── */
+@keyframes breathe {
+  0%, 100% { background: var(--bg); }
+  50% { background: rgba(5,5,8,1); }
+}
+.app {
+  animation: breathe 6s ease-in-out infinite;
+}
+
+/* ─── TIMELINE ACTIVE ─── */
+.day-block.active {
+  opacity: 1;
+  transform: scale(1.01);
+  transition: transform 0.3s var(--spring), opacity 0.3s ease;
+}
+
+/* ─── EVENT FADE-IN ─── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s var(--spring);
+}
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── WEATHER LIVE PULSE ─── */
+@keyframes weather-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+.dh-weather {
+  animation: weather-pulse 4s ease-in-out infinite;
+}
+
+/* ─── COUNTER ANIMATION ─── */
+.grana-counter {
+  transition: all 0.1s ease;
+}
+
+/* ─── TOTAL VALUE OVERFLOW FIX ─── */
+.grana-total-value {
+  font-size: clamp(26px, 6vw, 42px) !important;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--text);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ─── TAB NAV ISOLATION ─── */
+.tab-nav {
+  isolation: isolate;
+}
+
+/* ─── VALUE PULSE ON UPDATE ─── */
+@keyframes valuePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(0.98); }
+}
+.value-updated {
+  animation: valuePulse 0.4s ease;
+}
+
+/* ─── WEATHER FADE TRANSITION ─── */
+.clock-weather {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  transition: opacity 0.3s ease;
+  animation: weather-pulse 5s ease-in-out infinite;
+}
+@keyframes weather-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ─── ITEM TAP HAPTIC ─── */
+.item-tap:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
 </style>
 </head>
 <body>
@@ -2546,13 +2788,13 @@ body {
 <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
   <defs>
     <filter id="liquid-glass" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.65 0.75" numOctaves="3" seed="2" result="noise"></feTurbulence>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" result="displaced"></feDisplacementMap>
-      <feComposite in="displaced" in2="SourceGraphic" operator="atop"></feComposite>
+      <feTurbulence type="fractalNoise" baseFrequency="0.65 0.75" numOctaves="3" seed="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feComposite in="displaced" in2="SourceGraphic" operator="atop"/>
     </filter>
   </defs>
 </svg>
-<div class="app" data-region="paris">
+<div class="app">
   <div class="header">
     <div class="header-eyebrow">viagem solo · 24 dias</div>
     <div class="header-title"><em>Europa</em> 2026</div>
@@ -2561,7 +2803,7 @@ body {
       <span class="meta-item"><span class="meta-dot" style="background:var(--milan)"></span>Milan</span>
       <span class="meta-item"><span class="meta-dot" style="background:var(--istanbul)"></span>Istanbul</span>
       <span class="meta-item"><span class="meta-dot" style="background:var(--tallinn)"></span>Tallinn</span>
-      <span class="meta-item" style="margin-left:auto"><span id="countdown-days-hdr">97</span>d restantes</span>
+      <span class="meta-item" style="margin-left:auto"><span id="countdown-days-hdr">0</span>d restantes</span>
     </div>
   </div>
 
@@ -2577,31 +2819,33 @@ body {
     <div class="tab-content active" id="tab-overview">
       <div class="trip-progress-wrap">
         <div class="trip-progress-meta">
-          <span class="section-label" style="margin:0;border:none;padding:0">Countdown · <span id="countdown-days">97</span>d restantes</span>
-          <span id="trip-pct" class="trip-pct-label">pré-viagem</span>
+          <span class="section-label" style="margin:0;border:none;padding:0">Countdown · <span id="countdown-days">0</span>d restantes</span>
+          <span id="trip-pct" class="trip-pct-label">–</span>
         </div>
         <div class="trip-progress-track">
-          <div class="trip-progress-bar" id="trip-progress-bar" style="width: 0%;"></div>
+          <div class="trip-progress-bar" id="trip-progress-bar"></div>
         </div>
       </div>
       <div class="clock-grid clock-grid-4">
-        <div class="clock-card">
-          <div class="clock-time" id="clock-sp">18:33</div>
+        <div class="clock-card" id="clock-card-sp">
+          <div class="clock-time" id="clock-sp">--:--</div>
           <div class="clock-city">São Paulo</div>
           <div class="clock-tz">UTC −3</div>
+          <div class="clock-weather" id="clock-weather-sp"></div>
         </div>
-        <div class="clock-card clock-highlight" data-city="paris">
-          <div class="clock-time" id="clock-current">22:33</div>
+        <div class="clock-card" id="clock-card-eu">
+          <div class="clock-time" id="clock-current">--:--</div>
           <div class="clock-city" id="clock-city-name">Paris</div>
           <div class="clock-tz" id="clock-tz">UTC +2</div>
+          <div class="clock-weather" id="clock-weather-eu"></div>
         </div>
-        <div class="clock-card">
-          <div class="clock-time" id="clock-ist">00:33</div>
+        <div class="clock-card" id="clock-card-ist">
+          <div class="clock-time" id="clock-ist">--:--</div>
           <div class="clock-city" style="color:var(--istanbul)">Istanbul</div>
           <div class="clock-tz">UTC +3</div>
         </div>
-        <div class="clock-card">
-          <div class="clock-time" id="clock-tll">23:33</div>
+        <div class="clock-card" id="clock-card-tll">
+          <div class="clock-time" id="clock-tll">--:--</div>
           <div class="clock-city" style="color:var(--tallinn)">Tallinn</div>
           <div class="clock-tz">UTC +3</div>
         </div>
@@ -2780,6 +3024,29 @@ body {
         <span class="b-status bs-urgent">Reservar</span>
       </div>
 
+      <div class="section-label" style="margin-top:28px">Checklist Pré-Viagem</div>
+      <div class="check-group open" style="margin-bottom:80px">
+        <div class="check-group-header">
+          <div class="check-group-title">Reservas & Documentos</div>
+          <div class="check-group-count" id="count-pre2"></div>
+        </div>
+        <div class="check-group-body">
+          <div class="check-item"><input type="checkbox" id="h1" checked><label for="h1">Apartamento Paris confirmado ✓</label></div>
+          <div class="check-item"><input type="checkbox" id="h2"><label for="h2">Reservar Cenacolo Vinciano (vivaticket.com)</label></div>
+          <div class="check-item"><input type="checkbox" id="h3"><label for="h3">Reservar Cerimônia Sema (hodjapasha.com)</label></div>
+          <div class="check-item"><input type="checkbox" id="h4"><label for="h4">Confirmar hospedagem Tallinn — Tallink City Hotel</label></div>
+          <div class="check-item"><input type="checkbox" id="h5"><label for="h5">Confirmar voos SLXHR7 (TLL→IST→GRU)</label></div>
+          <div class="check-item"><input type="checkbox" id="h6"><label for="h6">Reservar Catacumbas Paris (catacombes.paris.fr)</label></div>
+          <div class="check-item"><input type="checkbox" id="h7"><label for="h7">Negociar horário reuniões Nick & Tefi para fuso europeu</label></div>
+          <div class="check-item"><input type="checkbox" id="h8"><label for="h8">Check-in online TAP (abre 36h antes)</label></div>
+          <div class="check-item"><input type="checkbox" id="h9"><label for="h9">Baixar mapas offline: Paris, Milan, Istanbul, Tallinn</label></div>
+          <div class="check-item"><input type="checkbox" id="h10"><label for="h10">Comprar adaptador tomada EU (tipo C/F)</label></div>
+          <div class="check-item"><input type="checkbox" id="h11"><label for="h11">Contratar seguro viagem</label></div>
+          <div class="check-item"><input type="checkbox" id="h12"><label for="h12">Imprimir boarding pass easyJet (papel)</label></div>
+          <div class="check-item"><input type="checkbox" id="h13"><label for="h13">Ativar roaming ou comprar eSIM europeu</label></div>
+        </div>
+      </div>
+
     </div>
 
     <!-- ═══ TAB 2: SCHEDULE ═══ -->
@@ -2793,819 +3060,8 @@ body {
       </div>
       <div class="schedule-actions">
         <button class="action-btn" id="toggle-all" data-expanded="true">Recolher tudo</button>
-        <button class="action-btn action-btn-add" id="add-event-btn">+ Adicionar</button>
       </div>
-      <div id="schedule-container"><div class="timeline"><div class="day-block" data-city="paris" data-date="26 Jun" style="animation-delay: 0ms;">
-            <div class="day-header">
-                <span class="dh-dow">Sex</span>
-                <span class="dh-date">26 jun</span>
-                <span class="dh-city">Paris</span>
-                <span class="dh-type">Chegada</span>
-                
-            </div>
-            <div class="day-events"><div class="event">
-                <div class="ev-time">20:15</div>
-                <div class="ev-content">
-                    <div class="ev-name">Chegada ORY</div>
-                    <div class="ev-meta">T7+M7→centro ~50min €4.50</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name">Instalar no apt, jantar no bairro</div>
-                    
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="paris" data-date="27 Jun" style="animation-delay: 30ms;">
-            <div class="day-header">
-                <span class="dh-dow">Sáb</span>
-                <span class="dh-date">27 jun</span>
-                <span class="dh-city">Paris</span>
-                <span class="dh-type">Livre</span>
-                
-            </div>
-            <div class="day-events"><div class="event">
-                <div class="ev-time">08:30</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Sainte+Chapelle+Paris" target="_blank" rel="noopener">Sainte-Chapelle</a></div>
-                    <div class="ev-meta">08:30-21:30 · €13 · 🚶 8 min de Rue Mondetour</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">11:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Notre+Dame+Paris" target="_blank" rel="noopener">Île de la Cité + Notre-Dame exterior</a></div>
-                    <div class="ev-meta">🚶 7 min do apt Marais</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">14:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Catacombes+Paris" target="_blank" rel="noopener">Catacumbas</a></div>
-                    <div class="ev-meta">10:00-20:30 · fecha seg · €29 · 🚇 25 min Denfert-Rochereau</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Caveau+de+la+Huchette+Paris" target="_blank" rel="noopener">Caveau de la Huchette jazz</a></div>
-                    <div class="ev-meta">€15-20 · 🚶 12 min cruza Sena</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="paris" data-date="28 Jun" style="animation-delay: 60ms;">
-            <div class="day-header">
-                <span class="dh-dow">Dom</span>
-                <span class="dh-date">28 jun</span>
-                <span class="dh-city">Paris</span>
-                <span class="dh-type">Livre</span>
-                
-            </div>
-            <div class="day-events"><div class="event">
-                <div class="ev-time">10:30</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Saint+Sulpice+Paris" target="_blank" rel="noopener">Concerto órgão Saint-Sulpice</a></div>
-                    <div class="ev-meta">EXCLUSIVO DOM, gratuito · 🚶 18 min Saint-Germain</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">14:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Musee+dOrsay+Paris" target="_blank" rel="noopener">Musée d'Orsay</a></div>
-                    <div class="ev-meta">09:30-18:00, €16 · 🚶 22 min pela margem do Sena</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">18:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Pere+Lachaise+Paris" target="_blank" rel="noopener">Père Lachaise</a></div>
-                    <div class="ev-meta">até 18h, gratuito · 🚇 15 min M1 St-Paul→Père Lachaise</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name">Glazart ou Petit Bain</div>
-                    <div class="ev-meta">post-punk/experimental €8-15</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="paris" data-date="29 Jun" style="animation-delay: 90ms;">
-            <div class="day-header">
-                <span class="dh-dow">Seg</span>
-                <span class="dh-date">29 jun</span>
-                <span class="dh-city">Paris</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">15:00–21:00 · Paris (UTC+2)</div>
-                </div>
-            </div><div class="event ev-closed">
-                <div class="ev-time">—</div>
-                <div class="ev-content">
-                    <div class="ev-name">Musée d'Orsay, Catacumbas</div>
-                    
-                </div>
-            </div><div class="event">
-                <div class="ev-time">10:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Musee+du+Louvre+Paris" target="_blank" rel="noopener">Louvre ala Renascimento</a></div>
-                    <div class="ev-meta">09:00-18:00 · €22 · 🚶 15 min do apt pelo Sena</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">15:30</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Basilique+Saint+Denis+Paris" target="_blank" rel="noopener">Basilique Saint-Denis</a></div>
-                    <div class="ev-meta">10:00-17:15, €11.50 · 🚇 45 min M1→M4→M13 norte</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name">Sunset/Sunrise jazz+post-punk</div>
-                    <div class="ev-meta">€15-25</div>
-                </div>
-            </div></div>
-        </div><div class="day-block city-transition" data-city="paris" data-date="30 Jun" style="--next-city-color: var(--milan); animation-delay: 120ms;">
-            <div class="day-header">
-                <span class="dh-dow">Ter</span>
-                <span class="dh-date">30 jun</span>
-                <span class="dh-city">Paris</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">15:00–21:00 · Paris (UTC+2)</div>
-                </div>
-            </div><div class="event ev-closed">
-                <div class="ev-time">—</div>
-                <div class="ev-content">
-                    <div class="ev-name">Louvre</div>
-                    
-                </div>
-            </div><div class="event">
-                <div class="ev-time">10:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Musee+de+Cluny+Paris" target="_blank" rel="noopener">Musée de Cluny</a></div>
-                    <div class="ev-meta">09:30-17:45, €12 · 🚶 15 min cruza Sena</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">14:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Musee+Guimet+Paris" target="_blank" rel="noopener">Musée Guimet</a></div>
-                    <div class="ev-meta">10:00-18:00, €13 · 🚇 25 min M1 St-Paul→M9 Iéna</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name">Rue Mouffetard street food + Canal Saint-Martin</div>
-                    
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="milan" data-date="01 Jul" style="animation-delay: 150ms;">
-            <div class="day-header">
-                <span class="dh-dow">Qua</span>
-                <span class="dh-date">01 jul</span>
-                <span class="dh-city">Milan</span>
-                <span class="dh-type">Partida</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-transport">
-                <div class="ev-time">08:30</div>
-                <div class="ev-content">
-                    <div class="ev-name">Sair apt → RER B + Orlyval → ORY</div>
-                    <div class="ev-meta">€12.10</div>
-                </div>
-            </div><div class="event ev-transport">
-                <div class="ev-time">11:10</div>
-                <div class="ev-content">
-                    <div class="ev-name">ORY→LIN easyJet EJU4939</div>
-                    <div class="ev-meta">Ref KCBDMTQ</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">12:35</div>
-                <div class="ev-content">
-                    <div class="ev-name">Chegada Linate → M4→Centrale</div>
-                    <div class="ev-meta">~22min €5</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">15:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=San+Maurizio+Monastero+Maggiore+Milan" target="_blank" rel="noopener">San Maurizio "Sistina de Milão"</a></div>
-                    <div class="ev-meta">09:00-17:30, fecha seg, grátis · 🚶 12 min de P.za Napoli</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">16:30</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Cimitero+Monumentale+Milan" target="_blank" rel="noopener">Cimitero Monumentale</a></div>
-                    <div class="ev-meta">08:00-18:00, fecha seg, grátis · 🚇 25 min M2→M5 Monumentale</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="milan" data-date="02 Jul" style="animation-delay: 180ms;">
-            <div class="day-header">
-                <span class="dh-dow">Qui</span>
-                <span class="dh-date">02 jul</span>
-                <span class="dh-city">Milan</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">15:00–21:00 · Milão (UTC+2)</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">09:15</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Cenacolo+Vinciano+Milan" target="_blank" rel="noopener">Cenacolo Vinciano</a></div>
-                    <div class="ev-meta">horário fixo, ~€15 · 🚶 15 min de P.za Napoli</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">11:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Santa+Maria+delle+Grazie+Milan" target="_blank" rel="noopener">Santa Maria delle Grazie claustro</a></div>
-                    <div class="ev-meta">grátis · mesmo local Cenacolo</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">14:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Duomo+di+Milano" target="_blank" rel="noopener">Il Duomo + Rooftop</a></div>
-                    <div class="ev-meta">09:00-19:00, €5/€16 · 🚶 25 min / M2 Cadorna+M1 Duomo</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Tempio+del+Futuro+Perduto+Milan" target="_blank" rel="noopener">Tempio del Futuro Perduto</a></div>
-                    <div class="ev-meta">€10-20 · 🚇 30 min M2→tram Porta Vittoria</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="milan" data-date="03 Jul" style="animation-delay: 210ms;">
-            <div class="day-header">
-                <span class="dh-dow">Sex</span>
-                <span class="dh-date">03 jul</span>
-                <span class="dh-city">Milan</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">15:00–21:00 · Milão (UTC+2)</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">10:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Pinacoteca+Ambrosiana+Milan" target="_blank" rel="noopener">Pinacoteca Ambrosiana</a></div>
-                    <div class="ev-meta">10:00-18:00, fecha seg, €20 · 🚶 22 min / M2 Cadorna</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">14:30</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Sant+Ambrogio+Milan" target="_blank" rel="noopener">Sant'Ambrogio + Cripta</a></div>
-                    <div class="ev-meta">10:00-18:00, grátis/€3 · 🚶 10 min de P.za Napoli!</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Leoncavallo+Milan" target="_blank" rel="noopener">Leoncavallo</a></div>
-                    <div class="ev-meta">post-punk/experimental €5-12 · 🚇 30 min M2→M1 Loreto</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="milan" data-date="04 Jul" style="animation-delay: 240ms;">
-            <div class="day-header">
-                <span class="dh-dow">Sáb</span>
-                <span class="dh-date">04 jul</span>
-                <span class="dh-city">Milan</span>
-                <span class="dh-type">Livre</span>
-                
-            </div>
-            <div class="day-events"><div class="event">
-                <div class="ev-time">09:30</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=San+Bernardino+alle+Ossa+Milan" target="_blank" rel="noopener">San Bernardino alle Ossa</a></div>
-                    <div class="ev-meta">09:30-15:00 sáb!, grátis · 🚇 20 min M2→M1 Duomo</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">10:30</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Basilica+Santo+Stefano+Milan" target="_blank" rel="noopener">Basilica Santo Stefano</a></div>
-                    <div class="ev-meta">PROTO MARTYR, grátis · 🚶 5 min de San Bernardino</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">14:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Pinacoteca+di+Brera+Milan" target="_blank" rel="noopener">Pinacoteca di Brera</a></div>
-                    <div class="ev-meta">08:30-19:15, fecha seg, €15 · 🚇 25 min M2→M3 Montenapoleone</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name">Cox 18 or Macao</div>
-                    <div class="ev-meta">experimental €8-20</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="milan" data-date="05 Jul" style="animation-delay: 270ms;">
-            <div class="day-header">
-                <span class="dh-dow">Dom</span>
-                <span class="dh-date">05 jul</span>
-                <span class="dh-city">Milan</span>
-                <span class="dh-type">Livre</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-closed">
-                <div class="ev-time">—</div>
-                <div class="ev-content">
-                    <div class="ev-name">San Bernardino alle Ossa</div>
-                    
-                </div>
-            </div><div class="event">
-                <div class="ev-time">10:00</div>
-                <div class="ev-content">
-                    <div class="ev-name">Cimitero Monumentale</div>
-                    <div class="ev-meta">se não foi qua</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">14:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Museo+Teatro+alla+Scala+Milan" target="_blank" rel="noopener">Museo Teatro alla Scala</a></div>
-                    <div class="ev-meta">09:00-17:30, €9 · 🚇 20 min M2 Cadorna→M1 Duomo</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name">Navigli aperitivo + live music</div>
-                    
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="milan" data-date="06 Jul" style="animation-delay: 300ms;">
-            <div class="day-header">
-                <span class="dh-dow">Seg</span>
-                <span class="dh-date">06 jul</span>
-                <span class="dh-city">Milan</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">15:00–21:00 · Milão (UTC+2)</div>
-                </div>
-            </div><div class="event ev-closed">
-                <div class="ev-time">—</div>
-                <div class="ev-content">
-                    <div class="ev-name">San Maurizio, Cimitero, Ambrosiana, Brera</div>
-                    
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Flex</div>
-                <div class="ev-content">
-                    <div class="ev-name">Il Duomo + Galleria Vittorio Emanuele</div>
-                    <div class="ev-meta">aberto segunda</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name">Isola district bars</div>
-                    
-                </div>
-            </div></div>
-        </div><div class="day-block city-transition" data-city="milan" data-date="07 Jul" style="--next-city-color: var(--istanbul); animation-delay: 330ms;">
-            <div class="day-header">
-                <span class="dh-dow">Ter</span>
-                <span class="dh-date">07 jul</span>
-                <span class="dh-city">Milan</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">15:00–21:00 · Milão (UTC+2)</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">10:00</div>
-                <div class="ev-content">
-                    <div class="ev-name">San Maurizio</div>
-                    <div class="ev-meta">se não foi dia 01</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">14:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Navigli+Milan" target="_blank" rel="noopener">Navigli canais + aperitivo</a></div>
-                    <div class="ev-meta">🚶 12 min de P.za Napoli! pertinho</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="istanbul" data-date="08 Jul" style="animation-delay: 360ms;">
-            <div class="day-header">
-                <span class="dh-dow">Qua</span>
-                <span class="dh-date">08 jul</span>
-                <span class="dh-city">Istanbul</span>
-                <span class="dh-type">Partida</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-transport">
-                <div class="ev-time">⚠️</div>
-                <div class="ev-content">
-                    <div class="ev-name">Linate ≠ Malpensa (50km!)</div>
-                    <div class="ev-meta">ATENÇÃO</div>
-                </div>
-            </div><div class="event ev-transport">
-                <div class="ev-time">12:00</div>
-                <div class="ev-content">
-                    <div class="ev-name">Sair casa Dani → Centrale → Malpensa Express</div>
-                    <div class="ev-meta">~52min, €13</div>
-                </div>
-            </div><div class="event ev-transport">
-                <div class="ev-time">14:55</div>
-                <div class="ev-content">
-                    <div class="ev-name">MXP→IST Turkish TK1896</div>
-                    
-                </div>
-            </div><div class="event ev-transport">
-                <div class="ev-time">18:55</div>
-                <div class="ev-content">
-                    <div class="ev-name">Chegada IST → M11→M2→T1→Sultanahmet</div>
-                    <div class="ev-meta">~60min ~€3</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">20:00</div>
-                <div class="ev-content">
-                    <div class="ev-name">Check-in Saratoga Hotel</div>
-                    
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="istanbul" data-date="09 Jul" style="animation-delay: 390ms;">
-            <div class="day-header">
-                <span class="dh-dow">Qui</span>
-                <span class="dh-date">09 jul</span>
-                <span class="dh-city">Istanbul</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">16:00–22:00 · Istanbul (UTC+3)</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">09:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Kucuk+Ayasofya+Istanbul" target="_blank" rel="noopener">Küçük Ayasofya</a></div>
-                    <div class="ev-meta">200m hotel, grátis</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">10:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Basilica+Cistern+Istanbul" target="_blank" rel="noopener">Cisterna Basílica</a></div>
-                    <div class="ev-meta">09:00-19:30, ~€25 · 🚶 10 min Sultanahmet</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">12:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Hagia+Sophia+Istanbul" target="_blank" rel="noopener">Hagia Sophia</a></div>
-                    <div class="ev-meta">grátis, fora oração · 🚶 8 min do hotel</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">14:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Blue+Mosque+Istanbul" target="_blank" rel="noopener">Mesquita Azul</a></div>
-                    <div class="ev-meta">grátis, fora oração · 🚶 5 min do hotel</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">15:30</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Topkapi+Palace+Istanbul" target="_blank" rel="noopener">Palácio Topkapi</a></div>
-                    <div class="ev-meta">09:00-18:00, ~€25 · 🚶 12 min subida Gülhane</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name">Balık ekmek Eminönü + rooftop bar</div>
-                    
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="istanbul" data-date="10 Jul" style="animation-delay: 420ms;">
-            <div class="day-header">
-                <span class="dh-dow">Sex</span>
-                <span class="dh-date">10 jul</span>
-                <span class="dh-city">Istanbul</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">16:00–22:00 · Istanbul (UTC+3)</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">09:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Grand+Bazaar+Istanbul" target="_blank" rel="noopener">Grande Bazar</a></div>
-                    <div class="ev-meta">09:00-19:00 · 🚶 15 min morro acima</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">13:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Ecumenical+Patriarchate+Istanbul" target="_blank" rel="noopener">Patriarcado Ecumênico Fener</a></div>
-                    <div class="ev-meta">09:00-17:00, grátis · 🚌 30 min bus/ferry Fener</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">19:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Hodjapasha+Istanbul" target="_blank" rel="noopener">Cerimônia Sema Dervixes Hodjapasha</a></div>
-                    <div class="ev-meta">€35-40 · 🚶 15 min Sirkeci</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name">Dorock XL ou Peyote em Beyoğlu</div>
-                    <div class="ev-meta">psych rock</div>
-                </div>
-            </div></div>
-        </div><div class="day-block city-transition" data-city="istanbul" data-date="11 Jul" style="--next-city-color: var(--tallinn); animation-delay: 450ms;">
-            <div class="day-header">
-                <span class="dh-dow">Sáb</span>
-                <span class="dh-date">11 jul</span>
-                <span class="dh-city">Istanbul</span>
-                <span class="dh-type">Livre</span>
-                
-            </div>
-            <div class="day-events"><div class="event">
-                <div class="ev-time">09:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Chora+Church+Istanbul" target="_blank" rel="noopener">Igreja de Chora/Kariye</a></div>
-                    <div class="ev-meta">09:00-17:00, ~€15 · 🚌 45 min bus 28/87 Edirnekapı</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">14:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Balat+Istanbul" target="_blank" rel="noopener">Bairro Balat</a></div>
-                    <div class="ev-meta">free walk · 🚶 15 min de Chora (descer morro)</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Noite</div>
-                <div class="ev-content">
-                    <div class="ev-name">Kadıköy Asian side — Arkaoda</div>
-                    <div class="ev-meta">underground electronic</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="tallinn" data-date="12 Jul" style="animation-delay: 480ms;">
-            <div class="day-header">
-                <span class="dh-dow">Dom</span>
-                <span class="dh-date">12 jul</span>
-                <span class="dh-city">Tallinn</span>
-                <span class="dh-type">Partida</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-closed">
-                <div class="ev-time">—</div>
-                <div class="ev-content">
-                    <div class="ev-name">Grande Bazar</div>
-                    
-                </div>
-            </div><div class="event">
-                <div class="ev-time">12:00</div>
-                <div class="ev-content">
-                    <div class="ev-name">Check-out hotel</div>
-                    
-                </div>
-            </div><div class="event ev-transport">
-                <div class="ev-time">12:30</div>
-                <div class="ev-content">
-                    <div class="ev-name">T1→M2→M11→IST</div>
-                    <div class="ev-meta">~60min</div>
-                </div>
-            </div><div class="event ev-transport">
-                <div class="ev-time">15:10</div>
-                <div class="ev-content">
-                    <div class="ev-name">IST→TLL Turkish TK1423</div>
-                    <div class="ev-meta">Ref S5H6JG</div>
-                </div>
-            </div><div class="event ev-transport">
-                <div class="ev-time">18:40</div>
-                <div class="ev-content">
-                    <div class="ev-name">Chegada TLL → Bus 2/4→centro</div>
-                    <div class="ev-meta">~15min €2</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="tallinn" data-date="13 Jul" style="animation-delay: 510ms;">
-            <div class="day-header">
-                <span class="dh-dow">Seg</span>
-                <span class="dh-date">13 jul</span>
-                <span class="dh-city">Tallinn</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">16:00–22:00 · Tallinn (UTC+3)</div>
-                </div>
-            </div><div class="event ev-closed">
-                <div class="ev-time">—</div>
-                <div class="ev-content">
-                    <div class="ev-name">Niguliste, Kadriorg, Vabamu</div>
-                    
-                </div>
-            </div><div class="event">
-                <div class="ev-time">11:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=KUMU+Art+Museum+Tallinn" target="_blank" rel="noopener">KUMU Art Museum</a></div>
-                    <div class="ev-meta">11:00-18:00, €14 · 🚶 20 min / tram 1 Kadriorg</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Flex</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Alexander+Nevsky+Cathedral+Tallinn" target="_blank" rel="noopener">Catedral Alexandre Nevsky</a></div>
-                    <div class="ev-meta">grátis, sempre aberta · 🚶 15 min Toompea</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="tallinn" data-date="14 Jul" style="animation-delay: 540ms;">
-            <div class="day-header">
-                <span class="dh-dow">Ter</span>
-                <span class="dh-date">14 jul</span>
-                <span class="dh-city">Tallinn</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">16:00–22:00 · Tallinn (UTC+3)</div>
-                </div>
-            </div><div class="event ev-closed">
-                <div class="ev-time">—</div>
-                <div class="ev-content">
-                    <div class="ev-name">Niguliste, KUMU</div>
-                    
-                </div>
-            </div><div class="event">
-                <div class="ev-time">10:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Kadriorg+Palace+Tallinn" target="_blank" rel="noopener">Palácio Kadriorg</a></div>
-                    <div class="ev-meta">10:00-18:00, €8 · 🚶 25 min / tram 1+3 Kadriorg</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">13:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Vabamu+Museum+Tallinn" target="_blank" rel="noopener">Vabamu Museu Ocupações</a></div>
-                    <div class="ev-meta">10:00-18:00, €10 · 🚶 10 min Old Town</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="tallinn" data-date="15 Jul" style="animation-delay: 570ms;">
-            <div class="day-header">
-                <span class="dh-dow">Qua</span>
-                <span class="dh-date">15 jul</span>
-                <span class="dh-city">Tallinn</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">16:00–22:00 · Tallinn (UTC+3)</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">10:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Niguliste+Museum+Tallinn" target="_blank" rel="noopener">Niguliste Dança da Morte</a></div>
-                    <div class="ev-meta">10:00-17:00, €8 · 🚶 12 min Old Town</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">12:30</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Tallinn+Old+Town" target="_blank" rel="noopener">Cidade Velha Vanalinn UNESCO</a></div>
-                    <div class="ev-meta">🚶 10 min da Viru Gate</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="tallinn" data-date="16 Jul" style="animation-delay: 600ms;">
-            <div class="day-header">
-                <span class="dh-dow">Qui</span>
-                <span class="dh-date">16 jul</span>
-                <span class="dh-city">Tallinn</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">16:00–22:00 · Tallinn (UTC+3)</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">10:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=St+Olaf+Church+Tallinn" target="_blank" rel="noopener">Igreja St. Olaf torre</a></div>
-                    <div class="ev-meta">10:00-18:00, €3 · 🚶 12 min Old Town norte</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">12:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Dominican+Monastery+Tallinn" target="_blank" rel="noopener">Mosteiro Dominicano</a></div>
-                    <div class="ev-meta">10:00-18:00, €6 · 🚶 12 min Vene St</div>
-                </div>
-            </div></div>
-        </div><div class="day-block city-transition" data-city="tallinn" data-date="17 Jul" style="--next-city-color: var(--istanbul); animation-delay: 630ms;">
-            <div class="day-header">
-                <span class="dh-dow">Sex</span>
-                <span class="dh-date">17 jul</span>
-                <span class="dh-city">Tallinn</span>
-                <span class="dh-type">Trabalho</span>
-                
-            </div>
-            <div class="day-events"><div class="event ev-work">
-                <div class="ev-time">🇧🇷</div>
-                <div class="ev-content">
-                    <div class="ev-name">10:00–16:00 BRT</div>
-                    <div class="ev-meta">16:00–22:00 · Tallinn (UTC+3)</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Flex</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Lauluväljak+Tallinn" target="_blank" rel="noopener">Lauluväljak Festival de Canção</a></div>
-                    <div class="ev-meta">grátis · 🚌 30 min bus 1A/34A leste</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">19:00</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Telliskivi+Creative+City+Tallinn" target="_blank" rel="noopener">Telliskivi Creative City</a></div>
-                    <div class="ev-meta">grátis, music ao vivo · 🚶 15 min Balti Jaam</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">Late</div>
-                <div class="ev-content">
-                    <div class="ev-name"><a href="https://maps.google.com/?q=Sveta+Baar+Tallinn" target="_blank" rel="noopener">Sveta Baar</a></div>
-                    <div class="ev-meta">underground electronic €5-15 · 🚶 10 min centro</div>
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="istanbul" data-date="18 Jul" style="animation-delay: 660ms;">
-            <div class="day-header">
-                <span class="dh-dow">Sáb</span>
-                <span class="dh-date">18 jul</span>
-                <span class="dh-city">Istanbul</span>
-                <span class="dh-type">Partida</span>
-                
-            </div>
-            <div class="day-events"><div class="event">
-                <div class="ev-time">Manhã</div>
-                <div class="ev-content">
-                    <div class="ev-name">Niguliste</div>
-                    <div class="ev-meta">se ainda não visitou</div>
-                </div>
-            </div><div class="event ev-transport">
-                <div class="ev-time">17:00</div>
-                <div class="ev-content">
-                    <div class="ev-name">Bus/Bolt → TLL aeroporto</div>
-                    
-                </div>
-            </div><div class="event ev-transport">
-                <div class="ev-time">19:35</div>
-                <div class="ev-content">
-                    <div class="ev-name">TLL→IST Turkish TK1424</div>
-                    <div class="ev-meta">Ref SLXHR7</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">23:10</div>
-                <div class="ev-content">
-                    <div class="ev-name">Chegada IST → shuttle Nenessa Airport Hotel</div>
-                    
-                </div>
-            </div></div>
-        </div><div class="day-block" data-city="istanbul" data-date="19 Jul" style="animation-delay: 690ms;">
-            <div class="day-header">
-                <span class="dh-dow">Dom</span>
-                <span class="dh-date">19 jul</span>
-                <span class="dh-city">Istanbul</span>
-                <span class="dh-type">Partida</span>
-                
-            </div>
-            <div class="day-events"><div class="event">
-                <div class="ev-time">12:30</div>
-                <div class="ev-content">
-                    <div class="ev-name">Check-out Nenessa</div>
-                    
-                </div>
-            </div><div class="event ev-transport">
-                <div class="ev-time">10:25</div>
-                <div class="ev-content">
-                    <div class="ev-name">IST→GRU Turkish TK15</div>
-                    <div class="ev-meta">Ref SLXHR7, Seat 26C</div>
-                </div>
-            </div><div class="event">
-                <div class="ev-time">17:45</div>
-                <div class="ev-content">
-                    <div class="ev-name">Chegada GRU</div>
-                    <div class="ev-meta">FIM DA VIAGEM</div>
-                </div>
-            </div></div>
-        </div></div></div>
+      <div id="schedule-container"></div>
 
       <!-- Add Event Modal -->
       <div class="modal-backdrop" id="modal-backdrop"></div>
@@ -3620,7 +3076,7 @@ body {
             <label class="form-label">Data</label>
             <select class="form-select" id="ev-date">
               <option value="">Selecionar dia…</option>
-            <option value="26 Jun">26 Jun · Sex · Paris</option><option value="27 Jun">27 Jun · Sáb · Paris</option><option value="28 Jun">28 Jun · Dom · Paris</option><option value="29 Jun">29 Jun · Seg · Paris</option><option value="30 Jun">30 Jun · Ter · Paris</option><option value="01 Jul">01 Jul · Qua · Milan</option><option value="02 Jul">02 Jul · Qui · Milan</option><option value="03 Jul">03 Jul · Sex · Milan</option><option value="04 Jul">04 Jul · Sáb · Milan</option><option value="05 Jul">05 Jul · Dom · Milan</option><option value="06 Jul">06 Jul · Seg · Milan</option><option value="07 Jul">07 Jul · Ter · Milan</option><option value="08 Jul">08 Jul · Qua · Istanbul</option><option value="09 Jul">09 Jul · Qui · Istanbul</option><option value="10 Jul">10 Jul · Sex · Istanbul</option><option value="11 Jul">11 Jul · Sáb · Istanbul</option><option value="12 Jul">12 Jul · Dom · Tallinn</option><option value="13 Jul">13 Jul · Seg · Tallinn</option><option value="14 Jul">14 Jul · Ter · Tallinn</option><option value="15 Jul">15 Jul · Qua · Tallinn</option><option value="16 Jul">16 Jul · Qui · Tallinn</option><option value="17 Jul">17 Jul · Sex · Tallinn</option><option value="18 Jul">18 Jul · Sáb · Istanbul</option><option value="19 Jul">19 Jul · Dom · Istanbul</option></select>
+            </select>
           </div>
           <div class="form-row">
             <label class="form-label">Horário</label>
@@ -3643,8 +3099,11 @@ body {
       </div>
     </div>
 
-    <!-- ═══ TAB 4: NIGHTLIFE & FOOD ═══ -->
+    <!-- ═══ TAB 4: CENA ═══ -->
     <div class="tab-content" id="tab-nightlife">
+      <!-- Top Picks — rendered by renderCena() -->
+      <div id="cena-picks"></div>
+
       <div class="section-label" style="border-bottom-color:var(--paris)">Paris</div>
       <div class="venue-grid">
         <a class="venue-card" href="https://maps.google.com/?q=Caveau+de+la+Huchette+Paris">
@@ -3803,18 +3262,18 @@ body {
         <div class="section-label">Pré-Viagem · até 26 jun</div>
         <div class="check-group open">
           <div class="check-group-header">
-            <div class="check-group-title">Reservas &amp; Documentos</div>
-            <div class="check-group-count" id="count-pre">1/13</div>
+            <div class="check-group-title">Reservas & Documentos</div>
+            <div class="check-group-count" id="count-pre"></div>
             <span class="day-caret">›</span>
           </div>
           <div class="check-group-body">
-            <div class="check-item"><input type="checkbox" id="c1" checked=""><label for="c1">Apartamento Paris confirmado ✓</label></div>
+            <div class="check-item"><input type="checkbox" id="c1" checked><label for="c1">Apartamento Paris confirmado ✓</label></div>
             <div class="check-item"><input type="checkbox" id="c2"><label for="c2">Reservar Cenacolo Vinciano (vivaticket.com)</label></div>
             <div class="check-item"><input type="checkbox" id="c3"><label for="c3">Reservar Cerimônia Sema (hodjapasha.com)</label></div>
             <div class="check-item"><input type="checkbox" id="c4"><label for="c4">Confirmar hospedagem Tallinn — Tallink City Hotel</label></div>
             <div class="check-item"><input type="checkbox" id="c5"><label for="c5">Confirmar voos SLXHR7 (TLL→IST→GRU)</label></div>
             <div class="check-item"><input type="checkbox" id="c6"><label for="c6">Reservar Catacumbas Paris (catacombes.paris.fr)</label></div>
-            <div class="check-item"><input type="checkbox" id="c7"><label for="c7">Negociar horário reuniões Nick &amp; Tefi para fuso europeu</label></div>
+            <div class="check-item"><input type="checkbox" id="c7"><label for="c7">Negociar horário reuniões Nick & Tefi para fuso europeu</label></div>
             <div class="check-item"><input type="checkbox" id="c8"><label for="c8">Check-in online TAP (abre 36h antes)</label></div>
             <div class="check-item"><input type="checkbox" id="c9"><label for="c9">Baixar mapas offline: Paris, Milan, Istanbul, Tallinn</label></div>
             <div class="check-item"><input type="checkbox" id="c10"><label for="c10">Comprar adaptador tomada EU (tipo C/F)</label></div>
@@ -3866,194 +3325,45 @@ body {
     <!-- ═══ TAB 6: ORÇAMENTO ═══ -->
     <div class="tab-content" id="tab-orca">
       <div class="budget-tab" id="grana-dashboard">
-        <!-- FX Rate header -->
-        <div class="fx-widget">
-            <div class="fx-left">
-                <div class="fx-rate">R$&nbsp;6,05</div>
-                <div class="fx-label">1 EUR em Reais</div>
-                <div class="fx-updated">Cotação ao vivo · 18:33</div>
-            </div>
-            <div class="fx-right">
-                <div class="fx-need">R$&nbsp;14.841</div>
-                <div class="fx-need-label">Total viagem</div>
-            </div>
-        </div>
-
-        <!-- Grand total card -->
-        <div class="orca-city-card" style="background:rgba(var(--color-primary-rgb),0.06);border-color:rgba(var(--color-primary-rgb),0.18);margin-bottom:4px">
-            <div style="padding:4px 0 10px">
-                <div style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Total da Viagem</div>
-                <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--text)">R$&nbsp;14.841</div>
-            </div>
-            <div class="orca-row" style="padding:6px 0">
-                <span class="orca-cat-icon">✈️</span>
-                <div style="flex:1">
-                    <div style="display:flex;justify-content:space-between">
-                        <span class="orca-cat-label">Voos internos</span>
-                        <span class="orca-cat-value">R$&nbsp;4.113</span>
-                    </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:28%;background:var(--blue)"></div></div>
-                </div>
-            </div>
-            <div class="orca-row" style="padding:6px 0">
-                <span class="orca-cat-icon">🏨</span>
-                <div style="flex:1">
-                    <div style="display:flex;justify-content:space-between">
-                        <span class="orca-cat-label">Hospedagem</span>
-                        <span class="orca-cat-value">R$&nbsp;2.827</span>
-                    </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:19%;background:var(--purple)"></div></div>
-                </div>
-            </div>
-            <div class="orca-row" style="padding:6px 0">
-                <span class="orca-cat-icon">🎟️</span>
-                <div style="flex:1">
-                    <div style="display:flex;justify-content:space-between">
-                        <span class="orca-cat-label">Gastos &amp; Ingressos</span>
-                        <span class="orca-cat-value">R$&nbsp;7.901</span>
-                    </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:53%;background:var(--amber)"></div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Voos internos -->
-        <div class="section-label">Voos Internos · EU</div>
-        <div class="orca-city-card">
-            <div class="orca-row">
-            <span class="orca-cat-icon">✈️</span>
-            <span class="orca-cat-label">EJU4939 · Paris → Milan</span>
-            <span class="orca-cat-value">R$&nbsp;376</span>
-        </div><div class="orca-row">
-            <span class="orca-cat-icon">✈️</span>
-            <span class="orca-cat-label">TK1896 · Milan → Istanbul</span>
-            <span class="orca-cat-value">R$&nbsp;1.720</span>
-        </div><div class="orca-row">
-            <span class="orca-cat-icon">✈️</span>
-            <span class="orca-cat-label">TK1423 · Istanbul → Tallinn</span>
-            <span class="orca-cat-value">R$&nbsp;2.017</span>
-        </div><div class="orca-row">
-            <span class="orca-cat-icon">✈️</span>
-            <span class="orca-cat-label">TK1424 · Tallinn → Istanbul</span>
-            <span class="orca-cat-value"><span style="color:var(--green)">empresa ✓</span></span>
-        </div>
-        </div>
-
-        <!-- Hospedagem -->
-        <div class="section-label">Hospedagem</div>
-        <div class="orca-city-card">
-            <div class="orca-row">
-            <span class="orca-cat-icon">🏨</span>
-            <span class="orca-cat-label">10 Rue Mondetour, 1er · 5n</span>
-            <span class="orca-cat-value" style="color:var(--green)"><span style="color:var(--green)">pago ✓</span></span>
-        </div><div class="orca-row">
-            <span class="orca-cat-icon">🏨</span>
-            <span class="orca-cat-label">Casa Dani, P.za Napoli 30 · 7n</span>
-            <span class="orca-cat-value" style="color:var(--green)"><span style="color:var(--green)">pago ✓</span></span>
-        </div><div class="orca-row">
-            <span class="orca-cat-icon">🏨</span>
-            <span class="orca-cat-label">Saratoga Hotel Sultanahmet · 4n</span>
-            <span class="orca-cat-value" style="color:var(--text)">R$&nbsp;2.564 <span style="color:var(--muted);font-size:10px">(~€424)</span></span>
-        </div><div class="orca-row">
-            <span class="orca-cat-icon">🏨</span>
-            <span class="orca-cat-label">Nenessa Airport Hotel · 1n</span>
-            <span class="orca-cat-value" style="color:var(--text)">R$&nbsp;263</span>
-        </div><div class="orca-row">
-            <span class="orca-cat-icon">🏨</span>
-            <span class="orca-cat-label">Tallink City Hotel · 7n</span>
-            <span class="orca-cat-value" style="color:var(--amber)"><span style="color:var(--amber)">pendente</span></span>
-        </div>
-            <div class="orca-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:8px">
-                <span class="orca-cat-icon">Σ</span>
-                <span class="orca-cat-label" style="font-weight:600">Total hospedagem</span>
-                <span class="orca-cat-value" style="color:var(--color-primary)">R$&nbsp;2.827</span>
-            </div>
-        </div>
-
-        <!-- Gastos por categoria -->
-        <div class="section-label">Gastos · 22 dias</div>
-        <div class="orca-category-section">
-            <div class="orca-row">
-                    <span class="orca-cat-icon">🎭</span>
-                    <div style="flex:1">
-                        <div style="display:flex;justify-content:space-between;align-items:center">
-                            <span class="orca-cat-label">Ingressos</span>
-                            <span class="orca-cat-value">R$&nbsp;2.069 <span style="color:var(--muted);font-size:10px">(€342)</span></span>
-                        </div>
-                        <div class="orca-bar-track"><div class="orca-bar-fill" style="width:26%;background:var(--paris)"></div></div>
-                    </div>
-                </div><div class="orca-row">
-                    <span class="orca-cat-icon">🚇</span>
-                    <div style="flex:1">
-                        <div style="display:flex;justify-content:space-between;align-items:center">
-                            <span class="orca-cat-label">Transporte local</span>
-                            <span class="orca-cat-value">R$&nbsp;266 <span style="color:var(--muted);font-size:10px">(€44)</span></span>
-                        </div>
-                        <div class="orca-bar-track"><div class="orca-bar-fill" style="width:3%;background:var(--blue)"></div></div>
-                    </div>
-                </div><div class="orca-row">
-                    <span class="orca-cat-icon">🍽</span>
-                    <div style="flex:1">
-                        <div style="display:flex;justify-content:space-between;align-items:center">
-                            <span class="orca-cat-label">Alimentação</span>
-                            <span class="orca-cat-value">R$&nbsp;3.509 <span style="color:var(--muted);font-size:10px">(€580)</span></span>
-                        </div>
-                        <div class="orca-bar-track"><div class="orca-bar-fill" style="width:44%;background:var(--amber)"></div></div>
-                    </div>
-                </div><div class="orca-row">
-                    <span class="orca-cat-icon">🛒</span>
-                    <div style="flex:1">
-                        <div style="display:flex;justify-content:space-between;align-items:center">
-                            <span class="orca-cat-label">Mercado</span>
-                            <span class="orca-cat-value">R$&nbsp;756 <span style="color:var(--muted);font-size:10px">(€125)</span></span>
-                        </div>
-                        <div class="orca-bar-track"><div class="orca-bar-fill" style="width:10%;background:var(--green)"></div></div>
-                    </div>
-                </div><div class="orca-row">
-                    <span class="orca-cat-icon">👕</span>
-                    <div style="flex:1">
-                        <div style="display:flex;justify-content:space-between;align-items:center">
-                            <span class="orca-cat-label">Lavanderia</span>
-                            <span class="orca-cat-value">R$&nbsp;121 <span style="color:var(--muted);font-size:10px">(€20)</span></span>
-                        </div>
-                        <div class="orca-bar-track"><div class="orca-bar-fill" style="width:2%;background:var(--purple)"></div></div>
-                    </div>
-                </div><div class="orca-row">
-                    <span class="orca-cat-icon">📦</span>
-                    <div style="flex:1">
-                        <div style="display:flex;justify-content:space-between;align-items:center">
-                            <span class="orca-cat-label">Delivery</span>
-                            <span class="orca-cat-value">R$&nbsp;460 <span style="color:var(--muted);font-size:10px">(€76)</span></span>
-                        </div>
-                        <div class="orca-bar-track"><div class="orca-bar-fill" style="width:6%;background:var(--red)"></div></div>
-                    </div>
-                </div><div class="orca-row">
-                    <span class="orca-cat-icon">🆘</span>
-                    <div style="flex:1">
-                        <div style="display:flex;justify-content:space-between;align-items:center">
-                            <span class="orca-cat-label">Reserva (10%)</span>
-                            <span class="orca-cat-value">R$&nbsp;720 <span style="color:var(--muted);font-size:10px">(€119)</span></span>
-                        </div>
-                        <div class="orca-bar-track"><div class="orca-bar-fill" style="width:9%;background:var(--muted)"></div></div>
-                    </div>
-                </div>
-        </div>
-    </div>
+        <!-- rendered by renderGrana() -->
+      </div>
 
     </div>
   </div>
 
   <nav class="tab-nav">
     <button class="tab-btn active" data-tab="tab-overview"><i class="tab-icon">⌂</i>Home</button>
-    <button class="tab-btn" data-tab="tab-schedule"><i class="tab-icon">▤</i>Plano</button>
+    <button class="tab-btn" data-tab="tab-schedule"><i class="tab-icon">📅</i>Agenda</button>
     <button class="tab-btn" data-tab="tab-orca"><i class="tab-icon">€</i>Grana</button>
     <button class="tab-btn" data-tab="tab-nightlife"><i class="tab-icon">♫</i>Cena</button>
-    <button class="tab-btn" data-tab="tab-mais"><i class="tab-icon">☰</i>Mais</button>
   </nav>
 </div>
 
 <script>
 'use strict';
+
+// ── iOS VIEWPORT FIX ──────────────────────────────────────────────
+// Uses window.innerHeight (not 100vh/100dvh) to avoid Safari bottom bar gap
+function setAppHeight() {
+    document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+}
+window.addEventListener('resize', setAppHeight);
+setAppHeight();
+
+// ── COUNTER ANIMATION ─────────────────────────────────────────────
+function animateCounter(el, from, to, duration) {
+    if (!el) return;
+    const start = performance.now();
+    const update = (now) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3); // cubic ease-out
+        const current = Math.round(from + (to - from) * ease);
+        el.textContent = current.toLocaleString('pt-BR');
+        if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+}
 
 // ═══════════════════════════════════════════════════════════════════
 // ─── CENTRALIZED DATA STORE  (Zustand-pattern, vanilla JS) ─────────
@@ -4085,8 +3395,8 @@ const Store = (() => {
     // Prices in original currency + BRL where confirmed
     hotels: [
       { id: 'paris',    name: '10 Rue Mondetour, 1er',     city: 'paris',
-        nights: 5, eur: null,   brl: null,    status: 'paid',
-        note: 'Apartamento pago', ref: null, source: 'airbnb' },
+        nights: 5, eur: 428,   brl: null,    status: 'paid',
+        note: 'Apartamento pago · custo real', ref: null, source: 'airbnb' },
       { id: 'milan',    name: 'Casa Dani, P.za Napoli 30', city: 'milan',
         nights: 7, eur: null,   brl: null,    status: 'paid',
         note: 'Apartamento pago', ref: null, source: 'airbnb' },
@@ -4097,8 +3407,8 @@ const Store = (() => {
         nights: 1, eur: null,   brl: 263,     status: 'confirmed',
         note: 'Pernoite pré-voo TK15', ref: null, source: 'booking.com' },
       { id: 'tallinn',  name: 'Tallink City Hotel',         city: 'tallinn',
-        nights: 7, eur: null,   brl: null,    status: 'pending',
-        note: '6 noites + 1 sáb estimada', ref: null, source: 'booking.com' },
+        nights: 7, nightsUser: 1, nightsCompany: 6, eur: null, brl: null, status: 'pending',
+        note: '1 noite (restante pago pela empresa)', ref: null, source: 'booking.com' },
     ],
 
     // ── INTERNAL EU FLIGHTS ONLY ─────────────────────────────────
@@ -4887,6 +4197,7 @@ function renderSchedule() {
                     ${ev.meta ? `<div class="ev-meta">${ev.meta}</div>` : ''}
                 </div>
             `;
+            evEl.classList.add('fade-in');
             eventsEl.appendChild(evEl);
         });
 
@@ -4894,24 +4205,48 @@ function renderSchedule() {
     });
 
     container.appendChild(timeline);
+
+    // Scroll-reactive timeline: highlight visible day blocks + stagger events
+    requestAnimationFrame(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const block = entry.target;
+                if (entry.isIntersecting) {
+                    block.classList.add('active');
+                    // Stagger-reveal events
+                    block.querySelectorAll('.fade-in:not(.show)').forEach((ev, i) => {
+                        setTimeout(() => ev.classList.add('show'), i * 55);
+                    });
+                } else {
+                    block.classList.remove('active');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+
+        container.querySelectorAll('.day-block').forEach(block => observer.observe(block));
+    });
 }
 
 function setRegion(city) {
     const app = document.querySelector('.app');
     if (!app) return;
+    let region;
     if (city && city !== 'all') {
-        app.dataset.region = city;
+        region = city;
+        app.dataset.region = region;
     } else {
         // 'all' — determine region from today's travel day
         const today = new Date();
         const tripStart = new Date(2026, 5, 26);
         const dayNum = Math.floor((today - tripStart) / 86400000);
-        let region = 'paris';
+        region = 'paris';
         if (dayNum >= 16)      region = 'tallinn';
         else if (dayNum >= 12) region = 'istanbul';
         else if (dayNum >= 5)  region = 'milan';
         app.dataset.region = region;
     }
+    Store.setState({ region });
+    renderCena();
 }
 
 function initFilters() {
@@ -4973,36 +4308,75 @@ function updateCountdown() {
 }
 
 // ─── CLOCKS ───
+function fmtWithColon(tz) {
+    const timeStr = formatTime(new Date(), tz);
+    const [h, m] = timeStr.split(':');
+    return `<span>${h}</span><span class="clock-colon">:</span><span>${m}</span>`;
+}
+
 function updateClocks() {
     const now = new Date();
-    const fmt = tz => formatTime(now, tz);
-    document.getElementById('clock-sp').textContent = fmt('America/Sao_Paulo');
 
-    // Fixed destination clocks
+    // Render with blinking colon
+    const spEl = document.getElementById('clock-sp');
+    if (spEl) spEl.innerHTML = fmtWithColon('America/Sao_Paulo');
+
     const istEl = document.getElementById('clock-ist');
     const tllEl = document.getElementById('clock-tll');
-    if (istEl) istEl.textContent = fmt('Europe/Istanbul');
-    if (tllEl) tllEl.textContent = fmt('Europe/Tallinn');
+    if (istEl) istEl.innerHTML = fmtWithColon('Europe/Istanbul');
+    if (tllEl) tllEl.innerHTML = fmtWithColon('Europe/Tallinn');
 
     const tripStart = new Date(2026, 5, 26);
     const tripEnd   = new Date(2026, 6, 19);
-    const dayNum = Math.floor((now - tripStart) / 86400000);
-    let tz = 'Europe/Paris', city = 'Paris', tzLabel = 'UTC +2', cityKey = 'paris';
+    const dayNum    = Math.floor((now - tripStart) / 86400000);
+    const isOnTrip  = now >= tripStart && now <= tripEnd;
 
+    let tz = 'Europe/Paris', city = 'Paris', tzLabel = 'UTC +2', cityKey = 'paris';
     if (dayNum >= 16)      { tz = 'Europe/Tallinn'; city = 'Tallinn'; tzLabel = 'UTC +3'; cityKey = 'tallinn'; }
     else if (dayNum >= 12) { tz = 'Europe/Istanbul'; city = 'Istanbul'; tzLabel = 'UTC +3'; cityKey = 'istanbul'; }
     else if (dayNum >= 5)  { tz = 'Europe/Rome'; city = 'Milan'; tzLabel = 'UTC +2'; cityKey = 'milan'; }
 
-    document.getElementById('clock-current').textContent = fmt(tz);
-    document.getElementById('clock-city-name').textContent = city;
-    document.getElementById('clock-tz').textContent = tzLabel;
+    const currentEl = document.getElementById('clock-current');
+    if (currentEl) currentEl.innerHTML = fmtWithColon(tz);
+    const cityNameEl = document.getElementById('clock-city-name');
+    if (cityNameEl) cityNameEl.textContent = city;
+    const tzEl = document.getElementById('clock-tz');
+    if (tzEl) tzEl.textContent = tzLabel;
 
-    // Highlight clock card for current city — update color-primary via data-city
-    const highlightCard = document.querySelector('.clock-card.clock-highlight');
-    if (highlightCard) highlightCard.dataset.city = cityKey;
+    // ── Dynamic clock highlight ──────────────────────────────────────────────
+    // Before trip: highlight São Paulo. During trip: highlight active EU city.
+    document.querySelectorAll('.clock-card').forEach(c => {
+        c.classList.remove('clock-highlight', 'clock-active');
+    });
+    if (isOnTrip) {
+        const euCard = document.getElementById('clock-card-eu');
+        if (euCard) {
+            euCard.classList.add('clock-highlight');
+            euCard.dataset.city = cityKey;
+        }
+    } else {
+        // Before/after trip: highlight São Paulo
+        const spCard = document.getElementById('clock-card-sp');
+        if (spCard) spCard.classList.add('clock-highlight');
+    }
+
+    // ── Weather for active city in clock ────────────────────────────────────
+    const activeKey = isOnTrip ? cityKey : 'sp';
+    const weatherEl = isOnTrip
+        ? document.getElementById('clock-weather-eu')
+        : document.getElementById('clock-weather-sp');
+
+    if (weatherEl && isOnTrip) {
+        const wf = Store.state.weatherCurrent[cityKey];
+        if (wf && wf.temperature_2m != null) {
+            const temp = Math.round(wf.temperature_2m);
+            const icon = weatherIcon(wf.weather_code || 0);
+            weatherEl.textContent = `${icon} ${temp}°`;
+        }
+    }
 
     // Update accent region if no city filter is active
-    if (currentFilter === 'all') setRegion(now >= tripStart && now <= tripEnd ? cityKey : 'paris');
+    if (currentFilter === 'all') setRegion(isOnTrip ? cityKey : 'paris');
 }
 
 
@@ -5199,47 +4573,65 @@ function renderGrana() {
     const c = Store.computed();
     const rate = s.eurBrl;
     const fmt = (n) => Math.round(n).toLocaleString('pt-BR');
-    const fmtEur = (n) => '€' + Math.round(n).toLocaleString('pt-BR');
+    const fmtEur = (n) => '€' + (Number.isInteger(n) ? n.toLocaleString('pt-BR') : n.toFixed(0));
     const fmtBrl = (n) => 'R$\u00a0' + fmt(n);
     const fmtRate = (r) => r.toFixed(2).replace('.', ',');
     const now = s.eurBrlUpdatedAt
         ? new Date(s.eurBrlUpdatedAt).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})
         : null;
 
-    const flightsBrl = c.totalFlightsBrl;
-    const hotelsBrl = c.knownHotelsBrl;
-    const expensesBrl = c.totalExpensesBrl;
-    const grandTotal = c.grandTotalBrl;
+    // ── Estimate Tallinn from known hotel nightly rates ───────────────────────
+    const pricedHotels = s.hotels.filter(h => h.eur != null || h.brl != null);
+    const knownBrlSum   = pricedHotels.reduce((sum, h) => sum + (c.hotelBrl(h) || 0), 0);
+    const knownNightSum = pricedHotels.reduce((sum, h) => sum + h.nights, 0);
+    const avgNightBrl   = knownNightSum > 0 ? knownBrlSum / knownNightSum : 80 * rate;
+    const tallinnH      = s.hotels.find(h => h.id === 'tallinn' && !h.eur && !h.brl);
+    const tallinnUserNights = tallinnH?.nightsUser ?? 1;
+    const tallinnEstBrl = tallinnH ? Math.round(avgNightBrl * tallinnUserNights) : 0;
 
-    const expPct = grandTotal ? Math.round(expensesBrl / grandTotal * 100) : 0;
-    const htlPct = grandTotal ? Math.round(hotelsBrl / grandTotal * 100) : 0;
-    const fltPct = grandTotal ? Math.round(flightsBrl / grandTotal * 100) : 0;
+    const flightsBrl   = c.totalFlightsBrl;
+    const hotelsBrl    = c.knownHotelsBrl + tallinnEstBrl;
+    const expensesBrl  = c.totalExpensesBrl;
+    const grandTotal   = flightsBrl + hotelsBrl + expensesBrl;
+    const days         = 24;
+    const perDay       = grandTotal > 0 ? Math.round(grandTotal / days) : 0;
 
-    // Hotel rows
+    // Anomaly threshold: items > 1.5× average
+    const avgItem = (flightsBrl + hotelsBrl) / (s.internalFlights.length + s.hotels.length);
+
+    const pct = (v) => grandTotal > 0 ? Math.min(100, Math.round(v / grandTotal * 100)) : 0;
+
+    // ── Hotel rows ─────────────────────────────────────────────────────────────
     const hotelRows = s.hotels.map(h => {
-        const brl = c.hotelBrl(h);
-        const statusColor = h.status === 'paid' ? 'var(--green)' : h.status === 'confirmed' ? 'var(--blue)' : 'var(--amber)';
-        const statusLabel = h.status === 'paid' ? 'pago ✓' : h.status === 'confirmed' ? 'confirmado' : 'pendente';
-        const valStr = brl ? fmtBrl(brl) : '–';
-        const subStr = h.eur ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(h.eur)})</span>` : '';
+        const brl = (h.id === 'tallinn' && !h.eur && !h.brl) ? tallinnEstBrl : c.hotelBrl(h);
+        const isPaid      = h.status === 'paid';
+        const isPending   = h.id === 'tallinn' && !h.brl && !h.eur;
+        const isAnomaly   = brl && brl > avgItem * 1.5;
+        const statusColor = isPaid ? 'var(--green)' : h.status === 'confirmed' ? 'var(--blue)' : 'var(--amber)';
+        const statusLabel = isPaid ? 'pago ✓' : h.status === 'confirmed' ? 'confirmado' : 'estimado';
+        const displayBrl  = brl ? fmtBrl(brl) : null;
+        const subStr      = h.eur ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(h.eur)})</span>` : '';
+        const estimateNote = isPending && brl ? ` <span style="color:var(--amber);font-size:10px">est.</span>` : '';
+        const anomalyDot  = isAnomaly ? ' <span style="color:var(--amber)">⚠</span>' : '';
         return `<div class="orca-row">
             <span class="orca-cat-icon">🏨</span>
-            <span class="orca-cat-label">${h.name} · ${h.nights}n</span>
-            <span class="orca-cat-value" style="color:${brl ? 'var(--text)' : statusColor}">${brl ? valStr + subStr : '<span style="color:'+statusColor+'">'+statusLabel+'</span>'}</span>
+            <span class="orca-cat-label">${h.name} · ${h.id === 'tallinn' && h.nightsUser ? h.nightsUser + 'n usuário' : h.nights + 'n'}${anomalyDot}</span>
+            <span class="orca-cat-value" style="color:${displayBrl ? (isAnomaly ? 'var(--amber)' : 'var(--text)') : statusColor}">${displayBrl ? displayBrl + subStr + estimateNote : '<span style="color:'+statusColor+'">'+statusLabel+'</span>'}</span>
         </div>`;
     }).join('');
 
-    // Flight rows (internal EU only)
+    // ── Flight rows ────────────────────────────────────────────────────────────
     const flightRows = s.internalFlights.map(f => {
         const brl = c.flightBrl(f);
-        const statusColor = f.status === 'confirmed' ? 'var(--green)' : f.brl === 0 ? 'var(--green)' : 'var(--amber)';
+        const isAnomaly = brl && brl > 0 && brl > avgItem * 1.5;
         const valStr = f.brl === 0 ? '<span style="color:var(--green)">empresa ✓</span>'
             : brl ? fmtBrl(brl) : '<span style="color:var(--amber)">pendente</span>';
-        const subStr = f.eur && brl ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(f.eur)})</span>` : '';
+        const subStr = f.eur && brl && brl > 0 ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(f.eur)})</span>` : '';
+        const anomalyDot = isAnomaly ? ' <span style="color:var(--amber)">⚠</span>' : '';
         return `<div class="orca-row">
             <span class="orca-cat-icon">✈️</span>
-            <span class="orca-cat-label">${f.flight} · ${f.leg}</span>
-            <span class="orca-cat-value">${valStr}${f.brl && f.brl > 0 ? subStr : ''}</span>
+            <span class="orca-cat-label">${f.flight} · ${f.route}${anomalyDot}</span>
+            <span class="orca-cat-value" style="color:${isAnomaly ? 'var(--amber)' : ''}">${valStr}${brl && brl > 0 ? subStr : ''}</span>
         </div>`;
     }).join('');
 
@@ -5252,16 +4644,17 @@ function renderGrana() {
                 <div class="fx-updated">${now ? 'Cotação ao vivo · ' + now : 'Taxa estimada · offline'}</div>
             </div>
             <div class="fx-right">
-                <div class="fx-need">${fmtBrl(grandTotal)}</div>
-                <div class="fx-need-label">Total viagem</div>
+                <div class="fx-need" style="font-size:clamp(18px,5vw,26px)">${fmtBrl(grandTotal)}</div>
+                <div class="fx-need-label">Total · ${fmtBrl(perDay)}/dia</div>
             </div>
         </div>
 
         <!-- Grand total card -->
-        <div class="orca-city-card" style="background:rgba(var(--color-primary-rgb),0.06);border-color:rgba(var(--color-primary-rgb),0.18);margin-bottom:4px">
-            <div style="padding:4px 0 10px">
+        <div class="orca-city-card grana-card-anim" style="background:rgba(var(--color-primary-rgb),0.06);border-color:rgba(var(--color-primary-rgb),0.18);margin-bottom:4px">
+            <div style="padding:4px 0 12px">
                 <div style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Total da Viagem</div>
-                <div style="font-size:32px;font-weight:700;letter-spacing:-1px;color:var(--text)">${fmtBrl(grandTotal)}</div>
+                <div class="grana-total-value" id="grana-grand-total">R$&nbsp;0</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:4px" id="grana-per-day">${fmtBrl(perDay)} por dia · 24 dias</div>
             </div>
             <div class="orca-row" style="padding:6px 0">
                 <span class="orca-cat-icon">✈️</span>
@@ -5270,17 +4663,17 @@ function renderGrana() {
                         <span class="orca-cat-label">Voos internos</span>
                         <span class="orca-cat-value">${fmtBrl(flightsBrl)}</span>
                     </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${fltPct}%;background:var(--blue)"></div></div>
+                    <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${pct(flightsBrl)}" style="width:0%;background:var(--blue)"></div></div>
                 </div>
             </div>
             <div class="orca-row" style="padding:6px 0">
                 <span class="orca-cat-icon">🏨</span>
                 <div style="flex:1">
                     <div style="display:flex;justify-content:space-between">
-                        <span class="orca-cat-label">Hospedagem</span>
+                        <span class="orca-cat-label">Hospedagem${tallinnEstBrl ? ' <span style="font-size:10px;color:var(--amber)">+est.</span>' : ''}</span>
                         <span class="orca-cat-value">${fmtBrl(hotelsBrl)}</span>
                     </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${htlPct}%;background:var(--purple)"></div></div>
+                    <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${pct(hotelsBrl)}" style="width:0%;background:var(--purple)"></div></div>
                 </div>
             </div>
             <div class="orca-row" style="padding:6px 0">
@@ -5290,21 +4683,20 @@ function renderGrana() {
                         <span class="orca-cat-label">Gastos & Ingressos</span>
                         <span class="orca-cat-value">${fmtBrl(expensesBrl)}</span>
                     </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${expPct}%;background:var(--amber)"></div></div>
+                    <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${pct(expensesBrl)}" style="width:0%;background:var(--amber)"></div></div>
                 </div>
             </div>
         </div>
 
         <!-- Voos internos -->
         <div class="section-label">Voos Internos · EU</div>
-        <div class="orca-city-card">
-            ${flightRows}
-        </div>
+        <div class="orca-city-card grana-card-anim">${flightRows}</div>
 
         <!-- Hospedagem -->
         <div class="section-label">Hospedagem</div>
-        <div class="orca-city-card">
+        <div class="orca-city-card grana-card-anim">
             ${hotelRows}
+            ${tallinnEstBrl ? `<div class="orca-row" style="border-top:1px solid var(--border);padding-top:6px;margin-top:2px"><span class="orca-cat-icon">💡</span><span class="orca-cat-label" style="color:var(--amber);font-size:12px">Tallinn estimado: ${fmtBrl(tallinnEstBrl)} (${Math.round(avgNightBrl)}/noite × 7)</span></div>` : ''}
             <div class="orca-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:8px">
                 <span class="orca-cat-icon">Σ</span>
                 <span class="orca-cat-label" style="font-weight:600">Total hospedagem</span>
@@ -5314,7 +4706,7 @@ function renderGrana() {
 
         <!-- Gastos por categoria -->
         <div class="section-label">Gastos · 22 dias</div>
-        <div class="orca-category-section">
+        <div class="orca-category-section grana-card-anim">
             ${[
                 { icon:'🎭', label:'Ingressos',        key:'tickets',   color:'var(--paris)' },
                 { icon:'🚇', label:'Transporte local', key:'transport', color:'var(--blue)' },
@@ -5324,9 +4716,9 @@ function renderGrana() {
                 { icon:'📦', label:'Delivery',         key:'delivery',  color:'var(--red)' },
                 { icon:'🆘', label:'Reserva (10%)',    key:'buffer',    color:'var(--muted)' },
             ].map(cat => {
-                const eur = s.expenses[cat.key];
-                const brl = Math.round(eur * rate);
-                const pct = Math.round(eur / c.totalExpensesEur * 100);
+                const eur   = s.expenses[cat.key];
+                const brl   = Math.round(eur * rate);
+                const catPct = c.totalExpensesEur > 0 ? Math.round(eur / c.totalExpensesEur * 100) : 0;
                 return `<div class="orca-row">
                     <span class="orca-cat-icon">${cat.icon}</span>
                     <div style="flex:1">
@@ -5334,12 +4726,47 @@ function renderGrana() {
                             <span class="orca-cat-label">${cat.label}</span>
                             <span class="orca-cat-value">${fmtBrl(brl)} <span style="color:var(--muted);font-size:10px">(${fmtEur(eur)})</span></span>
                         </div>
-                        <div class="orca-bar-track"><div class="orca-bar-fill" style="width:${pct}%;background:${cat.color}"></div></div>
+                        <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${catPct}" style="width:0%;background:${cat.color}"></div></div>
                     </div>
                 </div>`;
             }).join('')}
         </div>
     `;
+
+    // Animate bars and values in after paint
+    requestAnimationFrame(() => {
+        // Bars grow together
+        el.querySelectorAll('.grana-bar').forEach(bar => {
+            setTimeout(() => { bar.style.width = bar.dataset.pct + '%'; }, 80);
+        });
+
+        // Cards fade in with stagger
+        el.querySelectorAll('.grana-card-anim').forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(8px)';
+            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 40 + i * 60);
+        });
+
+        // Grand total animates from 0 to final value (BRL formatted)
+        const totalEl = document.getElementById('grana-grand-total');
+        if (totalEl && grandTotal > 0) {
+            const startTime = performance.now();
+            const dur = 800;
+            const tick = (now) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / dur, 1);
+                const ease = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(grandTotal * ease);
+                totalEl.textContent = 'R$\u00a0' + current.toLocaleString('pt-BR');
+                if (progress < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+        }
+    });
 }
 
 // ─── EUR/BRL EXCHANGE RATE ───
@@ -5380,6 +4807,136 @@ async function hydrateLiveOps() {
     initCollapsibles();
 }
 
+// ═══════════════════════════════════════════════════════════════════
+// ─── CENA — VIBE SCORING ENGINE ─────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+
+const PEDRO_VIBE = {
+    music:  ['post-punk', 'electronic', 'experimental', 'jazz', 'industrial', 'darkwave', 'psych', 'ambient'],
+    venues: ['underground', 'intimate', 'alternative', 'indie', 'warehouse'],
+    avoid:  ['tourist', 'generic', 'mainstream'],
+};
+
+const VENUE_DATA = [
+    // ── PARIS ──
+    { name: 'Caveau de la Huchette', city: 'paris', desc: 'Jazz underground desde 1946', price: '€15–20', tags: ['jazz','underground'], url: 'https://maps.google.com/?q=Caveau+de+la+Huchette+Paris' },
+    { name: 'Glazart',               city: 'paris', desc: 'Post-punk · Darkwave · Coldwave nights', price: '€8–15', tags: ['post-punk','darkwave','underground'], url: 'https://maps.google.com/?q=Glazart+Paris' },
+    { name: 'Petit Bain',            city: 'paris', desc: 'Electronic · Experimental · Barge no Sena', price: '€10–20', tags: ['electronic','experimental','underground'], url: 'https://maps.google.com/?q=Petit+Bain+Paris' },
+    { name: 'Sunset/Sunrise',        city: 'paris', desc: 'Jazz+post-punk duplo venue', price: '€15–25', tags: ['jazz','post-punk','intimate'], url: 'https://maps.google.com/?q=Sunset+Sunrise+Rue+des+Lombards+Paris' },
+    { name: 'Concrete',              city: 'paris', desc: 'Industrial · Electronic · Warehouse no Sena', price: '€12–18', tags: ['industrial','electronic','warehouse'], url: 'https://maps.google.com/?q=Concrete+Paris' },
+    { name: "L'As du Fallafel",      city: 'paris', desc: 'Street food lendário · Marais', price: '€6–8', tags: ['food'], url: 'https://maps.google.com/?q=L%27As+du+Fallafel+Marais+Paris' },
+    { name: 'Rue Mouffetard',        city: 'paris', desc: 'Mercado medieval de rua · Latin Quarter', price: '€3–8', tags: ['food','market'], url: 'https://maps.google.com/?q=Rue+Mouffetard+Paris' },
+    // ── MILAN ──
+    { name: 'Tempio del Futuro Perduto', city: 'milan', desc: 'Experimental · Industrial · Tua referência estética', price: '€10–20', tags: ['experimental','industrial','underground','alternative'], url: 'https://maps.google.com/?q=Tempio+del+Futuro+Perduto+Milan' },
+    { name: 'Leoncavallo',           city: 'milan', desc: 'Post-punk · Squat culture · Centro sociale', price: '€5–12', tags: ['post-punk','underground','alternative'], url: 'https://maps.google.com/?q=Leoncavallo+Milan' },
+    { name: 'Cox 18',                city: 'milan', desc: 'Electronic · Experimental · Via Conchetta', price: '€8–15', tags: ['electronic','experimental','underground'], url: 'https://maps.google.com/?q=Cox+18+Milan' },
+    { name: 'Macao',                 city: 'milan', desc: 'Multimedia · Performance art · Viale Molise', price: '€10–20', tags: ['experimental','alternative','intimate'], url: 'https://maps.google.com/?q=Macao+Viale+Molise+Milan' },
+    { name: 'Blue Note Milano',      city: 'milan', desc: 'Jazz · Via Borsieri · World-class', price: '€15–30', tags: ['jazz','intimate'], url: 'https://maps.google.com/?q=Blue+Note+Milano' },
+    { name: 'Navigli Aperitivo',     city: 'milan', desc: 'Canais · Drink + buffet grátis 18h–20h', price: '€8–12', tags: ['food'], url: 'https://maps.google.com/?q=Navigli+Milan' },
+    // ── ISTANBUL ──
+    { name: 'Dorock XL',             city: 'istanbul', desc: 'Psych rock · Anatolian · Altın Gün vibes · Beyoğlu', price: '80–150 TRY', tags: ['psych','alternative','intimate'], url: 'https://maps.google.com/?q=Dorock+XL+Beyoglu+Istanbul' },
+    { name: 'Peyote',                city: 'istanbul', desc: 'Psychedelic rock · Underground · Beyoğlu', price: '50–120 TRY', tags: ['psych','underground','alternative'], url: 'https://maps.google.com/?q=Peyote+Istanbul+Beyoglu' },
+    { name: 'Arkaoda Kadıköy',       city: 'istanbul', desc: 'Underground electronic · Asian side · Ferry ride', price: '50–100 TRY', tags: ['electronic','underground'], url: 'https://maps.google.com/?q=Arkaoda+Kadikoy+Istanbul' },
+    { name: 'Balık Ekmek Eminönü',   city: 'istanbul', desc: 'Fish sandwich lendário · Galata Bridge', price: '€3–5', tags: ['food'], url: 'https://maps.google.com/?q=Balik+Ekmek+Eminonu+Istanbul' },
+    // ── TALLINN ──
+    { name: 'Telliskivi Creative City', city: 'tallinn', desc: 'Indie · Experimental · Fábrica soviética convertida', price: 'Free–€15', tags: ['experimental','alternative','indie'], url: 'https://maps.google.com/?q=Telliskivi+Creative+City+Tallinn' },
+    { name: 'Sveta Baar',            city: 'tallinn', desc: 'Electronic · Dark ambient · Post-industrial', price: '€5–15', tags: ['electronic','industrial','underground','ambient'], url: 'https://maps.google.com/?q=Sveta+Baar+Tallinn' },
+    { name: 'Hall',                  city: 'tallinn', desc: 'Electronic · Industrial · Rotermanni Quarter', price: '€8–15', tags: ['electronic','industrial','underground'], url: 'https://maps.google.com/?q=Hall+Tallinn+club' },
+    { name: 'Patarei Sea Fortress',  city: 'tallinn', desc: 'Prisão soviética → espaço de arte · Post-industrial', price: '€4–6', tags: ['experimental','alternative','underground'], url: 'https://maps.google.com/?q=Patarei+Sea+Fortress+Tallinn' },
+];
+
+function scoreVenue(v) {
+    let score = 0;
+    for (const tag of v.tags) {
+        if (PEDRO_VIBE.music.includes(tag))  score += 3;
+        if (PEDRO_VIBE.venues.includes(tag)) score += 2;
+        if (PEDRO_VIBE.avoid.includes(tag))  score -= 3;
+    }
+    return score;
+}
+
+function vibeLabel(score) {
+    if (score >= 7) return { text: '⚡ Perfeito', cls: 'perfect' };
+    if (score >= 4) return { text: '🔥 Boa pra você', cls: 'great' };
+    return null;
+}
+
+function renderCena() {
+    const el = document.getElementById('cena-picks');
+    if (!el) return;
+
+    const currentCity = Store.state.region === 'all' ? null : Store.state.region;
+
+    // Score all venues
+    const scored = VENUE_DATA.map(v => ({ ...v, score: scoreVenue(v) }));
+
+    // Top picks: score ≥ 4, optionally filtered by current city, sorted by score
+    const picks = scored
+        .filter(v => v.score >= 4 && (currentCity ? v.city === currentCity : true))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+
+    if (!picks.length) { el.innerHTML = ''; return; }
+
+    const cityColor = { paris: 'var(--paris)', milan: 'var(--milan)', istanbul: 'var(--istanbul)', tallinn: 'var(--tallinn)' };
+    const rankIcons = ['🥇','🥈','🥉','4️⃣','5️⃣'];
+
+    const cards = picks.map((v, i) => {
+        const lbl = vibeLabel(v.score);
+        const col  = cityColor[v.city] || 'var(--color-primary)';
+        return `<a class="vibe-pick-card item-tap" href="${v.url}" target="_blank" rel="noopener" style="border-left-color:${col}">
+            <span class="vibe-pick-rank">${rankIcons[i] || '·'}</span>
+            <div class="vibe-pick-body">
+                <div class="vibe-pick-name">${v.name}</div>
+                <div class="vibe-pick-desc">${v.desc}</div>
+                <div class="vibe-pick-footer">
+                    ${lbl ? `<span class="vibe-label ${lbl.cls}">${lbl.text}</span>` : ''}
+                    <span style="font-size:11px;color:var(--muted)">${v.price}</span>
+                </div>
+            </div>
+            <span class="vibe-pick-city" style="color:${col}">${v.city}</span>
+        </a>`;
+    }).join('');
+
+    const headerLabel = currentCity
+        ? `🔥 Top Picks · ${currentCity.charAt(0).toUpperCase() + currentCity.slice(1)}`
+        : '🔥 Top Picks · Toda a viagem';
+
+    el.innerHTML = `
+        <div class="section-label" style="margin-top:0">${headerLabel}</div>
+        <div class="vibe-picks">${cards}</div>
+    `;
+
+    // Stagger fade-in
+    requestAnimationFrame(() => {
+        el.querySelectorAll('.vibe-pick-card').forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(8px)';
+            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 40 + i * 55);
+        });
+    });
+
+    // Also inject vibe labels into the static venue cards
+    document.querySelectorAll('#tab-nightlife .venue-card').forEach(card => {
+        const name = card.querySelector('.venue-name')?.textContent?.trim();
+        if (!name) return;
+        const match = VENUE_DATA.find(v => v.name === name);
+        if (!match) return;
+        const lbl = vibeLabel(match.score ?? scoreVenue(match));
+        if (lbl && !card.querySelector('.vibe-label')) {
+            const tag = document.createElement('div');
+            tag.className = `vibe-label ${lbl.cls}`;
+            tag.textContent = lbl.text;
+            const priceEl = card.querySelector('.venue-price');
+            if (priceEl) priceEl.after(tag);
+        }
+    });
+}
+
 // ─── INIT ───
 document.addEventListener('DOMContentLoaded', () => {
     initTabs();
@@ -5395,29 +4952,32 @@ document.addEventListener('DOMContentLoaded', () => {
     initAddEvent();
     calculateBudget();
 
-    // Subscribe renderGrana and renderSchedule to Store changes (FX rate, weather)
+    // Subscribe renders to Store changes (FX rate, weather, etc.)
     Store.subscribe(() => {
         renderGrana();
         renderSchedule();
+        updateClocks(); // refresh weather display in clock
     });
 
     // Initial render
     renderGrana();
+    renderCena();
 
     // Boot all services: currency, weather, flights
+    document.body.classList.add('loading');
     Services.loadAll().then(() => {
+        document.body.classList.remove('loading');
         renderRouteBoard();
         renderFlightBoard();
         renderMeetingLive();
         initCollapsibles();
     });
 
-    setInterval(updateClocks, 60000);
+    setInterval(updateClocks, 1000); // 1s for real-time feel + colon sync
     setInterval(() => Services.loadAll(), 60000 * 60); // hourly refresh
     setInterval(renderFlightBoard, 60000 * 2);
     setInterval(renderMeetingLive, 60000 * 5);
 });
 </script>
-
-
-</body></html>
+</body>
+</html>
