@@ -903,6 +903,32 @@ html, body {
   letter-spacing: -.2px;
 }
 
+.day-submeta {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.day-weather {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .04em;
+  color: var(--text);
+}
+
+.day-weather strong {
+  color: var(--paris);
+  font-weight: 700;
+}
+
 .day-type {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 10px;
@@ -2522,6 +2548,10 @@ const meetingTemplates = [
     { label: 'Golden Hour PM', baseCity: 'São Paulo', baseTz: 'America/Sao_Paulo', start: '16:00', end: '17:15', note: 'fechamento de dia / handoff' }
 ];
 
+
+const monthMap = { Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06', Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12' };
+let scheduleWeather = {};
+
 function splitFlapText(value, options = {}) {
     const { dark = false, width = String(value).length || 1 } = options;
     return String(value).padEnd(width, ' ').slice(0, width).split('').map(char => {
@@ -2556,6 +2586,21 @@ function weatherLabel(code) {
 
 function shortStamp(dateLike) {
     return new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' }).format(new Date(dateLike)).replace('/', '');
+}
+
+
+function toTripIso(dateLabel) {
+    const [day, mon] = dateLabel.split(' ');
+    return `2026-${monthMap[mon]}-${String(day).padStart(2, '0')}`;
+}
+
+function scheduleWeatherSummary(cityKey, isoDate) {
+    const entry = scheduleWeather?.[cityKey]?.[isoDate];
+    const cityName = cityMeta[cityKey]?.name || cityKey;
+    if (!entry) return `${cityName} · meteo sazonal carregando…`;
+    const temp = typeof entry.temp === 'number' ? `${entry.temp}°C` : `${entry.temp}`;
+    const rain = typeof entry.rainChance === 'number' ? `${entry.rainChance}%` : `${entry.rainChance}`;
+    return `${cityName} · ${temp} · chuva ${rain}`;
 }
 
 function flightPhase(flight) {
@@ -2618,13 +2663,16 @@ function renderSchedule() {
         const typeLabel = day.type.charAt(0).toUpperCase() + day.type.slice(1);
         const linkCount = day.events.filter(e => e.link).length;
         const evCount = day.events.length;
+        const isoDate = toTripIso(day.date);
+        const weatherLine = scheduleWeatherSummary(day.city, isoDate);
 
         card.innerHTML = `
             <div class="day-header">
                 <div class="day-accent ${day.city}"></div>
                 <div style="flex:1">
                     <div class="day-date">${day.date} · ${day.day}</div>
-                    <div style="font-size:10px;color:var(--muted);margin-top:1px">${evCount} atividades${linkCount ? ' · ' + linkCount + ' com mapa' : ''}</div>
+                    <div class="day-submeta">${evCount} atividades${linkCount ? ' · ' + linkCount + ' com mapa' : ''}</div>
+                    <div class="day-weather"><strong>●</strong><span>${weatherLine}</span></div>
                 </div>
                 <span class="day-type ${typeClass}">${typeLabel}</span>
                 <span class="day-caret">›</span>
@@ -2813,6 +2861,41 @@ function zonedMeetingRange(baseTz, start, end, targetTz) {
     return `${formatTime(startDate, targetTz)}–${formatTime(endDate, targetTz)}`;
 }
 
+
+async function fetchScheduleWeather() {
+    const groups = scheduleData.reduce((acc, day) => {
+        (acc[day.city] ||= []).push(toTripIso(day.date));
+        return acc;
+    }, {});
+
+    await Promise.all(Object.entries(groups).map(async ([cityKey, dates]) => {
+        const city = cityMeta[cityKey];
+        if (!city) return;
+        const start = dates[0];
+        const end = dates[dates.length - 1];
+        try {
+            const url = `https://seasonal-api.open-meteo.com/v1/seasonal?latitude=${city.lat}&longitude=${city.lon}&daily=temperature_2m_mean,precipitation_sum&timezone=auto&start_date=${start}&end_date=${end}`;
+            const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
+            const data = await response.json();
+            const daily = data.daily || {};
+            const precipMembers = Object.keys(daily).filter(key => key.startsWith('precipitation_sum_member'));
+            scheduleWeather[cityKey] = {};
+            (daily.time || []).forEach((date, index) => {
+                const wetMembers = precipMembers.filter(key => (daily[key]?.[index] || 0) >= 0.2).length;
+                const rainChance = precipMembers.length ? Math.round((wetMembers / precipMembers.length) * 100) : 0;
+                scheduleWeather[cityKey][date] = {
+                    temp: Math.round(daily.temperature_2m_mean?.[index] ?? 0),
+                    rainChance
+                };
+            });
+        } catch (error) {
+            scheduleWeather[cityKey] = Object.fromEntries(dates.map(date => [date, { temp: '—', rainChance: '—' }]));
+        }
+    }));
+
+    renderSchedule();
+}
+
 async function renderMeetingLive() {
     const liveGrid = document.getElementById('meeting-live-grid');
     const schedule = document.getElementById('meeting-schedule');
@@ -2975,6 +3058,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calculateBudget();
     fetchEurBrl();
     hydrateLiveOps();
+    fetchScheduleWeather();
     setInterval(updateClocks, 60000);
     setInterval(renderFlightBoard, 60000 * 2);
     setInterval(renderMeetingLive, 60000 * 5);
