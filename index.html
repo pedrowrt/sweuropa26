@@ -370,8 +370,7 @@ body {
 .tab-content::after {
   content: '';
   display: block;
-  /* ~tab bar pill height (54px) + bottom gap (14px) + breathing room (16px) */
-  height: 84px;
+  height: 110px;
 }
 
 /* Plan tab: full-bleed continuous scroll */
@@ -1300,26 +1299,26 @@ body {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-top: 12px;
+  margin-bottom: 18px;
 }
 
 .action-btn {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 10px;
   letter-spacing: .04em;
-  padding: 7px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--border2);
-  background: linear-gradient(180deg, var(--surface3), var(--surface));
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.05);
   color: var(--muted);
   cursor: pointer;
   transition: all .2s ease;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 }
 
 .action-btn:active {
-  background: var(--surface);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
+  background: rgba(255,255,255,0.09);
+  transform: scale(0.96);
 }
 
 /* ─── SLOTS ─── */
@@ -1408,6 +1407,192 @@ body {
   color: var(--muted);
   margin-left: auto;
 }
+
+/* ═══════════════════════════════════════
+   CONTINUOUS TIMELINE SYSTEM
+   ═══════════════════════════════════════ */
+
+/* City color tokens — each day-block carries its own segment color */
+[data-city="paris"]    { --city-color: var(--paris); }
+[data-city="milan"]    { --city-color: var(--milan); }
+[data-city="istanbul"] { --city-color: var(--istanbul); }
+[data-city="tallinn"]  { --city-color: var(--tallinn); }
+
+/* Outer wrapper — single positioning context for the vertical line */
+.timeline {
+  position: relative;
+  padding: 0 18px 0 18px;
+}
+
+/* Each day is a flow block, not a card */
+.day-block {
+  position: relative;
+  animation: fadeScale .4s var(--spring) both;
+}
+
+.day-block + .day-block {
+  margin-top: 48px;
+}
+
+#tab-schedule .day-block:first-of-type {
+  margin-top: 16px;
+}
+
+/* Continuous vertical line segment — color per city */
+.day-block::before {
+  content: '';
+  position: absolute;
+  left: 14px;   /* aligns to center of the dot (32px line offset − 18px timeline padding) */
+  top: -28px;   /* bridges gap to previous block */
+  bottom: -28px;
+  width: 2px;
+  background: var(--city-color, var(--border));
+  box-shadow: 0 0 8px var(--city-color, transparent);
+  opacity: 0.7;
+}
+
+/* First block: line starts at the dot, not above */
+.day-block:first-of-type::before {
+  top: 6px;
+}
+
+/* Last block: line ends at the dot, not below */
+.day-block:last-of-type::before {
+  bottom: 0;
+}
+
+/* Transition segment: gradient between two city colors */
+.day-block.city-transition::before {
+  background: linear-gradient(
+    to bottom,
+    var(--city-color),
+    var(--next-city-color, var(--city-color))
+  );
+  box-shadow: none;
+}
+
+/* Day header — a flow marker, not a container */
+.day-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 0 12px 36px;  /* 14px line + 22px gap */
+  position: relative;
+}
+
+/* Dot on the timeline */
+.day-header::before {
+  content: '';
+  position: absolute;
+  left: 10px;   /* center of the 2px line */
+  top: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--city-color, var(--muted));
+  box-shadow: 0 0 10px var(--city-color, transparent);
+  flex-shrink: 0;
+}
+
+.dh-dow {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.2px;
+}
+
+.dh-date {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.dh-city {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--city-color);
+  letter-spacing: .01em;
+}
+
+.dh-type {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--subtle);
+  margin-left: auto;
+}
+
+.dh-weather {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Events list — flat, no backgrounds, spacing only */
+.day-events {
+  padding-left: 36px;
+}
+
+/* Collapsed state — hide events */
+.day-block.collapsed .day-events {
+  display: none;
+}
+.day-block.collapsed .day-header {
+  padding-bottom: 0;
+}
+
+/* Flat event row */
+.event {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.ev-time {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--muted);
+  min-width: 42px;
+  flex-shrink: 0;
+  padding-top: 2px;
+  text-align: right;
+}
+
+.ev-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.ev-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.ev-name a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border2);
+  transition: all .2s ease;
+}
+.ev-name a:hover  { border-color: var(--city-color); color: var(--city-color); }
+.ev-name a::after { content: ' ↗'; font-size: 11px; color: var(--subtle); }
+
+.ev-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+/* Event semantic variants */
+.event.ev-closed .ev-name  { color: var(--subtle); text-decoration: line-through; }
+.event.ev-transport .ev-name { color: var(--blue); }
+.event.ev-alert .ev-name   { color: var(--amber); text-shadow: 0 0 6px rgba(200,160,70,0.15); }
+.event.ev-work { opacity: 0.75; }
+.event.ev-work .ev-time { font-size: 16px; }
 
 /* ─── WORK WINDOW BAR (Work tab) ─── */
 .work-window-bar {
@@ -2609,8 +2794,7 @@ body {
         <button class="filter-btn" data-city="tallinn" style="--fc:var(--tallinn)">Tallinn</button>
       </div>
       <div class="schedule-actions">
-        <button class="action-btn" id="expand-all">Expandir</button>
-        <button class="action-btn" id="collapse-all">Recolher</button>
+        <button class="action-btn" id="toggle-all" data-expanded="true">Recolher tudo</button>
         <button class="action-btn action-btn-add" id="add-event-btn">+ Adicionar</button>
       </div>
       <div id="schedule-container"></div>
@@ -3480,31 +3664,31 @@ let dragSrcDate = null;
 
 function initDragDrop() {
     document.getElementById('schedule-container')?.addEventListener('dragstart', e => {
-        const card = e.target.closest('.day-card');
-        if (!card) return;
-        dragSrcDate = card.dataset.date;
-        card.classList.add('dragging');
+        const block = e.target.closest('.day-block');
+        if (!block) return;
+        dragSrcDate = block.dataset.date;
+        block.classList.add('dragging');
         e.dataTransfer.effectAllowed = 'move';
     });
 
     document.getElementById('schedule-container')?.addEventListener('dragend', e => {
-        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('dragging', 'drag-over'));
+        document.querySelectorAll('.day-block').forEach(b => b.classList.remove('dragging', 'drag-over'));
         dragSrcDate = null;
     });
 
     document.getElementById('schedule-container')?.addEventListener('dragover', e => {
         e.preventDefault();
-        const card = e.target.closest('.day-card');
-        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('drag-over'));
-        if (card && card.dataset.date !== dragSrcDate) card.classList.add('drag-over');
+        const block = e.target.closest('.day-block');
+        document.querySelectorAll('.day-block').forEach(b => b.classList.remove('drag-over'));
+        if (block && block.dataset.date !== dragSrcDate) block.classList.add('drag-over');
     });
 
     document.getElementById('schedule-container')?.addEventListener('drop', e => {
         e.preventDefault();
-        const targetCard = e.target.closest('.day-card');
-        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('drag-over'));
-        if (!targetCard || !dragSrcDate || targetCard.dataset.date === dragSrcDate) return;
-        const targetDate = targetCard.dataset.date;
+        const targetBlock = e.target.closest('.day-block');
+        document.querySelectorAll('.day-block').forEach(b => b.classList.remove('drag-over'));
+        if (!targetBlock || !dragSrcDate || targetBlock.dataset.date === dragSrcDate) return;
+        const targetDate = targetBlock.dataset.date;
         // Move custom events from src to target
         const custom = loadCustomEvents();
         const srcEvents = custom[dragSrcDate] || [];
@@ -3529,25 +3713,41 @@ function renderSchedule() {
         ? allDays
         : allDays.filter(d => d.city === currentFilter);
 
-    filtered.forEach((day, i) => {
-        const card = document.createElement('div');
-        card.className = 'day-card open';
-        card.dataset.city = day.city;
-        card.dataset.date = day.date;
-        card.setAttribute('draggable', 'true');
-        card.style.borderLeft = `3px solid var(--${day.city})`;
+    if (filtered.length === 0) return;
 
-        const typeMap = { chegada: 'dt-chegada', livre: 'dt-livre', trabalho: 'dt-trabalho', partida: 'dt-partida' };
-        const typeClass = typeMap[day.type] || 'dt-livre';
-        const typeLabel = day.type.charAt(0).toUpperCase() + day.type.slice(1);
-        const linkCount = day.events.filter(e => e.link).length;
-        const evCount = day.events.length;
+    const timeline = document.createElement('div');
+    timeline.className = 'timeline';
+
+    // Detect city transitions for gradient line segments
+    const transitions = new Set();
+    for (let i = 0; i < filtered.length - 1; i++) {
+        if (filtered[i].city !== filtered[i + 1].city) transitions.add(i);
+    }
+
+    // Check if toggle is currently in collapsed state
+    const toggleBtn = document.getElementById('toggle-all');
+    const isCollapsed = toggleBtn && toggleBtn.dataset.expanded === 'false';
+
+    filtered.forEach((day, i) => {
+        const nextDay = filtered[i + 1];
+        const block = document.createElement('div');
+        block.className = 'day-block';
+        if (isCollapsed) block.classList.add('collapsed');
+        block.dataset.city = day.city;
+        block.dataset.date = day.date;
+        block.setAttribute('draggable', 'true');
+
+        if (transitions.has(i)) {
+            block.classList.add('city-transition');
+            block.style.setProperty('--next-city-color', `var(--${nextDay.city})`);
+        }
+
+        block.style.animationDelay = (i * 30) + 'ms';
 
         const cityName = cityMeta[day.city]?.name || day.city;
-        const cityColor = `var(--${day.city})`;
 
-        // Build weather sidebar text
-        let weatherSidebar = '';
+        // Weather string
+        let weatherHTML = '';
         const fw2 = weatherCache[day.city];
         if (fw2 && fw2.time) {
             const idx2 = fw2.time.indexOf(dateKeyFromSchedule(day.date));
@@ -3556,7 +3756,7 @@ function renderSchedule() {
                 const minT2 = Math.round(fw2.temperature_2m_min[idx2]);
                 const rain2 = fw2.precipitation_probability_max[idx2];
                 const icon2 = weatherIcon(fw2.weather_code[idx2]);
-                weatherSidebar = `<div class="day-sidebar-weather">${icon2}<br>${maxT2}°/${minT2}°${rain2 > 35 ? `<br>💧${rain2}%` : ''}</div>`;
+                weatherHTML = `<span class="dh-weather">${icon2} ${maxT2}°/${minT2}°${rain2 > 35 ? ` 💧${rain2}%` : ''}</span>`;
             }
         }
 
@@ -3564,32 +3764,25 @@ function renderSchedule() {
         const dateParts = day.date.split(' ');
         const dateNum = dateParts[0] || '';
         const dateMon = (dateParts[1] || '').toLowerCase();
+        const typeLabel = day.type.charAt(0).toUpperCase() + day.type.slice(1);
 
-        // Build collapsed preview text (skip FECHADO entries)
-        const previewEvents = day.events.filter(e => !e.name.startsWith('FECHADO') && e.time !== 'FECHADO' && e.time !== '⚠️');
-        const previewNames = previewEvents.slice(0, 2).map(e => e.name.replace(/ ⚠️.*/, '')).join(' · ');
-        const evCountLabel = `${previewEvents.length} atividade${previewEvents.length !== 1 ? 's' : ''}`;
-
-        card.innerHTML = `
-            <div class="day-sidebar">
-                <div class="day-sidebar-dow">${day.day}</div>
-                <div class="day-sidebar-date">${dateNum} ${dateMon}</div>
-                <div class="day-sidebar-accent" style="background:${cityColor}"></div>
-                <div class="day-sidebar-type ${typeClass}">${typeLabel}</div>
-                ${weatherSidebar}
+        block.innerHTML = `
+            <div class="day-header">
+                <span class="dh-dow">${day.day}</span>
+                <span class="dh-date">${dateNum} ${dateMon}</span>
+                <span class="dh-city">${cityName}</span>
+                <span class="dh-type">${typeLabel}</span>
+                ${weatherHTML}
             </div>
-            <div class="day-main">
-                <div class="day-preview">
-                    <span class="dp-count">${evCountLabel}</span>
-                    <span class="dp-names">${previewNames}</span>
-                </div>
-                <div class="day-body"></div>
-            </div>
+            <div class="day-events"></div>
         `;
 
-        const body = card.querySelector('.day-body');
+        // Toggle day on header click
+        block.querySelector('.day-header').addEventListener('click', () => block.classList.toggle('collapsed'));
 
-        // Work-hours banner for trabalho days
+        const eventsEl = block.querySelector('.day-events');
+
+        // Work-hours row for trabalho days
         if (day.type === 'trabalho') {
             const workOffsets = { paris: 5, milan: 5, istanbul: 6, tallinn: 6 };
             const offset = workOffsets[day.city] || 5;
@@ -3598,51 +3791,50 @@ function renderSchedule() {
             const localStart = `${String(startH).padStart(2,'0')}:00`;
             const localEnd = `${String(endH).padStart(2,'0')}:00`;
             const cityLabel = { paris: 'Paris (UTC+2)', milan: 'Milão (UTC+2)', istanbul: 'Istanbul (UTC+3)', tallinn: 'Tallinn (UTC+3)' }[day.city] || '';
-            const banner = document.createElement('div');
-            banner.className = 'work-hours-banner';
-            banner.innerHTML = `
-                <span class="work-hours-brt">🇧🇷 10:00–16:00</span>
-                <span class="work-hours-arrow">→</span>
-                <span class="work-hours-local">${localStart}–${localEnd}</span>
-                <span class="work-hours-note">${cityLabel}</span>
+            const workEv = document.createElement('div');
+            workEv.className = 'event ev-work';
+            workEv.innerHTML = `
+                <div class="ev-time">🇧🇷</div>
+                <div class="ev-content">
+                    <div class="ev-name">10:00–16:00 BRT</div>
+                    <div class="ev-meta">${localStart}–${localEnd} · ${cityLabel}</div>
+                </div>
             `;
-            body.appendChild(banner);
+            eventsEl.appendChild(workEv);
         }
 
         day.events.forEach(ev => {
-            const slot = document.createElement('div');
-            let cls = 'slot';
             const isClosed = ev.name.startsWith('FECHADO') || ev.time === 'FECHADO';
             const isTransport = /[A-Z]{3}→[A-Z]{3}|RER|Orlyval|Malpensa|Bus|Bolt|T1→|M11/.test(ev.name + ' ' + ev.meta);
             const isAlert = ev.time === '⚠️';
-            if (isClosed) cls += ' s-closed';
-            else if (isTransport) cls += ' s-transport';
-            else if (isAlert) cls += ' s-alert';
-            slot.className = cls;
 
-            const isActivity = !isClosed && !isTransport && !isAlert;
-            const handleHTML = isActivity ? '<div class="slot-handle">⠿</div>' : '';
+            let cls = 'event';
+            if (isClosed) cls += ' ev-closed';
+            else if (isTransport) cls += ' ev-transport';
+            else if (isAlert) cls += ' ev-alert';
 
-            let nameHTML = ev.name;
+            const evEl = document.createElement('div');
+            evEl.className = cls;
+
+            let nameHTML = ev.name.replace(/ ⚠️.*/, '');
             if (ev.link) {
-                nameHTML = `<a href="${ev.link}" target="_blank" rel="noopener">${ev.name}</a>`;
+                nameHTML = `<a href="${ev.link}" target="_blank" rel="noopener">${nameHTML}</a>`;
             }
 
-            slot.innerHTML = `
-                ${handleHTML}
-                <div class="slot-time">${ev.time}</div>
-                <div class="slot-body">
-                    <div class="slot-name">${nameHTML}</div>
-                    ${ev.meta ? `<div class="slot-meta">${ev.meta}</div>` : ''}
+            evEl.innerHTML = `
+                <div class="ev-time">${isClosed ? '—' : ev.time}</div>
+                <div class="ev-content">
+                    <div class="ev-name">${nameHTML}</div>
+                    ${ev.meta ? `<div class="ev-meta">${ev.meta}</div>` : ''}
                 </div>
             `;
-            body.appendChild(slot);
+            eventsEl.appendChild(evEl);
         });
 
-        card.querySelector('.day-sidebar').addEventListener('click', () => card.classList.toggle('open'));
-        card.style.animationDelay = (i * 30) + 'ms';
-        container.appendChild(card);
+        timeline.appendChild(block);
     });
+
+    container.appendChild(timeline);
 }
 
 function setRegion(city) {
@@ -3674,12 +3866,11 @@ function initFilters() {
         });
     });
 
-    document.getElementById('expand-all')?.addEventListener('click', () => {
-        document.querySelectorAll('.day-card').forEach(c => c.classList.add('open'));
-    });
-
-    document.getElementById('collapse-all')?.addEventListener('click', () => {
-        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('open'));
+    document.getElementById('toggle-all')?.addEventListener('click', function() {
+        const expanded = this.dataset.expanded === 'true';
+        document.querySelectorAll('.day-block').forEach(b => b.classList.toggle('collapsed', expanded));
+        this.dataset.expanded = expanded ? 'false' : 'true';
+        this.textContent = expanded ? 'Expandir tudo' : 'Recolher tudo';
     });
 }
 
