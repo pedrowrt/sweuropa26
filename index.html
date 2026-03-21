@@ -15,31 +15,31 @@
 <title>Europa 2026</title>
 <style>
 :root {
-  --bg: #111113;
-  --surface: #1a1a1d;
-  --surface2: #222225;
-  --surface3: #2a2a2e;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.13);
-  --text: #f0ede8;
-  --muted: #8a8886;
-  --subtle: #4a4845;
-  --paris: #c8a96e;
-  --milan: #8e9fa8;
-  --istanbul: #b5785a;
-  --tallinn: #7a8f6e;
-  --red: #c75b4e;
-  --amber: #c8a046;
-  --green: #6d9a5e;
-  --blue: #5b7ea8;
-  --purple: #8a7ab8;
-  --glow: rgba(200,169,110,0.06);
+  --bg: #0d0d0f;
+  --surface: #161618;
+  --surface2: #1e1e21;
+  --surface3: #262629;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.15);
+  --text: #f2efe9;
+  --muted: #9a9794;
+  --subtle: #525050;
+  --paris: #e8b96a;
+  --milan: #8ec0d8;
+  --istanbul: #d4875e;
+  --tallinn: #8ec07a;
+  --red: #e05c4e;
+  --amber: #e0b040;
+  --green: #78ba62;
+  --blue: #6090c8;
+  --purple: #9882c8;
+  --glow: rgba(232,185,106,0.08);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  background: #1a1a1d; /* matches nav bottom — safe area blends */
+  background: #0d0d0f; /* matches --bg — safe area blends */
   color: var(--text);
   font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
   font-size: 16px;
@@ -150,7 +150,7 @@ html, body {
   -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(0.95);
   border-top: 1px solid rgba(255,255,255,0.07);
   display: flex;
-  padding-bottom: max(env(safe-area-inset-bottom), 34px);
+  padding-bottom: max(env(safe-area-inset-bottom), 6px);
   z-index: 100;
   box-shadow: 0 -1px 0 rgba(255,255,255,0.04), 0 -8px 32px rgba(0,0,0,0.55);
 }
@@ -205,7 +205,7 @@ html, body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  padding-bottom: calc(24px + max(env(safe-area-inset-bottom), 34px));
+  padding-bottom: calc(16px + max(env(safe-area-inset-bottom), 6px));
 }
 
 .tab-content {
@@ -1663,6 +1663,278 @@ html, body {
   letter-spacing: .16em;
 }
 
+/* ─── 4-CLOCK GRID ─── */
+.clock-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.clock-highlight .clock-time {
+  color: var(--paris);
+  text-shadow: 0 0 22px rgba(232,185,106,0.3);
+}
+
+.clock-time {
+  font-size: 26px;
+  letter-spacing: -1.5px;
+}
+
+/* ─── 6-STAT GRID ─── */
+.stat-grid-6 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stat-grid-6 .stat-card:nth-child(2) { border-right: 1px solid rgba(255,255,255,0.07); }
+.stat-grid-6 .stat-card:nth-child(3) { border-right: none; }
+.stat-grid-6 .stat-card:nth-child(4) { border-bottom: none; }
+.stat-grid-6 .stat-card:nth-child(5) { border-bottom: none; }
+.stat-grid-6 .stat-card:nth-child(6) { border-bottom: none; border-right: none; }
+
+.stat-value { font-size: 30px; letter-spacing: -1.5px; }
+
+/* ─── BOOKING LINK ─── */
+.booking-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+}
+
+.booking-link:active { background: rgba(255,255,255,0.03); }
+.booking-link .b-text::after { content: ' ↗'; font-size: 10px; color: var(--subtle); }
+
+/* ─── ACTION BTN ADD ─── */
+.action-btn-add {
+  margin-left: auto;
+  color: var(--paris);
+  border-color: rgba(232,185,106,0.3);
+  background: rgba(232,185,106,0.06);
+  font-weight: 600;
+}
+
+.action-btn-add:active { background: rgba(232,185,106,0.12); }
+
+/* ─── MODAL SHEET ─── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+
+.modal-backdrop.show { opacity: 1; pointer-events: auto; }
+
+.modal-sheet {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--surface2);
+  border-radius: 20px 20px 0 0;
+  border-top: 1px solid var(--border2);
+  z-index: 201;
+  padding: 0 0 max(env(safe-area-inset-bottom), 24px);
+  transform: translateY(100%);
+  transition: transform .45s cubic-bezier(.16,1,.3,1);
+  box-shadow: 0 -20px 60px rgba(0,0,0,0.7);
+  max-height: 90dvh;
+  overflow-y: auto;
+}
+
+.modal-sheet.show { transform: translateY(0); }
+
+.modal-handle {
+  width: 36px; height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.18);
+  margin: 12px auto 0;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px 8px;
+  gap: 12px;
+}
+
+.modal-title { font-size: 17px; font-weight: 600; flex: 1; }
+
+.modal-close {
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: var(--muted);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.modal-body { padding: 8px 20px 0; }
+
+.form-row { margin-bottom: 14px; }
+
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+  -webkit-appearance: none;
+  transition: border-color .2s ease;
+}
+
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--paris);
+}
+
+.form-submit {
+  width: 100%;
+  padding: 15px;
+  background: var(--paris);
+  color: #0a0a0c;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+  margin-bottom: 20px;
+  transition: all .2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.form-submit:active { transform: scale(0.97); }
+
+/* ─── DRAG & DROP ─── */
+.day-card[draggable="true"] { cursor: grab; }
+.day-card.drag-over {
+  border-color: var(--paris);
+  box-shadow: 0 0 0 2px var(--paris), 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.day-card.dragging {
+  opacity: 0.45;
+  transform: scale(0.98);
+}
+
+/* ─── GRANA TOTALS ROW ─── */
+.orca-totals-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.orca-total-mini {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: 16px 12px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.orca-total-mid { border-color: rgba(232,185,106,0.2); background: rgba(232,185,106,0.05); }
+.orca-total-full { border-color: rgba(232,185,106,0.35); background: rgba(232,185,106,0.1); }
+
+.orca-total-mini-value {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 22px;
+  font-weight: 200;
+  color: var(--paris);
+  letter-spacing: -1px;
+  text-shadow: 0 0 20px rgba(232,185,106,0.25);
+  line-height: 1;
+}
+
+.orca-total-full .orca-total-mini-value { font-size: 20px; font-weight: 400; }
+
+.orca-total-mini-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 6px;
+}
+
+.orca-total-mini-sub {
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 3px;
+  letter-spacing: .02em;
+}
+
+/* ─── FOOD GRID ─── */
+.food-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.food-card {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--fc) 8%, var(--surface2)), var(--surface));
+  border: 1px solid color-mix(in srgb, var(--fc) 20%, var(--border));
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.food-city {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fc);
+  margin-bottom: 6px;
+  letter-spacing: .02em;
+}
+
+.food-items {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.food-total {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 13px;
+  color: var(--fc);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+/* ─── SPLIT-FLAP BOARD extra spacing ─── */
+.split-flap-board {
+  padding: 16px !important;
+}
+
+.flap-row {
+  padding: 12px 0 !important;
+  gap: 14px !important;
+}
+
+@media (max-width: 480px) {
+  .clock-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .stat-grid-6 { grid-template-columns: repeat(3, 1fr); }
+  .orca-totals-row { grid-template-columns: 1fr; }
+  .food-grid { grid-template-columns: 1fr; }
+}
+
 </style>
 </head>
 <body>
@@ -1689,29 +1961,34 @@ html, body {
   <div class="content">
     <!-- ═══ TAB 1: OVERVIEW ═══ -->
     <div class="tab-content active" id="tab-overview">
-      <div class="alert-bar">
-        <span class="alert-icon">⚠</span>
-        <span><strong>Confirmar apartamento Paris</strong> — apenas pedido enviado, nenhuma confirmação recebida.</span>
-      </div>
-
-      <div class="section-label">Countdown & Relógios</div>
-      <div class="clock-grid">
+      <div class="section-label">Countdown · <span id="countdown-days">0</span>d restantes</div>
+      <div class="clock-grid clock-grid-4">
         <div class="clock-card">
           <div class="clock-time" id="clock-sp">--:--</div>
           <div class="clock-city">São Paulo</div>
           <div class="clock-tz">UTC −3</div>
         </div>
-        <div class="clock-card">
+        <div class="clock-card clock-highlight">
           <div class="clock-time" id="clock-current">--:--</div>
           <div class="clock-city" id="clock-city-name">Paris</div>
           <div class="clock-tz" id="clock-tz">UTC +2</div>
         </div>
+        <div class="clock-card">
+          <div class="clock-time" id="clock-ist">--:--</div>
+          <div class="clock-city" style="color:var(--istanbul)">Istanbul</div>
+          <div class="clock-tz">UTC +3</div>
+        </div>
+        <div class="clock-card">
+          <div class="clock-time" id="clock-tll">--:--</div>
+          <div class="clock-city" style="color:var(--tallinn)">Tallinn</div>
+          <div class="clock-tz">UTC +3</div>
+        </div>
       </div>
 
-      <div class="stat-grid">
+      <div class="stat-grid stat-grid-6">
         <div class="stat-card">
           <div class="stat-value">22</div>
-          <div class="stat-label">Dias de viagem</div>
+          <div class="stat-label">Dias</div>
         </div>
         <div class="stat-card">
           <div class="stat-value">4</div>
@@ -1722,8 +1999,16 @@ html, body {
           <div class="stat-label">Voos</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="budget-total">~€900</div>
-          <div class="stat-label">Budget (ingressos+transporte)</div>
+          <div class="stat-value" id="budget-total">€1.3k</div>
+          <div class="stat-label">Gastos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">€2.3k</div>
+          <div class="stat-label">+Hospedagem</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">€4.0k</div>
+          <div class="stat-label">+Voos</div>
         </div>
       </div>
 
@@ -1813,31 +2098,31 @@ html, body {
       </div>
 
       <div class="section-label">Status das Reservas</div>
-      <div class="booking-row">
+      <a class="booking-row booking-link" href="https://www.tap.pt/en/check-in">
         <div class="b-icon b-ok">✈</div>
-        <div class="b-text">Voos confirmados</div>
+        <div class="b-text">Voos confirmados · check-in TAP</div>
         <span class="b-status bs-ok">6/6 ok</span>
-      </div>
-      <div class="booking-row">
-        <div class="b-icon b-warn">🏠</div>
-        <div class="b-text">Paris — 10 Rue Mondetour, 1er (Les Halles)</div>
-        <span class="b-status bs-partial">Confirmar</span>
-      </div>
-      <div class="booking-row">
+      </a>
+      <a class="booking-row booking-link" href="https://maps.google.com/?q=10+Rue+Mondetour+Paris">
+        <div class="b-icon b-ok">🏠</div>
+        <div class="b-text">Paris — 10 Rue Mondetour, 1er</div>
+        <span class="b-status bs-ok">OK ✓</span>
+      </a>
+      <a class="booking-row booking-link" href="https://maps.google.com/?q=Piazza+Napoli+30+Milan">
         <div class="b-icon b-ok">🏠</div>
         <div class="b-text">Milan — Casa Dani, P.za Napoli 30</div>
-        <span class="b-status bs-ok">OK</span>
-      </div>
-      <div class="booking-row">
+        <span class="b-status bs-ok">OK ✓</span>
+      </a>
+      <a class="booking-row booking-link" href="https://maps.google.com/?q=Saratoga+Hotel+Sultanahmet+Istanbul">
         <div class="b-icon b-ok">🏨</div>
-        <div class="b-text">Istanbul — Saratoga Hotel Sultanahmet · R$2.559</div>
+        <div class="b-text">Istanbul — Saratoga Sultanahmet · R$2.559</div>
         <span class="b-status bs-ok">Confirmada</span>
-      </div>
-      <div class="booking-row">
+      </a>
+      <a class="booking-row booking-link" href="https://maps.google.com/?q=Tallink+City+Hotel+Tallinn">
         <div class="b-icon b-warn">🏨</div>
         <div class="b-text">Tallinn — Tallink City Hotel</div>
         <span class="b-status bs-partial">Confirmar</span>
-      </div>
+      </a>
       <div class="booking-row">
         <div class="b-icon b-ok">🏨</div>
         <div class="b-text">IST layover — Nenessa Airport Hotel · R$263</div>
@@ -1859,38 +2144,6 @@ html, body {
         <span class="b-status bs-urgent">Reservar</span>
       </div>
 
-      <div class="section-label">Budget Alimentação · €10–15/refeição</div>
-      <div class="budget-grid">
-        <div class="budget-card">
-          <div class="budget-city" style="border-color:var(--paris)">Paris · 5 dias</div>
-          <div class="budget-detail">Café €3–5 · Almoço €10–14 · Jantar €12–18</div>
-          <div class="budget-detail">Street food: Fallafel €6, Crêpe €4, Baguette €3</div>
-          <div class="budget-total">~€125–185</div>
-        </div>
-        <div class="budget-card">
-          <div class="budget-city" style="border-color:var(--milan)">Milan · 7 dias</div>
-          <div class="budget-detail">Café €2–3 · Almoço €8–12 · Jantar €12–18</div>
-          <div class="budget-detail">Street food: Panzerotto €3, Pizza al taglio €4, Aperitivo buffet €8–12</div>
-          <div class="budget-total">~€155–230</div>
-        </div>
-        <div class="budget-card">
-          <div class="budget-city" style="border-color:var(--istanbul)">Istanbul · 4 dias</div>
-          <div class="budget-detail">Café €2 · Almoço €5–8 · Jantar €8–12</div>
-          <div class="budget-detail">Street food: Balık ekmek €3, Simit €1, Kebab €5, Çay grátis</div>
-          <div class="budget-total">~€60–90</div>
-        </div>
-        <div class="budget-card">
-          <div class="budget-city" style="border-color:var(--tallinn)">Tallinn · 6 dias</div>
-          <div class="budget-detail">Café €3–4 · Almoço €8–12 · Jantar €10–15</div>
-          <div class="budget-detail">Street food: Lihapirukas €2, Mercado €3–5, Kohvik €6–8</div>
-          <div class="budget-total">~€125–185</div>
-        </div>
-        <div class="budget-card budget-total-card">
-          <div class="budget-city" style="border-color:var(--paris)">Total Alimentação · 22 dias</div>
-          <div class="budget-total" style="font-size:18px">€465–690</div>
-          <div class="budget-detail">Média €21–31/dia (café + almoço + jantar)</div>
-        </div>
-      </div>
     </div>
 
     <!-- ═══ TAB 2: SCHEDULE ═══ -->
@@ -1903,10 +2156,46 @@ html, body {
         <button class="filter-btn" data-city="tallinn" style="--fc:var(--tallinn)">Tallinn</button>
       </div>
       <div class="schedule-actions">
-        <button class="action-btn" id="expand-all">Expandir todos</button>
-        <button class="action-btn" id="collapse-all">Recolher todos</button>
+        <button class="action-btn" id="expand-all">Expandir</button>
+        <button class="action-btn" id="collapse-all">Recolher</button>
+        <button class="action-btn action-btn-add" id="add-event-btn">+ Adicionar</button>
       </div>
       <div id="schedule-container"></div>
+
+      <!-- Add Event Modal -->
+      <div class="modal-backdrop" id="modal-backdrop"></div>
+      <div class="modal-sheet" id="add-event-modal">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <div class="modal-title">Adicionar ao Plano</div>
+          <button class="modal-close" id="modal-close">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <label class="form-label">Data</label>
+            <select class="form-select" id="ev-date">
+              <option value="">Selecionar dia…</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Horário</label>
+            <input class="form-input" id="ev-time" type="text" placeholder="ex: 14:00 ou Tarde">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Atividade</label>
+            <input class="form-input" id="ev-name" type="text" placeholder="Nome da atividade…">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Detalhe</label>
+            <input class="form-input" id="ev-meta" type="text" placeholder="Endereço, preço, nota…">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Link (Maps)</label>
+            <input class="form-input" id="ev-link" type="url" placeholder="https://maps.google.com/…">
+          </div>
+          <button class="form-submit" id="ev-submit">Salvar no Plano</button>
+        </div>
+      </div>
     </div>
 
     <!-- ═══ TAB 4: NIGHTLIFE & FOOD ═══ -->
@@ -2074,7 +2363,7 @@ html, body {
             <span class="day-caret">›</span>
           </div>
           <div class="check-group-body">
-            <div class="check-item"><input type="checkbox" id="c1"><label for="c1">Confirmar apartamento Paris (URGENTE)</label></div>
+            <div class="check-item"><input type="checkbox" id="c1" checked><label for="c1">Apartamento Paris confirmado ✓</label></div>
             <div class="check-item"><input type="checkbox" id="c2"><label for="c2">Reservar Cenacolo Vinciano (vivaticket.com)</label></div>
             <div class="check-item"><input type="checkbox" id="c3"><label for="c3">Reservar Cerimônia Sema (hodjapasha.com)</label></div>
             <div class="check-item"><input type="checkbox" id="c4"><label for="c4">Confirmar hospedagem Tallinn — Tallink City Hotel</label></div>
@@ -2122,10 +2411,23 @@ html, body {
           </div>
         </div>
 
-        <!-- Grand Total -->
-        <div class="orca-total-card">
-          <div class="orca-total-value">~€1.187</div>
-          <div class="orca-total-label">Estimativa total (excl. voos &amp; hospedagem)</div>
+        <!-- Grand Totals — three tiers -->
+        <div class="orca-totals-row">
+          <div class="orca-total-mini">
+            <div class="orca-total-mini-value">€1.306</div>
+            <div class="orca-total-mini-label">Gastos & Ingressos</div>
+            <div class="orca-total-mini-sub">excl. voos & hospedagem</div>
+          </div>
+          <div class="orca-total-mini orca-total-mid">
+            <div class="orca-total-mini-value">€2.261</div>
+            <div class="orca-total-mini-label">+ Hospedagem</div>
+            <div class="orca-total-mini-sub">~€955 est. acomodação</div>
+          </div>
+          <div class="orca-total-mini orca-total-full">
+            <div class="orca-total-mini-value">€4.0k</div>
+            <div class="orca-total-mini-label">Tudo incluído</div>
+            <div class="orca-total-mini-sub">+ voos ~€1.715 est.</div>
+          </div>
         </div>
 
         <!-- Paris -->
@@ -2194,9 +2496,34 @@ html, body {
         <div class="orca-city-card">
           <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Saratoga Hotel — Istanbul</span><span class="orca-cat-value" style="color:var(--green)">R$&nbsp;2.559</span></div>
           <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Nenessa Airport — IST layover</span><span class="orca-cat-value" style="color:var(--green)">R$&nbsp;263</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Paris — 10 Rue Mondetour</span><span class="orca-cat-value" style="color:var(--amber)">confirmar</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Milan — Casa Dani P.za Napoli</span><span class="orca-cat-value" style="color:var(--amber)">confirmar</span></div>
-          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Tallinn — Tallink City Hotel</span><span class="orca-cat-value" style="color:var(--amber)">confirmar</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Paris — 10 Rue Mondetour</span><span class="orca-cat-value" style="color:var(--green)">OK ✓</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Milan — Casa Dani P.za Napoli</span><span class="orca-cat-value" style="color:var(--green)">OK ✓</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Tallinn — Tallink City Hotel</span><span class="orca-cat-value" style="color:var(--amber)">Confirmar</span></div>
+        </div>
+
+        <!-- Food breakdown -->
+        <div class="section-label">Alimentação · preços locais</div>
+        <div class="food-grid">
+          <div class="food-card" style="--fc:var(--paris)">
+            <div class="food-city">Paris · 5d</div>
+            <div class="food-items">Fallafel €6 · Crêpe €4 · Baguette €3 · Almoço €10–14 · Jantar €12–18</div>
+            <div class="food-total">~€125–185</div>
+          </div>
+          <div class="food-card" style="--fc:var(--milan)">
+            <div class="food-city">Milan · 7d</div>
+            <div class="food-items">Panzerotto €3 · Pizza €4 · Aperitivo buffet €8–12 · Jantar €12–18</div>
+            <div class="food-total">~€155–230</div>
+          </div>
+          <div class="food-card" style="--fc:var(--istanbul)">
+            <div class="food-city">Istanbul · 4d</div>
+            <div class="food-items">Balık ekmek €3 · Simit €1 · Kebab €5 · Çay grátis · Jantar €8–12</div>
+            <div class="food-total">~€60–90</div>
+          </div>
+          <div class="food-card" style="--fc:var(--tallinn)">
+            <div class="food-city">Tallinn · 6d</div>
+            <div class="food-items">Lihapirukas €2 · Kohvik €6–8 · Almoço €8–12 · Jantar €10–15</div>
+            <div class="food-total">~€125–185</div>
+          </div>
         </div>
 
         <!-- By Category totals -->
@@ -2529,11 +2856,22 @@ function flightPhase(flight) {
     const dep = new Date(flight.departure).getTime();
     const arr = new Date(flight.arrival).getTime();
     if (now < dep) {
-        const hours = Math.max(1, Math.round((dep - now) / 3600000));
-        return { status: `T-${hours}h`, detail: 'agendado', live: false };
+        const totalMins = Math.round((dep - now) / 60000);
+        const d = Math.floor(totalMins / 1440);
+        const h = Math.floor((totalMins % 1440) / 60);
+        const m = totalMins % 60;
+        let label = '';
+        if (d > 0) label = `${d}d ${h}h`;
+        else if (h > 0) label = `${h}h ${m}m`;
+        else label = `${m}m`;
+        return { status: `T− ${label}`, detail: 'agendado', live: false };
     }
     if (now > arr) return { status: 'DONE', detail: 'concluído', live: false };
-    return { status: 'AIR', detail: 'janela de voo', live: true };
+    // in-flight: compute time remaining
+    const minsLeft = Math.round((arr - now) / 60000);
+    const hLeft = Math.floor(minsLeft / 60);
+    const mLeft = minsLeft % 60;
+    return { status: '✈ AIR', detail: `${hLeft}h${mLeft}m restantes`, live: true };
 }
 
 // ─── TABS ───
@@ -2561,6 +2899,121 @@ function initMaisTabs() {
     });
 }
 
+// ─── CUSTOM EVENTS (LocalStorage) ───
+function loadCustomEvents() {
+    try {
+        const raw = localStorage.getItem('eu26-custom-events');
+        return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+}
+
+function saveCustomEvents(data) {
+    try { localStorage.setItem('eu26-custom-events', JSON.stringify(data)); } catch(e) {}
+}
+
+// Merge custom events into scheduleData view
+function getScheduleWithCustom() {
+    const custom = loadCustomEvents(); // { "26 Jun": [{time,name,meta,link}, ...] }
+    return scheduleData.map(day => {
+        const extra = custom[day.date] || [];
+        if (!extra.length) return day;
+        return { ...day, events: [...day.events, ...extra] };
+    });
+}
+
+// ─── ADD EVENT MODAL ───
+function initAddEvent() {
+    const btn = document.getElementById('add-event-btn');
+    const backdrop = document.getElementById('modal-backdrop');
+    const modal = document.getElementById('add-event-modal');
+    const closeBtn = document.getElementById('modal-close');
+    const submit = document.getElementById('ev-submit');
+    const dateSelect = document.getElementById('ev-date');
+    if (!btn || !modal) return;
+
+    // Populate date select
+    scheduleData.forEach(day => {
+        const opt = document.createElement('option');
+        opt.value = day.date;
+        opt.textContent = `${day.date} · ${day.day} · ${cityMeta[day.city]?.name || day.city}`;
+        dateSelect.appendChild(opt);
+    });
+
+    function openModal() {
+        backdrop.classList.add('show');
+        modal.classList.add('show');
+        document.getElementById('ev-time').value = '';
+        document.getElementById('ev-name').value = '';
+        document.getElementById('ev-meta').value = '';
+        document.getElementById('ev-link').value = '';
+    }
+
+    function closeModal() {
+        backdrop.classList.remove('show');
+        modal.classList.remove('show');
+    }
+
+    btn.addEventListener('click', openModal);
+    backdrop.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+
+    submit.addEventListener('click', () => {
+        const date = dateSelect.value;
+        const time = document.getElementById('ev-time').value.trim();
+        const name = document.getElementById('ev-name').value.trim();
+        const meta = document.getElementById('ev-meta').value.trim();
+        const link = document.getElementById('ev-link').value.trim();
+        if (!date || !name) return;
+        const custom = loadCustomEvents();
+        if (!custom[date]) custom[date] = [];
+        custom[date].push({ time: time || 'Flex', name, meta, link });
+        saveCustomEvents(custom);
+        closeModal();
+        renderSchedule();
+    });
+}
+
+// ─── DRAG & DROP DAYS ───
+let dragSrcDate = null;
+
+function initDragDrop() {
+    document.getElementById('schedule-container')?.addEventListener('dragstart', e => {
+        const card = e.target.closest('.day-card');
+        if (!card) return;
+        dragSrcDate = card.dataset.date;
+        card.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+    });
+
+    document.getElementById('schedule-container')?.addEventListener('dragend', e => {
+        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('dragging', 'drag-over'));
+        dragSrcDate = null;
+    });
+
+    document.getElementById('schedule-container')?.addEventListener('dragover', e => {
+        e.preventDefault();
+        const card = e.target.closest('.day-card');
+        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('drag-over'));
+        if (card && card.dataset.date !== dragSrcDate) card.classList.add('drag-over');
+    });
+
+    document.getElementById('schedule-container')?.addEventListener('drop', e => {
+        e.preventDefault();
+        const targetCard = e.target.closest('.day-card');
+        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('drag-over'));
+        if (!targetCard || !dragSrcDate || targetCard.dataset.date === dragSrcDate) return;
+        const targetDate = targetCard.dataset.date;
+        // Move custom events from src to target
+        const custom = loadCustomEvents();
+        const srcEvents = custom[dragSrcDate] || [];
+        const tgtEvents = custom[targetDate] || [];
+        custom[targetDate] = [...tgtEvents, ...srcEvents];
+        delete custom[dragSrcDate];
+        saveCustomEvents(custom);
+        renderSchedule();
+    });
+}
+
 // ─── SCHEDULE RENDER ───
 let currentFilter = 'all';
 
@@ -2569,14 +3022,17 @@ function renderSchedule() {
     if (!container) return;
     container.innerHTML = '';
 
+    const allDays = getScheduleWithCustom();
     const filtered = currentFilter === 'all'
-        ? scheduleData
-        : scheduleData.filter(d => d.city === currentFilter);
+        ? allDays
+        : allDays.filter(d => d.city === currentFilter);
 
     filtered.forEach((day, i) => {
         const card = document.createElement('div');
         card.className = 'day-card open';
         card.dataset.city = day.city;
+        card.dataset.date = day.date;
+        card.setAttribute('draggable', 'true');
 
         const typeMap = { chegada: 'dt-chegada', livre: 'dt-livre', trabalho: 'dt-trabalho', partida: 'dt-partida' };
         const typeClass = typeMap[day.type] || 'dt-livre';
@@ -2693,6 +3149,12 @@ function updateClocks() {
     const now = new Date();
     const fmt = tz => formatTime(now, tz);
     document.getElementById('clock-sp').textContent = fmt('America/Sao_Paulo');
+
+    // Fixed destination clocks
+    const istEl = document.getElementById('clock-ist');
+    const tllEl = document.getElementById('clock-tll');
+    if (istEl) istEl.textContent = fmt('Europe/Istanbul');
+    if (tllEl) tllEl.textContent = fmt('Europe/Tallinn');
 
     const tripStart = new Date(2026, 5, 26);
     const dayNum = Math.floor((now - tripStart) / 86400000);
@@ -2958,6 +3420,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateClocks();
     initChecklist();
     initInstallBanner();
+    initAddEvent();
+    initDragDrop();
     calculateBudget();
     fetchEurBrl();
     hydrateLiveOps();
