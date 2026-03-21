@@ -15,34 +15,104 @@
 <title>Europa 2026</title>
 <style>
 :root {
+  /* ─── BACKGROUND / SURFACE ─── */
   --bg: #000000;
-  --surface: #0e0e10;
-  --surface2: #161618;
-  --surface3: #1e1e21;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.13);
-  --text: #f2efe9;
-  --muted: #9a9794;
-  --subtle: #525050;
-  --paris: #e8b96a;
-  --milan: #8ec0d8;
-  --istanbul: #d4875e;
-  --tallinn: #8ec07a;
-  --red: #e05c4e;
-  --amber: #e0b040;
-  --green: #78ba62;
-  --blue: #6090c8;
-  --purple: #9882c8;
-  --glow: rgba(232,185,106,0.08);
-  /* Liquid Glass system */
-  --glass-bg: rgba(255,255,255,0.07);
-  --glass-border: rgba(255,255,255,0.12);
-  --glass-blur: 28px;
-  --glass-sat: 200%;
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
-  /* Spring animation curves */
-  --spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --surface:  rgba(255,255,255,0.04);
+  --surface2: rgba(255,255,255,0.06);
+  --surface3: rgba(255,255,255,0.09);
+  --border:  rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+
+  /* ─── TEXT ─── */
+  --text:   rgba(255,255,255,0.92);
+  --muted:  rgba(255,255,255,0.50);
+  --subtle: rgba(255,255,255,0.26);
+
+  /* ─── CITY PALETTE ─── */
+  --paris:    #5B9FE8;  /* cobalt blue   — Parisian elegance */
+  --milan:    #E8904A;  /* warm orange   — Milan energy/fashion */
+  --istanbul: #A07DD4;  /* soft violet   — Istanbul culture */
+  --tallinn:  #4DA891;  /* nordic teal   — Baltic freshness */
+
+  /* ─── DYNAMIC ACCENT (overridden by [data-region]) ─── */
+  --color-primary: var(--paris);
+  --color-primary-rgb: 91, 159, 232;
+  --color-primary-glow: rgba(91, 159, 232, 0.18);
+
+  /* ─── SEMANTIC COLORS ─── */
+  --red:    #E05C4E;
+  --amber:  #E8904A;
+  --green:  #4DA891;
+  --blue:   #5B9FE8;
+  --purple: #A07DD4;
+
+  /* ─── DEPTH LAYER SYSTEM ─── */
+  /* Layer 0: True black canvas */
+  --layer-0: #000000;
+  /* Layer 1: Content — cards, sections */
+  --layer-1-bg:     rgba(255,255,255,0.042);
+  --layer-1-border: rgba(255,255,255,0.07);
+  --layer-1-blur:   16px;
+  --layer-1-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  /* Layer 2: Elevated — modals, popovers */
+  --layer-2-bg:     rgba(255,255,255,0.08);
+  --layer-2-border: rgba(255,255,255,0.13);
+  --layer-2-blur:   32px;
+  --layer-2-shadow: 0 12px 48px rgba(0,0,0,0.65);
+  /* Layer 3: Floating — tab bar, top bar */
+  --layer-3-bg:     rgba(0,0,0,0.75);
+  --layer-3-border: rgba(255,255,255,0.10);
+  --layer-3-blur:   40px;
+  --layer-3-shadow: 0 20px 64px rgba(0,0,0,0.80), inset 0 1px 0 rgba(255,255,255,0.07);
+
+  /* ─── GLASS SYSTEM (legacy compat) ─── */
+  --glass-bg:     rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.11);
+  --glass-blur:   28px;
+  --glass-sat:    180%;
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.055);
+
+  /* ─── SPACING SCALE ─── */
+  --space-xs:      4px;
+  --space-sm:      8px;
+  --space-md:      16px;
+  --space-lg:      24px;
+  --space-xl:      32px;
+  --space-section: 48px;
+
+  /* ─── RADIUS ─── */
+  --radius-sm:   10px;
+  --radius-md:   18px;
+  --radius-lg:   26px;
+  --radius-pill: 999px;
+
+  /* ─── MOTION ─── */
+  --motion-fast:   150ms;
+  --motion-normal: 260ms;
+  --spring:        cubic-bezier(0.16, 1, 0.3, 1);
   --spring-snappy: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── DYNAMIC REGION OVERRIDES ─── */
+[data-region="paris"] {
+  --color-primary: var(--paris);
+  --color-primary-rgb: 91, 159, 232;
+  --color-primary-glow: rgba(91, 159, 232, 0.18);
+}
+[data-region="milan"] {
+  --color-primary: var(--milan);
+  --color-primary-rgb: 232, 144, 74;
+  --color-primary-glow: rgba(232, 144, 74, 0.18);
+}
+[data-region="istanbul"] {
+  --color-primary: var(--istanbul);
+  --color-primary-rgb: 160, 125, 212;
+  --color-primary-glow: rgba(160, 125, 212, 0.18);
+}
+[data-region="tallinn"] {
+  --color-primary: var(--tallinn);
+  --color-primary-rgb: 77, 168, 145;
+  --color-primary-glow: rgba(77, 168, 145, 0.18);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -77,25 +147,24 @@ body {
   box-shadow: var(--glass-shadow);
 }
 
-/* ─── SKEUOMORPHIC BASE ─── */
+/* ─── SKEUOMORPHIC BASE (now uses depth layer 1) ─── */
 .sku-card {
-  background: linear-gradient(180deg, rgba(28,28,32,0.9) 0%, rgba(18,18,20,0.95) 100%);
-  border: 1px solid var(--border2);
-  border-radius: 14px;
+  background: rgba(255,255,255,0.045);
+  backdrop-filter: blur(var(--layer-2-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--layer-2-blur)) saturate(140%);
+  border: 1px solid var(--layer-1-border);
+  border-radius: var(--radius-md);
   box-shadow:
-    0 1px 0 rgba(255,255,255,0.04) inset,
-    0 -1px 0 rgba(0,0,0,0.3) inset,
-    0 4px 20px rgba(0,0,0,0.45);
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    var(--layer-1-shadow);
 }
 
 .sku-btn {
-  background: linear-gradient(180deg, var(--surface3) 0%, var(--surface) 100%);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.06) inset,
-    0 2px 6px rgba(0,0,0,0.2);
-  transition: all .2s ease;
+  background: var(--layer-1-bg);
+  border: 1px solid var(--layer-1-border);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), var(--layer-1-shadow);
+  transition: all var(--motion-fast) ease;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -116,14 +185,14 @@ body {
   overflow: hidden;
 }
 
-/* ─── HEADER ─── */
+/* ─── HEADER (compact, Layer 3 floating glass) ─── */
 .header {
-  padding: max(16px, env(safe-area-inset-top)) 20px 14px;
-  background: rgba(0,0,0,0.72);
-  backdrop-filter: blur(24px) saturate(200%);
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
-  border-bottom: 1px solid rgba(255,255,255,0.055);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.03);
+  padding: max(10px, env(safe-area-inset-top)) 18px 10px;
+  background: var(--layer-3-bg);
+  backdrop-filter: blur(var(--layer-3-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--layer-3-blur)) saturate(180%);
+  border-bottom: 1px solid var(--layer-3-border);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.025), 0 4px 16px rgba(0,0,0,0.4);
   flex-shrink: 0;
   position: relative;
   z-index: 50;
@@ -131,36 +200,35 @@ body {
 
 .header-eyebrow {
   font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: .12em;
+  font-size: 10px;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--subtle);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .header-title {
-  font-size: clamp(24px, 5.5vw, 32px);
+  font-size: clamp(20px, 4.5vw, 26px);
   font-weight: 300;
-  letter-spacing: -.5px;
+  letter-spacing: -.4px;
   color: var(--text);
-  line-height: 1.15;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  line-height: 1.1;
 }
 
 .header-title em {
   font-style: italic;
-  font-weight: 400;
-  color: var(--paris);
-  text-shadow: 0 0 20px rgba(200,169,110,0.2);
+  font-weight: 500;
+  color: var(--color-primary);
+  transition: color var(--motion-normal) var(--spring);
 }
 
 .header-meta {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
-  margin-top: 8px;
+  margin-top: 5px;
   font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--muted);
 }
 
@@ -184,57 +252,60 @@ body {
 }
 
 /* ─── FLOATING TAB NAV (iOS 26 Liquid Glass Pill) ─── */
+/* ─── FLOATING TAB BAR — Layer 3, true glass ─── */
 .tab-nav {
   position: fixed;
-  bottom: max(env(safe-area-inset-bottom, 8px), 12px);
+  bottom: max(env(safe-area-inset-bottom, 0px), 14px);
   left: 50%;
   transform: translateX(-50%);
   width: auto;
-  min-width: min(340px, calc(100vw - 32px));
-  max-width: calc(100vw - 24px);
+  min-width: min(340px, calc(100vw - 28px));
+  max-width: calc(100vw - 20px);
   display: flex;
   gap: 2px;
   padding: 5px;
-  background: rgba(12,12,14,0.78);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)) brightness(0.9);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)) brightness(0.9);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 32px;
+  /* True glass — bg must be transparent enough for content to show */
+  background: rgba(8,8,10,0.72);
+  backdrop-filter: blur(var(--layer-3-blur)) saturate(160%) brightness(0.85);
+  -webkit-backdrop-filter: blur(var(--layer-3-blur)) saturate(160%) brightness(0.85);
+  border: 1px solid var(--layer-3-border);
+  border-radius: var(--radius-pill);
   z-index: 200;
-  box-shadow: var(--glass-shadow), 0 2px 0 rgba(255,255,255,0.04) inset;
-  transition: transform .4s var(--spring), opacity .3s ease;
+  box-shadow: var(--layer-3-shadow);
+  transition: transform var(--motion-normal) var(--spring), opacity var(--motion-fast) ease;
 }
 
 .tab-nav.scrolled-down {
-  transform: translateX(-50%) translateY(calc(100% + 16px));
+  transform: translateX(-50%) translateY(calc(100% + 20px));
   opacity: 0;
   pointer-events: none;
 }
 
 .tab-btn {
   flex: 1;
-  padding: 8px 10px 7px;
-  min-height: 46px;
-  min-width: 52px;
+  padding: 7px 10px 6px;
+  min-height: 44px;
+  min-width: 50px;
   background: none;
   border: none;
   color: var(--subtle);
   font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 9.5px;
-  letter-spacing: .03em;
+  font-size: 9px;
+  letter-spacing: .04em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all .25s var(--spring);
+  transition: color var(--motion-normal) var(--spring),
+              background var(--motion-normal) var(--spring),
+              transform var(--motion-fast) var(--spring-snappy);
   text-align: center;
-  border-radius: 26px;
+  border-radius: var(--radius-pill);
   -webkit-tap-highlight-color: transparent;
-  position: relative;
 }
 
 .tab-btn.active {
-  color: var(--paris);
-  background: rgba(232,185,106,0.1);
-  box-shadow: inset 0 1px 0 rgba(232,185,106,0.15);
+  color: var(--color-primary);
+  background: rgba(var(--color-primary-rgb), 0.12);
+  box-shadow: inset 0 1px 0 rgba(var(--color-primary-rgb), 0.2);
 }
 
 .tab-btn .tab-icon {
@@ -242,20 +313,17 @@ body {
   font-size: 18px;
   margin-bottom: 2px;
   font-style: normal;
-  transition: transform .3s var(--spring-snappy);
+  transition: transform var(--motion-normal) var(--spring-snappy);
 }
 
-.tab-btn:active {
-  transform: scale(0.91);
-}
-
-.tab-btn:active .tab-icon {
-  transform: scale(0.85);
-}
+.tab-btn:active { transform: scale(0.90); }
+.tab-btn:active .tab-icon { transform: scale(0.83); }
 
 .tab-btn.active .tab-icon {
-  transform: scale(1.15);
-  filter: drop-shadow(0 0 6px rgba(232,185,106,0.45));
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 5px rgba(var(--color-primary-rgb), 0.55));
+  transition: transform var(--motion-normal) var(--spring-snappy),
+              filter var(--motion-normal) ease;
 }
 
 /* ─── CONTENT ─── */
@@ -319,8 +387,8 @@ body {
 /* ─── SECTION ─── */
 .section-label {
   font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: .14em;
+  font-size: 9.5px;
+  letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--subtle);
   margin: 28px 0 10px;
@@ -343,13 +411,14 @@ body {
 .trip-pct-label {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 10px;
-  color: var(--paris);
+  color: var(--color-primary);
   letter-spacing: .06em;
+  transition: color var(--motion-normal) var(--spring);
 }
 .trip-progress-track {
-  height: 4px;
+  height: 3px;
   border-radius: 3px;
-  background: var(--surface3);
+  background: rgba(255,255,255,0.07);
   overflow: hidden;
 }
 .trip-progress-bar {
@@ -387,19 +456,19 @@ body {
 .alert-bar strong { font-weight: 600; color: var(--red); }
 .alert-icon { flex-shrink: 0; margin-top: 2px; font-size: 16px; }
 
-/* ─── STAT GRID ─── */
+/* ─── STAT GRID — Layer 1 glass ─── */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0;
-  margin-bottom: 20px;
-  border: 1px solid var(--glass-border);
-  border-radius: 20px;
+  margin-bottom: var(--space-lg);
+  border: 1px solid var(--layer-1-border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
-  box-shadow: var(--glass-shadow);
+  background: var(--layer-1-bg);
+  backdrop-filter: blur(var(--layer-2-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--layer-2-blur)) saturate(140%);
+  box-shadow: var(--layer-2-shadow), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 .stat-card {
@@ -428,13 +497,15 @@ body {
 .stat-card:nth-child(4) { animation-delay: .2s; }
 
 .stat-value {
-  font-size: 44px;
+  font-size: 42px;
   font-weight: 200;
   letter-spacing: -2px;
-  color: var(--paris);
+  color: var(--color-primary);
   font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
-  text-shadow: 0 0 28px rgba(200,169,110,0.2);
+  text-shadow: 0 0 24px rgba(var(--color-primary-rgb), 0.25);
   line-height: 1;
+  transition: color var(--motion-normal) var(--spring),
+              text-shadow var(--motion-normal) ease;
 }
 
 .stat-label {
@@ -446,19 +517,19 @@ body {
   margin-top: 8px;
 }
 
-/* ─── DUAL CLOCKS ─── */
+/* ─── DUAL CLOCKS — Layer 1 glass ─── */
 .clock-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
-  margin-bottom: 20px;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 20px;
+  margin-bottom: var(--space-lg);
+  border: 1px solid var(--layer-1-border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  background: rgba(255,255,255,0.025);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+  background: var(--layer-1-bg);
+  backdrop-filter: blur(var(--layer-2-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--layer-2-blur)) saturate(160%);
+  box-shadow: var(--layer-2-shadow), inset 0 1px 0 rgba(255,255,255,0.045);
 }
 
 .clock-card {
@@ -513,7 +584,7 @@ body {
   width: 2px;
   background: linear-gradient(to bottom, var(--paris), var(--milan), var(--istanbul), var(--tallinn), var(--subtle));
   border-radius: 1px;
-  box-shadow: 0 0 8px rgba(200,169,110,0.15);
+  box-shadow: 0 0 8px rgba(var(--color-primary-rgb),0.15);
 }
 
 .route-stop {
@@ -567,40 +638,23 @@ body {
 
 /* ─── FLIGHT CARDS ─── */
 .flight-card {
-  margin: 8px 0 8px 0;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 3px,
-      rgba(0,0,0,0.08) 3px,
-      rgba(0,0,0,0.08) 4px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 3px,
-      rgba(0,0,0,0.06) 3px,
-      rgba(0,0,0,0.06) 4px
-    ),
-    linear-gradient(180deg, #2e261f 0%, #1e1a16 45%, #2a2318 100%);
-  border: 1px solid rgba(200,160,100,0.22);
-  border-radius: 12px;
-  padding: 12px 14px 12px 14px;
+  margin: 8px 0;
+  background: var(--layer-1-bg);
+  backdrop-filter: blur(var(--layer-1-blur));
+  -webkit-backdrop-filter: blur(var(--layer-1-blur));
+  border: 1px solid var(--layer-1-border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
   position: relative;
   overflow: hidden;
-  box-shadow:
-    0 1px 0 rgba(255,220,150,0.08) inset,
-    0 -1px 0 rgba(0,0,0,0.5) inset,
-    1px 0 0 rgba(255,220,150,0.04) inset,
-    0 4px 16px rgba(0,0,0,0.45),
-    0 1px 4px rgba(0,0,0,0.3);
-  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: var(--layer-1-shadow);
+  transition: transform var(--motion-fast) var(--spring-snappy),
+              box-shadow var(--motion-fast) ease;
 }
 
 .flight-card:active {
   transform: scale(0.98);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: none;
 }
 
 .flight-card::before {
@@ -609,7 +663,7 @@ body {
   right: 14px;
   top: 12px;
   font-size: 18px;
-  opacity: 0.15;
+  opacity: 0.08;
 }
 
 .flight-card::after {
@@ -617,7 +671,7 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(200,169,110,0.15), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
 }
 
 .flight-top {
@@ -637,8 +691,8 @@ body {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 13px;
   font-weight: 700;
-  color: var(--paris);
-  text-shadow: 0 0 8px rgba(200,169,110,0.2);
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(var(--color-primary-rgb),0.2);
 }
 
 .flight-route {
@@ -726,9 +780,9 @@ body {
 }
 
 .airport-ops-card {
-  background:
-    radial-gradient(circle at top right, rgba(200,169,110,0.12), transparent 30%),
-    linear-gradient(180deg, #232324 0%, #151517 100%);
+  background: var(--layer-1-bg);
+  backdrop-filter: blur(var(--layer-1-blur));
+  -webkit-backdrop-filter: blur(var(--layer-1-blur));
 }
 
 .flight-board,
@@ -813,7 +867,7 @@ body {
   background: linear-gradient(180deg, #1e1e22 0%, #070708 48%, #141418 49%, #1c1c22 100%);
   color: #c8a96e;
   box-shadow:
-    inset 0 1px 0 rgba(200,169,110,0.12),
+    inset 0 1px 0 rgba(var(--color-primary-rgb),0.10),
     inset 0 -1px 0 rgba(0,0,0,0.5),
     0 2px 4px rgba(0,0,0,0.55);
 }
@@ -861,7 +915,7 @@ body {
 .meeting-clock {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 16px;
-  color: var(--paris);
+  color: var(--color-primary);
 }
 
 .weather-meta,
@@ -875,9 +929,10 @@ body {
 .airport-terminal {
   padding: 16px;
   margin-bottom: 20px;
-  background:
-    radial-gradient(circle at top center, rgba(200,169,110,0.15), transparent 24%),
-    linear-gradient(180deg, #2f281c 0%, #1d1a16 45%, #121214 100%);
+  background: var(--layer-1-bg);
+  backdrop-filter: blur(var(--layer-2-blur));
+  -webkit-backdrop-filter: blur(var(--layer-2-blur));
+  border: 1px solid var(--layer-1-border) !important;
 }
 
 .terminal-top {
@@ -899,10 +954,12 @@ body {
 
 .terminal-gate {
   padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(200,169,110,0.2);
-  color: var(--paris);
-  background: rgba(200,169,110,0.08);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.22);
+  color: var(--color-primary);
+  background: rgba(var(--color-primary-rgb), 0.08);
+  transition: border-color var(--motion-normal) var(--spring),
+              color var(--motion-normal) var(--spring);
 }
 
 .airport-hud {
@@ -922,7 +979,7 @@ body {
   border: 1px solid rgba(255,255,255,0.08);
 }
 
-.hud-pill strong { color: var(--paris); }
+.hud-pill strong { color: var(--color-primary); }
 
 .flight-card {
   margin-top: 10px;
@@ -938,8 +995,9 @@ body {
   font-size: 10px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--paris);
+  color: var(--color-primary);
   margin-bottom: 8px;
+  transition: color var(--motion-normal) var(--spring);
 }
 
 @media (max-width: 760px) {
@@ -1187,14 +1245,14 @@ body {
 }
 
 .filter-btn.active {
-  color: var(--fc, var(--paris));
-  border-color: var(--fc, var(--paris));
-  background: color-mix(in srgb, var(--fc, var(--paris)) 12%, rgba(255,255,255,0.08));
+  color: var(--fc, var(--color-primary));
+  border-color: var(--fc, var(--color-primary));
+  background: color-mix(in srgb, var(--fc, var(--color-primary)) 14%, rgba(255,255,255,0.06));
   box-shadow:
-    0 0 18px color-mix(in srgb, var(--fc, var(--paris)) 28%, transparent),
+    0 0 18px color-mix(in srgb, var(--fc, var(--color-primary)) 28%, transparent),
     0 2px 12px rgba(0,0,0,0.35),
-    0 1px 0 rgba(255,255,255,0.12) inset;
-  text-shadow: 0 0 14px var(--fc, var(--paris));
+    0 1px 0 rgba(255,255,255,0.10) inset;
+  text-shadow: 0 0 12px var(--fc, var(--color-primary));
   transform: scale(1.02);
 }
 
@@ -1268,7 +1326,7 @@ body {
   transition: all .2s ease;
 }
 
-.slot-name a:hover { border-color: var(--paris); color: var(--paris); }
+.slot-name a:hover { border-color: var(--color-primary); color: var(--color-primary); }
 .slot-name a:active { transform: scale(0.97); display: inline-block; }
 .slot-name a::after { content: ' ↗'; font-size: 11px; color: var(--subtle); }
 
@@ -1470,7 +1528,7 @@ body {
 .check-item input[type="checkbox"] {
   margin-top: 3px;
   width: 20px; height: 20px;
-  accent-color: var(--paris);
+  accent-color: var(--color-primary);
   cursor: pointer;
   flex-shrink: 0;
 }
@@ -1525,7 +1583,7 @@ body {
 .venue-price {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 11px;
-  color: var(--paris);
+  color: var(--color-primary);
   margin-top: 6px;
 }
 
@@ -1613,15 +1671,15 @@ body {
 .budget-total {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 16px;
-  color: var(--paris);
+  color: var(--color-primary);
   margin-top: 6px;
   font-weight: 600;
-  text-shadow: 0 0 8px rgba(200,169,110,0.15);
+  text-shadow: 0 0 8px rgba(var(--color-primary-rgb),0.15);
 }
 
 .budget-total-card {
-  border-color: rgba(200,169,110,0.3);
-  background: linear-gradient(180deg, rgba(200,169,110,0.08), rgba(200,169,110,0.03));
+  border-color: rgba(var(--color-primary-rgb), 0.28);
+  background: rgba(var(--color-primary-rgb), 0.05);
 }
 
 /* ─── PWA INSTALL BANNER ─── */
@@ -1693,7 +1751,7 @@ body {
 .venue-name { font-size: 15px; font-weight: 600; }
 .venue-arrow { color: var(--subtle); font-size: 14px; }
 .venue-desc { font-size: 13px; color: var(--muted); line-height: 1.45; margin-bottom: 6px; }
-.venue-price { font-family: 'SF Mono', ui-monospace, monospace; font-size: 12px; color: var(--paris); }
+.venue-price { font-family: 'SF Mono', ui-monospace, monospace; font-size: 12px; color: var(--color-primary); }
 
 /* ─── TAB BTN sizing ─── */
 .tab-btn { font-size: 9px; }
@@ -1722,9 +1780,9 @@ body {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 32px;
   font-weight: 200;
-  color: var(--paris);
+  color: var(--color-primary);
   letter-spacing: -1px;
-  text-shadow: 0 0 24px rgba(200,169,110,0.35);
+  text-shadow: 0 0 22px rgba(var(--color-primary-rgb),0.32);
 }
 .fx-label {
   font-family: 'SF Mono', ui-monospace, monospace;
@@ -1745,20 +1803,20 @@ body {
 .fx-need-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 3px; }
 
 .orca-total-card {
-  background: linear-gradient(180deg, rgba(200,169,110,0.1), rgba(200,169,110,0.03));
-  border: 1px solid rgba(200,169,110,0.28);
-  border-radius: 18px;
+  background: rgba(var(--color-primary-rgb), 0.06);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.22);
+  border-radius: var(--radius-md);
   padding: 22px 20px;
   text-align: center;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.3), 0 0 40px rgba(200,169,110,0.05);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.3), 0 0 32px rgba(var(--color-primary-rgb), 0.05);
 }
 .orca-total-value {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 52px;
   font-weight: 200;
-  color: var(--paris);
+  color: var(--color-primary);
   letter-spacing: -2px;
-  text-shadow: 0 0 32px rgba(200,169,110,0.3);
+  text-shadow: 0 0 28px rgba(var(--color-primary-rgb),0.28);
 }
 .orca-total-label {
   font-family: 'SF Mono', ui-monospace, monospace;
@@ -1829,8 +1887,8 @@ body {
 
 /* ─── GLOW ANIMATIONS ─── */
 @keyframes pulse-glow {
-  0%, 100% { text-shadow: 0 0 20px rgba(200,169,110,0.15); }
-  50% { text-shadow: 0 0 30px rgba(200,169,110,0.35); }
+  0%, 100% { text-shadow: 0 0 20px rgba(var(--color-primary-rgb),0.15); }
+  50% { text-shadow: 0 0 28px rgba(var(--color-primary-rgb),0.32); }
 }
 .stat-value { animation: pulse-glow 4s ease-in-out infinite; }
 
@@ -1877,8 +1935,8 @@ body {
 }
 .mais-btn:last-child { border-right: none; }
 .mais-btn.active {
-  background: rgba(200,169,110,0.12);
-  color: var(--paris);
+  background: rgba(var(--color-primary-rgb),0.10);
+  color: var(--color-primary);
 }
 .mais-btn:active { background: rgba(255,255,255,0.05); }
 .sub-content { display: none; }
@@ -1984,7 +2042,7 @@ body {
   padding: 20px;
   margin-bottom: 20px;
   background:
-    radial-gradient(circle at top center, rgba(200,169,110,0.1), transparent 30%),
+    radial-gradient(circle at top center, rgba(var(--color-primary-rgb),0.08), transparent 30%),
     linear-gradient(180deg, #252018 0%, #1a1812 50%, #111113 100%);
 }
 
@@ -1999,8 +2057,9 @@ body {
 }
 
 .clock-highlight {
-  background: rgba(232,185,106,0.05);
+  background: rgba(var(--color-primary-rgb), 0.06);
   position: relative;
+  transition: background var(--motion-normal) var(--spring);
 }
 
 .clock-highlight::before {
@@ -2008,14 +2067,24 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--paris), transparent);
-  opacity: 0.6;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  opacity: 0.55;
+  transition: background var(--motion-normal) var(--spring);
 }
 
 .clock-highlight .clock-time {
-  color: var(--paris);
-  text-shadow: 0 0 28px rgba(232,185,106,0.35);
+  color: var(--color-primary);
+  text-shadow: 0 0 24px rgba(var(--color-primary-rgb), 0.4);
+  transition: color var(--motion-normal) var(--spring),
+              text-shadow var(--motion-normal) ease;
 }
+
+/* Dynamic clock card — city-colored accent */
+.clock-card[data-city] .clock-city { color: var(--muted); }
+.clock-card[data-city="paris"]    .clock-city { color: var(--paris); }
+.clock-card[data-city="milan"]    .clock-city { color: var(--milan); }
+.clock-card[data-city="istanbul"] .clock-city { color: var(--istanbul); }
+.clock-card[data-city="tallinn"]  .clock-city { color: var(--tallinn); }
 
 .clock-time {
   font-size: 26px;
@@ -2048,13 +2117,13 @@ body {
 /* ─── ACTION BTN ADD ─── */
 .action-btn-add {
   margin-left: auto;
-  color: var(--paris);
-  border-color: rgba(232,185,106,0.3);
-  background: rgba(232,185,106,0.06);
+  color: var(--color-primary);
+  border-color: rgba(var(--color-primary-rgb), 0.3);
+  background: rgba(var(--color-primary-rgb), 0.07);
   font-weight: 600;
 }
 
-.action-btn-add:active { background: rgba(232,185,106,0.12); }
+.action-btn-add:active { background: rgba(var(--color-primary-rgb), 0.13); }
 
 /* ─── MODAL SHEET ─── */
 .modal-backdrop {
@@ -2147,7 +2216,7 @@ body {
 
 .form-input:focus, .form-select:focus {
   outline: none;
-  border-color: var(--paris);
+  border-color: var(--color-primary);
 }
 
 .form-submit {
@@ -2171,7 +2240,7 @@ body {
 /* ─── DRAG & DROP ─── */
 .day-card[draggable="true"] { cursor: grab; }
 .day-card.drag-over {
-  border-color: var(--paris);
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 2px var(--paris), 0 8px 24px rgba(0,0,0,0.3);
 }
 
@@ -2198,16 +2267,16 @@ body {
   -webkit-backdrop-filter: blur(12px);
 }
 
-.orca-total-mid { border-color: rgba(232,185,106,0.2); background: rgba(232,185,106,0.05); }
-.orca-total-full { border-color: rgba(232,185,106,0.35); background: rgba(232,185,106,0.1); }
+.orca-total-mid { border-color: rgba(var(--color-primary-rgb),0.18); background: rgba(var(--color-primary-rgb),0.05); }
+.orca-total-full { border-color: rgba(var(--color-primary-rgb),0.3); background: rgba(var(--color-primary-rgb),0.08); }
 
 .orca-total-mini-value {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 22px;
   font-weight: 200;
-  color: var(--paris);
+  color: var(--color-primary);
   letter-spacing: -1px;
-  text-shadow: 0 0 20px rgba(232,185,106,0.25);
+  text-shadow: 0 0 20px rgba(var(--color-primary-rgb),0.25);
   line-height: 1;
 }
 
@@ -2499,7 +2568,7 @@ body {
     <!-- ═══ TAB 2: SCHEDULE ═══ -->
     <div class="tab-content" id="tab-schedule">
       <div class="filter-bar" id="filter-bar">
-        <button class="filter-btn active" data-city="all">Todos</button>
+        <button class="filter-btn active" data-city="all" style="--fc:var(--color-primary)">Todos</button>
         <button class="filter-btn" data-city="paris" style="--fc:var(--paris)">Paris</button>
         <button class="filter-btn" data-city="milan" style="--fc:var(--milan)">Milan</button>
         <button class="filter-btn" data-city="istanbul" style="--fc:var(--istanbul)">Istanbul</button>
@@ -3542,12 +3611,31 @@ function renderSchedule() {
     });
 }
 
+function setRegion(city) {
+    const app = document.querySelector('.app');
+    if (!app) return;
+    if (city && city !== 'all') {
+        app.dataset.region = city;
+    } else {
+        // 'all' — determine region from today's travel day
+        const today = new Date();
+        const tripStart = new Date(2026, 5, 26);
+        const dayNum = Math.floor((today - tripStart) / 86400000);
+        let region = 'paris';
+        if (dayNum >= 16)      region = 'tallinn';
+        else if (dayNum >= 12) region = 'istanbul';
+        else if (dayNum >= 5)  region = 'milan';
+        app.dataset.region = region;
+    }
+}
+
 function initFilters() {
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentFilter = btn.dataset.city;
+            setRegion(currentFilter);
             renderSchedule();
         });
     });
@@ -3613,16 +3701,24 @@ function updateClocks() {
     if (tllEl) tllEl.textContent = fmt('Europe/Tallinn');
 
     const tripStart = new Date(2026, 5, 26);
+    const tripEnd   = new Date(2026, 6, 19);
     const dayNum = Math.floor((now - tripStart) / 86400000);
-    let tz = 'Europe/Paris', city = 'Paris', tzLabel = 'UTC +2';
+    let tz = 'Europe/Paris', city = 'Paris', tzLabel = 'UTC +2', cityKey = 'paris';
 
-    if (dayNum >= 16) { tz = 'Europe/Tallinn'; city = 'Tallinn'; tzLabel = 'UTC +3'; }
-    else if (dayNum >= 12) { tz = 'Europe/Istanbul'; city = 'Istanbul'; tzLabel = 'UTC +3'; }
-    else if (dayNum >= 5) { tz = 'Europe/Rome'; city = 'Milan'; tzLabel = 'UTC +2'; }
+    if (dayNum >= 16)      { tz = 'Europe/Tallinn'; city = 'Tallinn'; tzLabel = 'UTC +3'; cityKey = 'tallinn'; }
+    else if (dayNum >= 12) { tz = 'Europe/Istanbul'; city = 'Istanbul'; tzLabel = 'UTC +3'; cityKey = 'istanbul'; }
+    else if (dayNum >= 5)  { tz = 'Europe/Rome'; city = 'Milan'; tzLabel = 'UTC +2'; cityKey = 'milan'; }
 
     document.getElementById('clock-current').textContent = fmt(tz);
     document.getElementById('clock-city-name').textContent = city;
     document.getElementById('clock-tz').textContent = tzLabel;
+
+    // Highlight clock card for current city — update color-primary via data-city
+    const highlightCard = document.querySelector('.clock-card.clock-highlight');
+    if (highlightCard) highlightCard.dataset.city = cityKey;
+
+    // Update accent region if no city filter is active
+    if (currentFilter === 'all') setRegion(now >= tripStart && now <= tripEnd ? cityKey : 'paris');
 }
 
 
@@ -3851,6 +3947,7 @@ async function hydrateLiveOps() {
 document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     initMaisTabs();
+    setRegion('all'); // set initial region accent from current travel date
     renderSchedule();
     initFilters();
     initCollapsibles();
