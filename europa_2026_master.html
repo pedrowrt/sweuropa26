@@ -1,0 +1,2326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="application-name" content="Europa 2026">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Europa 2026">
+<meta name="theme-color" content="#111113">
+<link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Europa%202026%22,%22short_name%22:%22Europa26%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23111113%22,%22theme_color%22:%22%23111113%22,%22orientation%22:%22portrait%22,%22icons%22:[{%22src%22:%22data:image/png;base64,iVBORw0K%22,%22sizes%22:%22192x192%22,%22type%22:%22image/png%22}]}">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAO50lEQVR4nO2du6p0SRXH12469vsm8w0MfQgTxScQRDFRNHFQBHEwktGZYGAiRTPFUDBS52FEQUwHBRnBaBvsc/rsS637pWr36T8n6LNr1f3Xq1bV7t49vfncGwCACXC106gcOiO5obg4syaAOb0SSR2KVghMcRMq5QqgJuOUWMgLEFq6GJrYIngLjSlugr8bJrh2JENg5WAi28vsyrewcisCzaxDhLNDTNCcV7IowSWjEWuln9v8NUdRu44VhgHpWhfNBwaHiYwuWJiYMGSyTLcuG4WI1IXIlhghH004ssiIxCI4pjGWI50tkek6gxuRCD6OcHQhI3KqK5cXxWKio4RBpIaP6yGtYc5UwqkGi74hxyIRABH7EFEZnBHLx3V7tV0+U73dpIysaq0bRq0QaPLONMuF0HxcV/83TJhaBQ3rlHkgMRj4nEAqH9dV3Y3mUEUa018RFju5Q822kTSrno/LWGRMqAmecjJRHRF1sm3h3DQ0Ey/qalLJaF27GyzWovo1DB/7rayHjHAsXoOsS4Ujn3h9uezSKGWQ0Xr73KWroNXuMj8QJhcinsdL86qnRGe214bFWoFTHTKbl8CyDpdJZh4OoyWTC0EzMTVxiZeQUpx5HljsFDXbzplt7FZU+XV5EIcxjqZpoOaYXIjgkjj5qqyLTVSEH/XzIJl71maeKz5IuAjdk2g++0FuUKhk/MM+d0FGhifYlVnAinLCw/hA4DgzGcVLw7q6PFC68EF8TBAtRHH5kJI3byOEC7c2ZFDSWGJi+TioBYf61EJ6OWP2RmDiqDxK9hPcjkratu1LeNpht3IeMqZpGpOMtTIaqdmTKPcv27QLkSZI6UPGKbBYK7zBNXyoYw6+iswg41xM7LQ0Pmqh0YQg2mDjSSvPoXMb1WSczltgiu3IviCx/5A4j8vuf75UwjqHjLvBYq3ATuXxcaGt+pJxl1isFdXBJD64eytC5ZARUcwJVMuHQpcYt6GyYEu4d4dxVEiXZfkVFKGew7aghJDhLuOsCubDvbi0t7LmUMOpMjIM1dTcip2mKfJQVby5bRp6zjkiQ41sLAJc2vbfPFacxyGiaZdJ+NUE/tqAZEyrv3MVDr4xkS0bvNUejjsgwzVnpmxJlHTng11Wcrcn6XccDEa0gfHRW0Z5QhDZekJZXXeG0mojlHiKrEu21oQ+aY1I1FcYFaLqYaEPwRIXlMDDY2rLlhcUcOUH1mweK9vicpP4S02qUtmMQWeCaGdTmdDUGNWQMD40WYgvNTHXOpLBYNFRmYjE8KGJTLFlRXEMplLWIXEYFiGdzBq/mLVYvLhcUWND+WwuX9+UK6a6JEGqJjBsxaX+WNUWnxpOwibEc6QsKPFk6LxFyKmVvpCWrfPtbxtJw+JyqVmjU8iQZk2KRDQlj8GHVqLnkIbEoTZZsSjeqyzSHZDFHodItFlc2ivN5qrgxpt7nCO3YXxJ6rqCQgwQTfdhSgzRwFNG/+EYVzf/kFpFcjNLHRnxLuVoLDtjJA278iGo68VE8QiGnmTwizufHHPYIC2HNDkUUXloJIhMn8Q8wbiL2icyYnNFVocEgYbOhZj9R4Ke2kJ6jh5uI4qMpC2KviJFYtkZgdB5UI+39iifjH3a+9//0he/8HlDpbH6z2f/+9qP/rC9RrqQCP8R/OHC54bgnqN8++oh4wzC2xwUf6gkcR5B31vZVew/ojkzGVIKZCnSShOOxRY4+g+3OIRu73D7d2ArvEkiPsbozoR4DkdDvfGR0nCMcWxLzYfWaJdFOfLsG7L9qwmVEocaJyNjkY6PHsEHoZbnqHUbWNV0woBLCSakqR63gtcV6jxSAlK5ZKGG8uxjSNn46NtTCo5styGzvgcyFin4UFns7ONmQfHAuFy1670fMhZJ+RhjFsKWlfBQ+bWrY+T3LNUjGIp1Wrehvtcy2IbxWdJHTTKlx7uNqBtwnRTCRxfnscrnewRDlZLIePcXf/7bP/9lzJzya51jqcNW1uA2xMX5pSgueqcR7Dz8aj+HVNWO6Fs+mgXFW/N0+MMuUvmZGhQpkSOpmpfmO7bac2g3KZlkyMVQEsoHZVTsPDqfkB4k7n6fCBRFJC4qGii01v8i9c7Y7buk9gOpjYittanOwz47ADCY5xjcbeyk5OOEzoN/9nkvWVf4pFql1gY+xhv7pzbVnXMMel5+bMnuiv40I+UMY1Vo2RmJa1kJ3cTK4MndNSM2/H7WW+Phclg/PXMkedTkCVTRbA0f9zGMPY7PzSOXtmY3S2h/B72dAEdnjzp/86pQfuR+fao1WVwNfQKSj3/8ldgCf/DhJ3/9x6e2vIepp1io4CTs91b6aWQHPnLbJLLDUf3bF2cf6bWKR846U+WeQ7XAeAvrr+Du1HZ4hGVl/ClWKWt7X68NHEltCSj2zviBgB4VTNYInuOhQXViOAb2JoPeKtDqxHA8lK2x4DjvmyxKQ43AWHA8NJQecDyE6gHHQ6iutlXOeCJr++Sl9mOWYr37wV/+vv1Sk+qxfDP6D4hujYnunqnux+GlmB43eLHd3TM+2LCRSVCOqKqYm5Qn6FfhfD2WlYdQPeB4CNUDDqPG/xq0X2PB8RpGnNZQIzAWHKfUUPMZqhPD0XFSuKrJTe55dGI4eum8k63VBo6kbgcUO+yEmBvm7lHBZI3gOYad+YYEC0ZgdzqPTDkcquXaW1iwDNUFd6e2w3Y4on8aiK2vtLZj5fv6PW6jeOSsMzXCsuJSwTjb7pyIrcbVBaCiE8Pu/RouYZukIcPVcNUdtoohmrt8kXq2fhoOyWguL/y7sos+/fd/v/XeH+MRKndE+2XlpJ5wtGaP1h6hds12xRyhMalsZTnpqN+EtD/mUxvNkh1zVBeQ3smRci/NzZe5eoZjvNm6Q+chdRsDaAYYbCsrHqURh5OTos2jdK8Bh+5QT7OkaVeWUQYpU9oPkhbNDgAM5jngbp3HCd0G1MMR6TwGGkZSeDtT3YZfKzhKfJekPOZ/adoY0pER2R//it9hWQm+6z0yH7q2MbTUd3S0mKMtZlzG5INs1ZhN3mkLh7XJ2pXF4DxOxoeajGC3YV/rV/mmd96+s0kr+WmPfeHiR53H/eaNwlw9zCFkQB0c2Hs17K7sPM8qPja3Us33ValCRebxiiq0i9vY6hBz9PLPIYsLkB/QyJagasOCUqptvVRAmg2szFrPh7joSBnPbES06xoSNwuddyu2+/RSPmoQkVVUE2rEqgVHx9VOw0d/RMRY2MiwtCh023jpTafcLTQSpE2fQynRlKZDYJYY1QlZVmqdhziDg4+btZkSfV6PczC0Mfy06fqc0vkBmOKdbSNt6ZeuA9gwBv3KDV6GKKW7zwAAgDklIA3YZ1MFyHa98fX6y7CkSCtN+I4ZDkc5yJo9CcpH3/cc2QBpSofRRqq8MOnmuk0gK/kYCBEOi1wyEtzGDMw5h8955PNBJQ9zzKFILCNDdry0ubfSPyxdtG8H0y4qHr11PLxjxnMvPH2MIHTRU1u4gLSH82jUxfsBPjnEl4jL4RxGEBl5bgMOd2X5N6n2Lai9W0vV5XAhO6O1iAymOdM5DGstAFlHSi8mglv27tWmkA8wnHrE+XOLQ6kkQ1v3EY7W8K+uFQcmjanWOYiCxsomKQ4LswQLyubqpSik92HeyCwtLyrY8JUcTUbNY5WaAWmrYveZWAofiiLnCFD0hbRsu5ChdRuwLCuWMNPkr83Bx61SyL2zAmE3V5BKArZLIadHsizYVjanZxH+EIU+Zk5DOjkWGbJ2NK5ecPuUxQWC+EhGxCoci45kGBaU5f8Lmq6tVZUx4h3AIFJJCV5jVEPCjhM1WegTUt6h9OUD6NHPpoQsP7DmyINmgdVN152VKLALOutwxqebogCA/oTQTc4KBdMUS2PYrlW/6WZPSHkQPKgE8gHCjQs9Rr7NSriT8pBhPIFZaQ9Ha6b5awV8/OlXX19efPW7v2cKfH6xK/QnH/1yefHzH36Pz9zSb7/95eXFN3/ziTjTRt/56VMvfv0zphcQS4YmDr1J+NinxOADBKNwI2P3mil29XcjA7av5bqRsbzWH4e9kLF73VR3MsD7paZQPrDhONIg52PRewcatHysyVj0u8MVWkcaMD6IoZBIRoZI7ZhDurjgl22KDUGYumqqUSr4pgm1keMNUc+hOOKLOBl7KaH4lzpGUvDxsY8MoH+uXMGHyoItYetXjxEoG5Pu9P4hAj1eofWNbQTavELrGIGurziXkqdCTFZErqDvrcQFHy+FIHxoyVi0pkFLxqI1DVoyFq1p2JFhKG2nwFDjpuntm7cAVNzQSkGsJ4mRWmVRSL0Cj4nJ//WGADALnn1uCz6YijUKcbmjKbBTSWQA9hxSQSmlfMAdIRLbkTwywPdMMNHmVnSkLa9ynuG0C00s3I2yxGQIJX3UpMhR4JfD70Wdy4uEN9hJhsRtgOqBcUPxASdBJKORNWRAe1nBDz11p6SHFSX0NPW5zOehH2qtyaPWEjtYzdUxh/oUPTME2dQzACWpnsw71XrnjcBBvsedfHDFe7WeoQJQapa2dDJaybjnODMfL7VsZy6ElfpApwsZAHClJimfDyj+ciU3r9M0DRXktptSQgaoHsEgTiQ3PPm7GI9GJ6M1gGwOZR0vujjzq/loJTJdfn1qD4h+npwzS3ypSVEKclntQh6IoFgwDiOeDFB8qcnChyXba+ZDH2HEZtonXppXPSWqsz1ciNFhQCoZIPtqgjQZ331w+5JWev1epotM0xuer52o/0Vqrn6jC0HS5zt1JFS/xiADsF9N6MmHJb49k6iOiDpZRAYQD8b3rC+3yixLjDfzuFKeUEiNHFnpxPm6MgjmgzQJQITLP4qcbpg2yiMD2CcYZ/Ihzr+IpARJ7yankxeappIBkofU8nyA2QXI8ssMR3An/tkSmoZURJMBwueQ8m/wABcCCkRI212fU1mJmGi1dQ0ZgNyyT+QDQhABhaNojoLlUYj6LKZsbiwEdhIyAP88h5UPqEUEFJQ0M2XJUkEFFrhJ4zLxMUETH1Ijx16YznFTcejhwi1iQyOzk5MBAFdyltL5ABEinBWd1VqArvycImJjGhUZAPB/cX/NziUZ24cAAAAASUVORK5CYII=">
+<title>Europa 2026</title>
+<style>
+:root {
+  --bg: #111113;
+  --surface: #1a1a1d;
+  --surface2: #222225;
+  --surface3: #2a2a2e;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #f0ede8;
+  --muted: #8a8886;
+  --subtle: #4a4845;
+  --paris: #c8a96e;
+  --milan: #8e9fa8;
+  --istanbul: #b5785a;
+  --tallinn: #7a8f6e;
+  --red: #c75b4e;
+  --amber: #c8a046;
+  --green: #6d9a5e;
+  --blue: #5b7ea8;
+  --purple: #8a7ab8;
+  --glow: rgba(200,169,110,0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: #1a1a1d; /* matches nav bottom — safe area blends */
+  color: var(--text);
+  font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  height: 100%;
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'tnum';
+  overscroll-behavior: none;
+}
+
+/* ─── SKEUOMORPHIC BASE ─── */
+.sku-card {
+  background: linear-gradient(180deg, var(--surface2) 0%, var(--surface) 100%);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.04) inset,
+    0 -1px 0 rgba(0,0,0,0.2) inset,
+    0 4px 12px rgba(0,0,0,0.3);
+}
+
+.sku-btn {
+  background: linear-gradient(180deg, var(--surface3) 0%, var(--surface) 100%);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.06) inset,
+    0 2px 6px rgba(0,0,0,0.2);
+  transition: all .2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sku-btn:active {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface2) 100%);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15) inset;
+  transform: scale(0.97);
+}
+
+/* ─── APP SHELL ─── */
+.app {
+  display: flex;
+  flex-direction: column;
+  /* position:fixed inset:0 — the only truly reliable iOS PWA layout */
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* ─── HEADER ─── */
+.header {
+  padding: max(16px, env(safe-area-inset-top)) 20px 14px;
+  background: rgba(17,17,19,0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  box-shadow: none;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 50;
+}
+
+.header-eyebrow {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  margin-bottom: 4px;
+}
+
+.header-title {
+  font-size: clamp(24px, 5.5vw, 32px);
+  font-weight: 300;
+  letter-spacing: -.5px;
+  color: var(--text);
+  line-height: 1.15;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.header-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--paris);
+  text-shadow: 0 0 20px rgba(200,169,110,0.2);
+}
+
+.header-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.meta-item { display: flex; align-items: center; gap: 5px; }
+.meta-dot { width: 5px; height: 5px; border-radius: 50%; box-shadow: 0 0 6px currentColor; }
+
+/* ─── TAB NAV ─── */
+.tab-nav {
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #2a2a2e 0%, #1a1a1d 100%);
+  border-top: 1px solid rgba(255,255,255,0.09);
+  display: flex;
+  /* 34px fallback = iPhone home indicator height */
+  padding-bottom: max(env(safe-area-inset-bottom), 34px);
+  z-index: 100;
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.05), 0 -12px 40px rgba(0,0,0,0.7);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px 4px 8px;
+  min-height: 54px;
+  background: none;
+  border: none;
+  color: var(--subtle);
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .25s ease;
+  text-align: center;
+  border-top: 2px solid transparent;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+.tab-btn.active {
+  color: var(--paris);
+  border-top-color: var(--paris);
+  text-shadow: 0 0 8px rgba(200,169,110,0.3);
+}
+
+.tab-btn .tab-icon {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 3px;
+  font-style: normal;
+  transition: transform .25s ease;
+}
+
+.tab-btn.active .tab-icon {
+  transform: scale(1.15);
+}
+
+/* ─── CONTENT ─── */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  padding-bottom: 24px;
+}
+
+.tab-content {
+  display: none;
+  padding: 18px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.tab-content.active {
+  display: block;
+  animation: slideUp .35s cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+/* ─── SECTION ─── */
+.section-label {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  margin: 28px 0 10px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.section-label:first-child { margin-top: 0; }
+
+/* ─── ALERT ─── */
+.alert-bar {
+  background: linear-gradient(180deg, rgba(199,91,78,0.12) 0%, rgba(199,91,78,0.06) 100%);
+  border: 1px solid rgba(199,91,78,0.3);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  color: rgba(199,91,78,0.9);
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(199,91,78,0.1), 0 1px 0 rgba(255,255,255,0.03) inset;
+  animation: fadeScale .5s cubic-bezier(.16,1,.3,1) both;
+}
+
+.alert-bar strong { font-weight: 600; color: var(--red); }
+.alert-icon { flex-shrink: 0; margin-top: 2px; font-size: 16px; }
+
+/* ─── STAT GRID ─── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.025);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+.stat-card {
+  background: none;
+  border: none;
+  border-radius: 0;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 22px 16px 18px;
+  text-align: center;
+  box-shadow: none;
+  animation: fadeScale .4s cubic-bezier(.16,1,.3,1) both;
+}
+
+.stat-card:nth-child(2), .stat-card:nth-child(4) { border-right: none; }
+.stat-card:nth-child(3), .stat-card:nth-child(4) { border-bottom: none; }
+
+.stat-card:nth-child(1) { animation-delay: .05s; }
+.stat-card:nth-child(2) { animation-delay: .1s; }
+.stat-card:nth-child(3) { animation-delay: .15s; }
+.stat-card:nth-child(4) { animation-delay: .2s; }
+
+.stat-value {
+  font-size: 44px;
+  font-weight: 200;
+  letter-spacing: -2px;
+  color: var(--paris);
+  font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  text-shadow: 0 0 28px rgba(200,169,110,0.2);
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* ─── DUAL CLOCKS ─── */
+.clock-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.02);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.clock-card {
+  background: none;
+  border: none;
+  border-radius: 0;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  padding: 22px 14px 18px;
+  text-align: center;
+  box-shadow: none;
+  position: relative;
+  overflow: hidden;
+}
+.clock-card:last-child { border-right: none; }
+
+.clock-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+
+.clock-time {
+  font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  font-size: 38px;
+  font-weight: 200;
+  letter-spacing: -2px;
+  color: var(--text);
+  transition: color .5s ease;
+}
+
+.clock-city {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.clock-tz {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--subtle);
+  margin-top: 2px;
+}
+
+/* ─── ROUTE ─── */
+.route { position: relative; padding-left: 26px; margin-bottom: 18px; }
+.route::before {
+  content: '';
+  position: absolute;
+  left: 7px; top: 12px; bottom: 12px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--paris), var(--milan), var(--istanbul), var(--tallinn), var(--subtle));
+  border-radius: 1px;
+  box-shadow: 0 0 8px rgba(200,169,110,0.15);
+}
+
+.route-stop {
+  position: relative;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.route-dot {
+  position: absolute;
+  left: -26px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  background: var(--bg);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+
+.route-dot::after {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.route-dot.paris::after { background: var(--paris); color: var(--paris); }
+.route-dot.milan::after { background: var(--milan); color: var(--milan); }
+.route-dot.istanbul::after { background: var(--istanbul); color: var(--istanbul); }
+.route-dot.tallinn::after { background: var(--tallinn); color: var(--tallinn); }
+.route-dot.return::after { background: var(--subtle); color: var(--subtle); }
+
+.route-name {
+  font-size: 17px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.route-dates {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.route-airline { display: none; }
+
+/* ─── FLIGHT CARDS ─── */
+.flight-card {
+  margin: 8px 0 8px 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.08) 3px,
+      rgba(0,0,0,0.08) 4px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.06) 3px,
+      rgba(0,0,0,0.06) 4px
+    ),
+    linear-gradient(180deg, #2e261f 0%, #1e1a16 45%, #2a2318 100%);
+  border: 1px solid rgba(200,160,100,0.22);
+  border-radius: 12px;
+  padding: 12px 14px 12px 14px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 1px 0 rgba(255,220,150,0.08) inset,
+    0 -1px 0 rgba(0,0,0,0.5) inset,
+    1px 0 0 rgba(255,220,150,0.04) inset,
+    0 4px 16px rgba(0,0,0,0.45),
+    0 1px 4px rgba(0,0,0,0.3);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.flight-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.flight-card::before {
+  content: '✈';
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  font-size: 18px;
+  opacity: 0.15;
+}
+
+.flight-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,169,110,0.15), transparent);
+}
+
+.flight-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.flight-airline {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.flight-number {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--paris);
+  text-shadow: 0 0 8px rgba(200,169,110,0.2);
+}
+
+.flight-route {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: .04em;
+  margin-bottom: 6px;
+}
+
+.flight-route .arrow { color: var(--muted); margin: 0 5px; }
+
+.flight-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.flight-ref {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  color: var(--amber);
+  font-weight: 600;
+  letter-spacing: .08em;
+  font-size: 12px;
+  cursor: pointer;
+  -webkit-user-select: all;
+  user-select: all;
+  text-shadow: 0 0 6px rgba(200,160,70,0.2);
+}
+
+.flight-seat {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* ─── BOOKING STATUS ─── */
+.booking-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background .15s ease;
+  border-radius: 10px;
+  margin-bottom: 2px;
+}
+.booking-row:last-child { border-bottom: none; }
+
+.booking-row:last-child { border-bottom: none; }
+
+.b-icon {
+  width: 32px; height: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.b-ok { background: linear-gradient(180deg, rgba(109,154,94,0.15), rgba(109,154,94,0.08)); border: 1px solid rgba(109,154,94,0.3); }
+.b-warn { background: linear-gradient(180deg, rgba(200,160,70,0.15), rgba(200,160,70,0.08)); border: 1px solid rgba(200,160,70,0.3); }
+.b-danger { background: linear-gradient(180deg, rgba(199,91,78,0.15), rgba(199,91,78,0.08)); border: 1px solid rgba(199,91,78,0.3); }
+
+.b-text { flex: 1; font-size: 15px; }
+.b-status {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.bs-ok { background: linear-gradient(180deg, rgba(109,154,94,0.2), rgba(109,154,94,0.1)); color: var(--green); }
+.bs-partial { background: linear-gradient(180deg, rgba(200,160,70,0.2), rgba(200,160,70,0.1)); color: var(--amber); }
+.bs-urgent { background: linear-gradient(180deg, rgba(199,91,78,0.2), rgba(199,91,78,0.1)); color: var(--red); }
+
+/* ─── DAY CARDS ─── */
+.day-card {
+  background: linear-gradient(180deg, var(--surface2) 0%, var(--surface) 100%);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  transition: all .3s cubic-bezier(.16,1,.3,1);
+  animation: fadeScale .4s cubic-bezier(.16,1,.3,1) both;
+}
+
+.day-card:active { transform: scale(0.99); }
+
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  min-height: 56px;
+  transition: background .2s ease;
+}
+
+.day-header:active {
+  background: var(--surface3);
+}
+
+.day-accent {
+  width: 4px;
+  height: 32px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.day-accent.paris { background: var(--paris); color: var(--paris); }
+.day-accent.milan { background: var(--milan); color: var(--milan); }
+.day-accent.istanbul { background: var(--istanbul); color: var(--istanbul); }
+.day-accent.tallinn { background: var(--tallinn); color: var(--tallinn); }
+
+.day-date {
+  font-size: 16px;
+  font-weight: 600;
+  flex: 1;
+  letter-spacing: -.2px;
+}
+
+.day-type {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .04em;
+  padding: 4px 9px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.dt-chegada { background: linear-gradient(180deg, rgba(91,126,168,0.2), rgba(91,126,168,0.1)); color: var(--blue); }
+.dt-livre { background: linear-gradient(180deg, rgba(109,154,94,0.2), rgba(109,154,94,0.1)); color: var(--green); }
+.dt-trabalho { background: linear-gradient(180deg, rgba(138,122,184,0.2), rgba(138,122,184,0.1)); color: var(--purple); }
+.dt-partida { background: linear-gradient(180deg, rgba(200,160,70,0.2), rgba(200,160,70,0.1)); color: var(--amber); }
+
+.day-caret {
+  font-size: 14px;
+  color: var(--subtle);
+  transition: transform .3s cubic-bezier(.16,1,.3,1);
+  flex-shrink: 0;
+}
+
+.day-card.open .day-caret { transform: rotate(90deg); }
+
+.day-body {
+  border-top: 1px solid var(--border);
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .4s cubic-bezier(.16,1,.3,1), opacity .3s ease;
+  opacity: 0;
+}
+
+.day-card.open .day-body {
+  max-height: 2000px;
+  opacity: 1;
+}
+
+/* ─── CITY FILTER ─── */
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(17,17,19,0.8);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  padding: 10px 0 12px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  font-family: -apple-system, 'SF Pro Rounded', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.2px;
+  padding: 9px 18px;
+  min-height: 38px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.13);
+  /* Liquid glass */
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .3s cubic-bezier(.16,1,.3,1);
+  -webkit-tap-highlight-color: transparent;
+  box-shadow:
+    0 2px 12px rgba(0,0,0,0.35),
+    0 1px 0 rgba(255,255,255,0.08) inset,
+    0 -1px 0 rgba(0,0,0,0.2) inset;
+}
+
+.filter-btn.active {
+  color: var(--fc, var(--paris));
+  border-color: var(--fc, var(--paris));
+  background: rgba(255,255,255,0.1);
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--fc, var(--paris)) 25%, transparent),
+    0 2px 12px rgba(0,0,0,0.35),
+    0 1px 0 rgba(255,255,255,0.1) inset;
+  text-shadow: 0 0 12px var(--fc, var(--paris));
+}
+
+.filter-btn:active {
+  transform: scale(0.93);
+  background: rgba(255,255,255,0.04);
+}
+
+/* ─── EXPAND/COLLAPSE ─── */
+.schedule-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.action-btn {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .04em;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: linear-gradient(180deg, var(--surface3), var(--surface));
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .2s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+.action-btn:active {
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
+}
+
+/* ─── SLOTS ─── */
+.slot {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+  transition: background .2s ease;
+  min-height: 48px;
+}
+
+.slot:last-child { border-bottom: none; }
+
+.slot-time {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 48px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.slot-body { flex: 1; }
+
+.slot-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.slot-name a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border2);
+  transition: all .2s ease;
+}
+
+.slot-name a:hover { border-color: var(--paris); color: var(--paris); }
+.slot-name a::after { content: ' ↗'; font-size: 11px; color: var(--subtle); }
+
+.slot-meta {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.slot.s-closed .slot-name { color: var(--subtle); text-decoration: line-through; }
+.slot.s-alert .slot-name { color: var(--amber); text-shadow: 0 0 6px rgba(200,160,70,0.15); }
+.slot.s-transport { background: rgba(91,126,168,0.06); }
+.slot.s-transport .slot-name { color: var(--blue); }
+.slot.s-work { background: rgba(138,122,184,0.06); }
+
+/* ─── CHECKLIST ─── */
+.check-group {
+  background: linear-gradient(180deg, var(--surface2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.check-group-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  min-height: 52px;
+  transition: background .2s ease;
+}
+
+.check-group-header:active { background: var(--surface3); }
+
+.check-group-title {
+  font-size: 15px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.check-group-count {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.check-group-body {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+
+.check-group.open .check-group-body { display: block; }
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 16px;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  min-height: 48px;
+}
+
+.check-item:last-child { border-bottom: none; }
+
+.check-item input[type="checkbox"] {
+  margin-top: 3px;
+  width: 20px; height: 20px;
+  accent-color: var(--paris);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.check-item label {
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.check-item input:checked + label {
+  color: var(--subtle);
+  text-decoration: line-through;
+}
+
+/* ─── VENUE CARDS ─── */
+.venue-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+
+.venue-card {
+  display: block;
+  background: linear-gradient(180deg, var(--surface2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: all .2s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.venue-card:active { transform: scale(0.98); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+
+.venue-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+
+.venue-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+}
+
+.venue-arrow { font-size: 13px; color: var(--subtle); }
+
+.venue-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.venue-price {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--paris);
+  margin-top: 6px;
+}
+
+/* ─── WORK ─── */
+.work-card {
+  background: linear-gradient(180deg, var(--surface2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.work-header {
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+}
+
+.work-header:active { background: var(--surface3); }
+
+.work-title { font-size: 15px; font-weight: 600; flex: 1; }
+
+.work-body {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+
+.work-card.open .work-body { display: block; }
+
+.tz-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tz-row:last-child { border-bottom: none; }
+
+.tz-city {
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 85px;
+}
+
+.tz-time {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 13px;
+  flex: 1;
+}
+
+.tz-note { font-size: 11px; color: var(--muted); }
+.tz-warn { color: var(--amber); }
+
+/* ─── BUDGET ─── */
+.budget-grid { display: flex; flex-direction: column; gap: 10px; }
+
+.budget-card {
+  background: linear-gradient(180deg, var(--surface2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.budget-city {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  padding-left: 12px;
+  border-left: 4px solid var(--muted);
+}
+
+.budget-detail {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.budget-total {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 16px;
+  color: var(--paris);
+  margin-top: 6px;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(200,169,110,0.15);
+}
+
+.budget-total-card {
+  border-color: rgba(200,169,110,0.3);
+  background: linear-gradient(180deg, rgba(200,169,110,0.08), rgba(200,169,110,0.03));
+}
+
+/* ─── PWA INSTALL BANNER ─── */
+.install-banner {
+  background: linear-gradient(180deg, var(--surface2), var(--surface));
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 16px;
+  margin: 14px 18px;
+  display: none;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.install-banner.show { display: flex; }
+.install-banner strong { color: var(--text); font-weight: 600; }
+
+.install-close {
+  background: none;
+  border: none;
+  color: var(--subtle);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(200,169,110,0.25); border-radius: 2px; }
+
+@media (max-width: 480px) {
+  .header { padding: max(12px, env(safe-area-inset-top)) 16px 12px; }
+  .tab-content { padding: 14px; }
+  .stat-grid { gap: 10px; }
+}
+
+/* ─── CLOCK CARD LARGE TIME ─── */
+.clock-time { font-size: 40px; }
+.clock-city { font-size: 15px; font-weight: 500; color: var(--text); margin-top: 6px; }
+.clock-tz { font-size: 11px; }
+
+/* ─── STAT CARD GLOW ─── */
+.stat-card { box-shadow: 0 4px 16px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(255,255,255,0.04); }
+.stat-value { font-size: 40px; }
+
+/* ─── VENUE CARDS LIQUID GLASS ─── */
+.venue-card {
+  display: block;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all .25s cubic-bezier(.16,1,.3,1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.06) inset;
+}
+.venue-card:active { transform: scale(0.97); background: rgba(255,255,255,0.07); }
+.venue-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.venue-name { font-size: 15px; font-weight: 600; }
+.venue-arrow { color: var(--subtle); font-size: 14px; }
+.venue-desc { font-size: 13px; color: var(--muted); line-height: 1.45; margin-bottom: 6px; }
+.venue-price { font-family: 'SF Mono', ui-monospace, monospace; font-size: 12px; color: var(--paris); }
+
+/* ─── TAB BTN 6-UP ─── */
+.tab-btn { font-size: 9px; }
+
+/* ─── ORÇAMENTO TAB ─── */
+.budget-tab { display: flex; flex-direction: column; gap: 14px; }
+
+.fx-widget {
+  background:
+    linear-gradient(135deg, rgba(200,169,110,0.14) 0%, rgba(200,169,110,0.04) 100%);
+  border: 1px solid rgba(200,169,110,0.28);
+  border-radius: 18px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 6px 24px rgba(0,0,0,0.35),
+    0 1px 0 rgba(255,220,150,0.08) inset;
+}
+.fx-left { flex: 1; }
+.fx-rate {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 32px;
+  font-weight: 200;
+  color: var(--paris);
+  letter-spacing: -1px;
+  text-shadow: 0 0 24px rgba(200,169,110,0.35);
+}
+.fx-label {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.fx-updated { font-size: 10px; color: var(--subtle); margin-top: 3px; }
+.fx-right { text-align: right; }
+.fx-need {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text);
+}
+.fx-need-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 3px; }
+
+.orca-total-card {
+  background: linear-gradient(180deg, rgba(200,169,110,0.1), rgba(200,169,110,0.03));
+  border: 1px solid rgba(200,169,110,0.28);
+  border-radius: 18px;
+  padding: 22px 20px;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.3), 0 0 40px rgba(200,169,110,0.05);
+}
+.orca-total-value {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 52px;
+  font-weight: 200;
+  color: var(--paris);
+  letter-spacing: -2px;
+  text-shadow: 0 0 32px rgba(200,169,110,0.3);
+}
+.orca-total-label {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.orca-city-card {
+  background: linear-gradient(180deg, var(--surface2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.22);
+}
+.orca-city-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.orca-city-name { font-size: 14px; font-weight: 600; flex: 1; }
+.orca-city-total {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 15px;
+  font-weight: 600;
+}
+.orca-row {
+  display: flex;
+  align-items: center;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  transition: background .15s ease;
+}
+.orca-row:last-child { border-bottom: none; }
+.orca-row:active { background: rgba(255,255,255,0.03); }
+.orca-cat-icon { font-size: 16px; flex-shrink: 0; width: 22px; text-align: center; }
+.orca-cat-label { flex: 1; font-size: 13px; color: var(--muted); }
+.orca-cat-value {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 500;
+}
+.orca-bar-track {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+.orca-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.2s cubic-bezier(.16,1,.3,1);
+}
+.orca-category-section {
+  background: linear-gradient(180deg, var(--surface2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.22);
+}
+
+/* ─── GLOW ANIMATIONS ─── */
+@keyframes pulse-glow {
+  0%, 100% { text-shadow: 0 0 20px rgba(200,169,110,0.15); }
+  50% { text-shadow: 0 0 30px rgba(200,169,110,0.35); }
+}
+.stat-value { animation: pulse-glow 4s ease-in-out infinite; }
+
+/* ─── TAP FEEDBACK ─── */
+.day-header, .check-group-header, .work-header {
+  -webkit-tap-highlight-color: transparent;
+}
+.booking-row {
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 8px;
+  padding: 12px 6px;
+  transition: background .15s ease;
+}
+.booking-row:active { background: rgba(255,255,255,0.04); }
+
+/* ─── SLOT TAP FEEDBACK ─── */
+.slot { transition: background .15s ease; border-radius: 6px; }
+.slot:active { background: rgba(255,255,255,0.04); }
+
+
+/* ─── MAIS TAB (MERGED CHECK + WORK) ─── */
+.mais-seg {
+  display: flex;
+  gap: 0;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+}
+.mais-btn {
+  flex: 1;
+  padding: 13px 8px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: -apple-system, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s ease;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  -webkit-tap-highlight-color: transparent;
+}
+.mais-btn:last-child { border-right: none; }
+.mais-btn.active {
+  background: rgba(200,169,110,0.12);
+  color: var(--paris);
+}
+.mais-btn:active { background: rgba(255,255,255,0.05); }
+.sub-content { display: none; }
+.sub-content.active { display: block; animation: slideUp .3s cubic-bezier(.16,1,.3,1); }
+
+/* ─── TAB BTN smaller for 5 tabs ─── */
+.tab-btn { font-size: 10px; min-height: 52px; }
+.tab-btn .tab-icon { font-size: 20px; }
+
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="header-eyebrow">viagem solo · 24 dias</div>
+    <div class="header-title"><em>Europa</em> 2026</div>
+    <div class="header-meta">
+      <span class="meta-item"><span class="meta-dot" style="background:var(--paris)"></span>Paris</span>
+      <span class="meta-item"><span class="meta-dot" style="background:var(--milan)"></span>Milan</span>
+      <span class="meta-item"><span class="meta-dot" style="background:var(--istanbul)"></span>Istanbul</span>
+      <span class="meta-item"><span class="meta-dot" style="background:var(--tallinn)"></span>Tallinn</span>
+      <span class="meta-item" style="margin-left:auto"><span id="countdown-days">0</span>d restantes</span>
+    </div>
+  </div>
+
+  <div class="install-banner" id="install-banner">
+    <div>
+      <strong>Instalar no iPhone:</strong> toque em <span style="color:var(--blue)">⎙ Compartilhar</span> (ícone no Safari) → <strong>"Adicionar à Tela de Início"</strong>. O app fica com ícone próprio, abre em tela cheia e funciona offline.
+    </div>
+    <button class="install-close" id="install-close">✕</button>
+  </div>
+
+  <div class="content">
+    <!-- ═══ TAB 1: OVERVIEW ═══ -->
+    <div class="tab-content active" id="tab-overview">
+      <div class="alert-bar">
+        <span class="alert-icon">⚠</span>
+        <span><strong>Confirmar apartamento Paris</strong> — apenas pedido enviado, nenhuma confirmação recebida.</span>
+      </div>
+
+      <div class="section-label">Countdown & Relógios</div>
+      <div class="clock-grid">
+        <div class="clock-card">
+          <div class="clock-time" id="clock-sp">--:--</div>
+          <div class="clock-city">São Paulo</div>
+          <div class="clock-tz">UTC −3</div>
+        </div>
+        <div class="clock-card">
+          <div class="clock-time" id="clock-current">--:--</div>
+          <div class="clock-city" id="clock-city-name">Paris</div>
+          <div class="clock-tz" id="clock-tz">UTC +2</div>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-value">22</div>
+          <div class="stat-label">Dias de viagem</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">4</div>
+          <div class="stat-label">Cidades</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">6</div>
+          <div class="stat-label">Voos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="budget-total">~€900</div>
+          <div class="stat-label">Budget (ingressos+transporte)</div>
+        </div>
+      </div>
+
+      <div class="section-label">Rota</div>
+      <div class="route">
+        <div class="route-stop">
+          <div class="route-dot return"></div>
+          <div class="route-name" style="color:var(--muted)">São Paulo</div>
+          <div class="route-dates">26 jun</div>
+        </div>
+        <div class="flight-card">
+          <div class="flight-top"><span class="flight-airline">TAP</span><span class="flight-number">TP500</span></div>
+          <div class="flight-route">GRU<span class="arrow">→</span>LIS<span class="arrow">→</span>ORY</div>
+          <div class="flight-details"><span>26 jun · Conexão Lisboa</span></div>
+        </div>
+        <div class="route-stop">
+          <div class="route-dot paris"></div>
+          <div class="route-name">Paris</div>
+          <div class="route-dates">26 jun — 01 jul · 5n</div>
+        </div>
+        <div class="flight-card">
+          <div class="flight-top"><span class="flight-airline">easyJet</span><span class="flight-number">EJU4939</span></div>
+          <div class="flight-route">ORY<span class="arrow">→</span>LIN</div>
+          <div class="flight-details"><span>01 jul · 11:10</span><span>Ref: <span class="flight-ref">KCBDMTQ</span></span></div>
+        </div>
+        <div class="route-stop">
+          <div class="route-dot milan"></div>
+          <div class="route-name">Milan</div>
+          <div class="route-dates">01 jul — 08 jul · 7n</div>
+        </div>
+        <div class="flight-card">
+          <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK1896</span></div>
+          <div class="flight-route">MXP<span class="arrow">→</span>IST</div>
+          <div class="flight-details"><span>08 jul · 14:55</span></div>
+        </div>
+        <div class="route-stop">
+          <div class="route-dot istanbul"></div>
+          <div class="route-name">Istanbul</div>
+          <div class="route-dates">08 jul — 12 jul · 4n</div>
+        </div>
+        <div class="flight-card">
+          <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK1423</span></div>
+          <div class="flight-route">IST<span class="arrow">→</span>TLL</div>
+          <div class="flight-details"><span>12 jul · 15:10</span><span>Ref: <span class="flight-ref">S5H6JG</span></span></div>
+        </div>
+        <div class="route-stop">
+          <div class="route-dot tallinn"></div>
+          <div class="route-name">Tallinn</div>
+          <div class="route-dates">12 jul — 18 jul · 6n</div>
+        </div>
+        <div class="flight-card">
+          <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK1424</span></div>
+          <div class="flight-route">TLL<span class="arrow">→</span>IST</div>
+          <div class="flight-details"><span>18 jul · 19:35</span><span>Ref: <span class="flight-ref">SLXHR7</span></span><span>Layover pernoite</span></div>
+        </div>
+        <div class="route-stop">
+          <div class="route-dot istanbul"></div>
+          <div class="route-name" style="color:var(--muted)">Istanbul (pernoite)</div>
+          <div class="route-dates">18–19 jul</div>
+        </div>
+        <div class="flight-card">
+          <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK15</span></div>
+          <div class="flight-route">IST<span class="arrow">→</span>GRU</div>
+          <div class="flight-details"><span>19 jul · 10:25</span><span>Ref: <span class="flight-ref">SLXHR7</span></span><span class="flight-seat">Seat 26C</span></div>
+        </div>
+        <div class="route-stop">
+          <div class="route-dot return"></div>
+          <div class="route-name" style="color:var(--muted)">São Paulo</div>
+          <div class="route-dates">19 jul</div>
+        </div>
+      </div>
+
+      <div class="section-label">Status das Reservas</div>
+      <div class="booking-row">
+        <div class="b-icon b-ok">✈</div>
+        <div class="b-text">Voos confirmados</div>
+        <span class="b-status bs-ok">6/6 ok</span>
+      </div>
+      <div class="booking-row">
+        <div class="b-icon b-warn">🏠</div>
+        <div class="b-text">Paris — 10 Rue Mondetour, 1er (Les Halles)</div>
+        <span class="b-status bs-partial">Confirmar</span>
+      </div>
+      <div class="booking-row">
+        <div class="b-icon b-ok">🏠</div>
+        <div class="b-text">Milan — Casa Dani, P.za Napoli 30</div>
+        <span class="b-status bs-ok">OK</span>
+      </div>
+      <div class="booking-row">
+        <div class="b-icon b-ok">🏨</div>
+        <div class="b-text">Istanbul — Saratoga Hotel Sultanahmet · R$2.559</div>
+        <span class="b-status bs-ok">Confirmada</span>
+      </div>
+      <div class="booking-row">
+        <div class="b-icon b-warn">🏨</div>
+        <div class="b-text">Tallinn — Tallink City Hotel</div>
+        <span class="b-status bs-partial">Confirmar</span>
+      </div>
+      <div class="booking-row">
+        <div class="b-icon b-ok">🏨</div>
+        <div class="b-text">IST layover — Nenessa Airport Hotel · R$263</div>
+        <span class="b-status bs-ok">Confirmada</span>
+      </div>
+      <div class="booking-row">
+        <div class="b-icon b-warn">🎭</div>
+        <div class="b-text">Cenacolo Vinciano</div>
+        <span class="b-status bs-urgent">Reservar</span>
+      </div>
+      <div class="booking-row">
+        <div class="b-icon b-warn">🎭</div>
+        <div class="b-text">Catacumbas Paris</div>
+        <span class="b-status bs-urgent">Reservar</span>
+      </div>
+      <div class="booking-row">
+        <div class="b-icon b-warn">🎭</div>
+        <div class="b-text">Hodjapasha Sema</div>
+        <span class="b-status bs-urgent">Reservar</span>
+      </div>
+
+      <div class="section-label">Budget Alimentação · €10–15/refeição</div>
+      <div class="budget-grid">
+        <div class="budget-card">
+          <div class="budget-city" style="border-color:var(--paris)">Paris · 5 dias</div>
+          <div class="budget-detail">Café €3–5 · Almoço €10–14 · Jantar €12–18</div>
+          <div class="budget-detail">Street food: Fallafel €6, Crêpe €4, Baguette €3</div>
+          <div class="budget-total">~€125–185</div>
+        </div>
+        <div class="budget-card">
+          <div class="budget-city" style="border-color:var(--milan)">Milan · 7 dias</div>
+          <div class="budget-detail">Café €2–3 · Almoço €8–12 · Jantar €12–18</div>
+          <div class="budget-detail">Street food: Panzerotto €3, Pizza al taglio €4, Aperitivo buffet €8–12</div>
+          <div class="budget-total">~€155–230</div>
+        </div>
+        <div class="budget-card">
+          <div class="budget-city" style="border-color:var(--istanbul)">Istanbul · 4 dias</div>
+          <div class="budget-detail">Café €2 · Almoço €5–8 · Jantar €8–12</div>
+          <div class="budget-detail">Street food: Balık ekmek €3, Simit €1, Kebab €5, Çay grátis</div>
+          <div class="budget-total">~€60–90</div>
+        </div>
+        <div class="budget-card">
+          <div class="budget-city" style="border-color:var(--tallinn)">Tallinn · 6 dias</div>
+          <div class="budget-detail">Café €3–4 · Almoço €8–12 · Jantar €10–15</div>
+          <div class="budget-detail">Street food: Lihapirukas €2, Mercado €3–5, Kohvik €6–8</div>
+          <div class="budget-total">~€125–185</div>
+        </div>
+        <div class="budget-card budget-total-card">
+          <div class="budget-city" style="border-color:var(--paris)">Total Alimentação · 22 dias</div>
+          <div class="budget-total" style="font-size:18px">€465–690</div>
+          <div class="budget-detail">Média €21–31/dia (café + almoço + jantar)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB 2: SCHEDULE ═══ -->
+    <div class="tab-content" id="tab-schedule">
+      <div class="filter-bar" id="filter-bar">
+        <button class="filter-btn active" data-city="all">Todos</button>
+        <button class="filter-btn" data-city="paris" style="--fc:var(--paris)">Paris</button>
+        <button class="filter-btn" data-city="milan" style="--fc:var(--milan)">Milan</button>
+        <button class="filter-btn" data-city="istanbul" style="--fc:var(--istanbul)">Istanbul</button>
+        <button class="filter-btn" data-city="tallinn" style="--fc:var(--tallinn)">Tallinn</button>
+      </div>
+      <div class="schedule-actions">
+        <button class="action-btn" id="expand-all">Expandir todos</button>
+        <button class="action-btn" id="collapse-all">Recolher todos</button>
+      </div>
+      <div id="schedule-container"></div>
+    </div>
+
+    <!-- ═══ TAB 4: NIGHTLIFE & FOOD ═══ -->
+    <div class="tab-content" id="tab-nightlife">
+      <div class="section-label" style="border-bottom-color:var(--paris)">Paris</div>
+      <div class="venue-grid">
+        <a class="venue-card" href="https://maps.google.com/?q=Caveau+de+la+Huchette+Paris">
+          <div class="venue-header"><span class="venue-name">Caveau de la Huchette</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Jazz underground desde 1946 · 5 Rue de la Huchette</div>
+          <div class="venue-price">€15–20</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Glazart+Paris">
+          <div class="venue-header"><span class="venue-name">Glazart</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Post-punk · Darkwave · Coldwave nights</div>
+          <div class="venue-price">€8–15</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Petit+Bain+Paris">
+          <div class="venue-header"><span class="venue-name">Petit Bain</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Electronic · Experimental · Barge flutuante no Sena</div>
+          <div class="venue-price">€10–20</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Sunset+Sunrise+Rue+des+Lombards+Paris">
+          <div class="venue-header"><span class="venue-name">Sunset/Sunrise</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Jazz+post-punk duplo venue · 60 Rue des Lombards</div>
+          <div class="venue-price">€15–25</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Concrete+Paris">
+          <div class="venue-header"><span class="venue-name">Concrete</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Industrial · Electronic · Warehouse no Sena</div>
+          <div class="venue-price">€12–18</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=L'As+du+Fallafel+Marais+Paris">
+          <div class="venue-header"><span class="venue-name">L'As du Fallafel</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Street food lendário · Marais · Jewish Quarter</div>
+          <div class="venue-price">€6–8</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Rue+Mouffetard+Paris">
+          <div class="venue-header"><span class="venue-name">Rue Mouffetard</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Mercado medieval de rua · Latin Quarter</div>
+          <div class="venue-price">€3–8</div>
+        </a>
+      </div>
+
+      <div class="section-label" style="border-bottom-color:var(--milan)">Milan</div>
+      <div class="venue-grid">
+        <a class="venue-card" href="https://maps.google.com/?q=Tempio+del+Futuro+Perduto+Milan">
+          <div class="venue-header"><span class="venue-name">Tempio del Futuro Perduto</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Experimental · Industrial · Tua referência estética</div>
+          <div class="venue-price">€10–20</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Leoncavallo+Milan">
+          <div class="venue-header"><span class="venue-name">Leoncavallo</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Post-punk · Squat culture · Centro sociale histórico</div>
+          <div class="venue-price">€5–12</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Cox+18+Milan">
+          <div class="venue-header"><span class="venue-name">Cox 18</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Electronic · Experimental · Via Conchetta</div>
+          <div class="venue-price">€8–15</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Macao+Viale+Molise+Milan">
+          <div class="venue-header"><span class="venue-name">Macao</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Multimedia · Performance art · Viale Molise</div>
+          <div class="venue-price">€10–20</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Blue+Note+Milano">
+          <div class="venue-header"><span class="venue-name">Blue Note Milano</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Jazz · Via Borsieri · World-class</div>
+          <div class="venue-price">€15–30</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Luini+Panzerotteria+Milan">
+          <div class="venue-header"><span class="venue-name">Luini Panzerotteria</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Panzerotti lendário · Via Santa Radegonda</div>
+          <div class="venue-price">€3–5</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Navigli+Milan">
+          <div class="venue-header"><span class="venue-name">Navigli Aperitivo</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Canais · Drink + buffet grátis 18h–20h · 12 min de P.za Napoli</div>
+          <div class="venue-price">€8–12</div>
+        </a>
+      </div>
+
+      <div class="section-label" style="border-bottom-color:var(--istanbul)">Istanbul</div>
+      <div class="venue-grid">
+        <a class="venue-card" href="https://maps.google.com/?q=Dorock+XL+Beyoglu+Istanbul">
+          <div class="venue-header"><span class="venue-name">Dorock XL</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Psych rock · Anatolian · Altın Gün vibes · Beyoğlu</div>
+          <div class="venue-price">80–150 TRY</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Peyote+Istanbul+Beyoglu">
+          <div class="venue-header"><span class="venue-name">Peyote</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Psychedelic rock · Underground · Beyoğlu</div>
+          <div class="venue-price">50–120 TRY</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Arkaoda+Kadikoy+Istanbul">
+          <div class="venue-header"><span class="venue-name">Arkaoda Kadıköy</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Underground electronic · Asian side · Ferry ride</div>
+          <div class="venue-price">50–100 TRY</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Balik+Ekmek+Eminonu+Istanbul">
+          <div class="venue-header"><span class="venue-name">Balık Ekmek Eminönü</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Fish sandwich lendário · Galata Bridge waterfront</div>
+          <div class="venue-price">€3–5</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Cheers+Hostel+Sultanahmet+Istanbul">
+          <div class="venue-header"><span class="venue-name">Cheers Hostel Rooftop</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Bosphorus sunset view · Beer barato · Sultanahmet</div>
+          <div class="venue-price">€3–5</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Pammakaristos+Church+Istanbul">
+          <div class="venue-header"><span class="venue-name">Pammakaristos (Fethiye)</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Hidden Byzantine gem · Mosaicos em Balat</div>
+          <div class="venue-price">~€3</div>
+        </a>
+      </div>
+
+      <div class="section-label" style="border-bottom-color:var(--tallinn)">Tallinn</div>
+      <div class="venue-grid">
+        <a class="venue-card" href="https://maps.google.com/?q=Telliskivi+Creative+City+Tallinn">
+          <div class="venue-header"><span class="venue-name">Telliskivi Creative City</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Indie · Experimental · Fábrica soviética convertida</div>
+          <div class="venue-price">Free–€15</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Sveta+Baar+Tallinn">
+          <div class="venue-header"><span class="venue-name">Sveta Baar</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Electronic · Dark ambient · Post-industrial</div>
+          <div class="venue-price">€5–15</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Hall+Tallinn+club">
+          <div class="venue-header"><span class="venue-name">Hall</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Electronic · Industrial · Rotermanni Quarter</div>
+          <div class="venue-price">€8–15</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Patarei+Sea+Fortress+Tallinn">
+          <div class="venue-header"><span class="venue-name">Patarei Sea Fortress</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Prisão soviética → espaço de arte · Post-industrial absoluto</div>
+          <div class="venue-price">€4–6</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Kohvik+Must+Puudel+Tallinn">
+          <div class="venue-header"><span class="venue-name">Kohvik Must Puudel</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Comida estônia tradicional · Leib, kapsad, pirukad</div>
+          <div class="venue-price">€4–6</div>
+        </a>
+        <a class="venue-card" href="https://maps.google.com/?q=Keskturg+Tallinn">
+          <div class="venue-header"><span class="venue-name">Keskturg Market</span><span class="venue-arrow">↗</span></div>
+          <div class="venue-desc">Mercado central · Pão de centeio, queijo, lihapirukas</div>
+          <div class="venue-price">€2–5</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: MAIS (Check + Work) ═══ -->
+    <div class="tab-content" id="tab-mais">
+      <div class="mais-seg">
+        <button class="mais-btn active" data-subtab="sub-check">☑ Checklist</button>
+        <button class="mais-btn" data-subtab="sub-work">⚙ Work</button>
+      </div>
+      <div class="sub-content active" id="sub-check">
+<div class="section-label">Pré-Viagem · até 26 jun</div>
+      <div class="check-group open">
+        <div class="check-group-header">
+          <div class="check-group-title">Reservas & Documentos</div>
+          <div class="check-group-count" id="count-pre"></div>
+          <span class="day-caret">›</span>
+        </div>
+        <div class="check-group-body">
+          <div class="check-item"><input type="checkbox" id="c1"><label for="c1">Confirmar apartamento Paris (URGENTE)</label></div>
+          <div class="check-item"><input type="checkbox" id="c2"><label for="c2">Reservar Cenacolo Vinciano (vivaticket.com)</label></div>
+          <div class="check-item"><input type="checkbox" id="c3"><label for="c3">Reservar Cerimônia Sema (hodjapasha.com)</label></div>
+          <div class="check-item"><input type="checkbox" id="c4"><label for="c4">Confirmar hospedagem Tallinn — Tallink City Hotel</label></div>
+          <div class="check-item"><input type="checkbox" id="c5"><label for="c5">Confirmar voos SLXHR7 (TLL→IST→GRU)</label></div>
+          <div class="check-item"><input type="checkbox" id="c6"><label for="c6">Reservar Catacumbas Paris (catacombes.paris.fr)</label></div>
+          <div class="check-item"><input type="checkbox" id="c7"><label for="c7">Negociar horário reuniões Nick & Tefi para fuso europeu</label></div>
+          <div class="check-item"><input type="checkbox" id="c8"><label for="c8">Check-in online TAP (abre 36h antes)</label></div>
+          <div class="check-item"><input type="checkbox" id="c9"><label for="c9">Baixar mapas offline: Paris, Milan, Istanbul, Tallinn</label></div>
+          <div class="check-item"><input type="checkbox" id="c10"><label for="c10">Comprar adaptador tomada EU (tipo C/F)</label></div>
+          <div class="check-item"><input type="checkbox" id="c11"><label for="c11">Contratar seguro viagem</label></div>
+          <div class="check-item"><input type="checkbox" id="c12"><label for="c12">Imprimir boarding pass easyJet (papel)</label></div>
+          <div class="check-item"><input type="checkbox" id="c13"><label for="c13">Ativar roaming ou comprar eSIM europeu</label></div>
+        </div>
+      </div>
+      <div class="sub-content" id="sub-work">
+<div class="alert-bar" style="background:rgba(200,160,70,0.08);border-color:rgba(200,160,70,0.25);color:rgba(200,160,70,0.9)">
+        <span class="alert-icon">⏰</span>
+        <span>Converter para horário local. <strong style="color:var(--amber)">Confirmar com Nick & Tefi</strong> sobre fuso.</span>
+      </div>
+
+      <div class="section-label">Reuniões Veriff (horário real do Google Calendar)</div>
+
+      <div class="work-card open">
+        <div class="work-header">
+          <div class="work-title">Golden Hour AM</div>
+          <span class="day-caret">›</span>
+        </div>
+        <div class="work-body">
+          <div class="tz-row"><span class="tz-city">São Paulo</span><span class="tz-time">09:30–10:45 BRT</span><span class="tz-note">início do dia</span></div>
+          <div class="tz-row"><span class="tz-city" style="color:var(--paris)">Paris/Milan</span><span class="tz-time">14:30–15:45 CEST</span><span class="tz-note">início do work</span></div>
+          <div class="tz-row"><span class="tz-city" style="color:var(--istanbul)">Istanbul/Tallinn</span><span class="tz-time">15:30–16:45</span><span class="tz-note">início do work</span>
+      </div>
+    </div>
+    <!-- ═══ TAB 6: ORÇAMENTO ═══ -->
+    <div class="tab-content" id="tab-orca">
+      <div class="budget-tab">
+
+        <!-- EUR/BRL Exchange Widget -->
+        <div class="fx-widget">
+          <div class="fx-left">
+            <div class="fx-rate" id="fx-rate">R$&nbsp;6,20</div>
+            <div class="fx-label">1 EUR em Reais</div>
+            <div class="fx-updated" id="fx-updated">Buscando cotação…</div>
+          </div>
+          <div class="fx-right">
+            <div class="fx-need" id="fx-need">~R$&nbsp;8.041</div>
+            <div class="fx-need-label">Total viagem</div>
+          </div>
+        </div>
+
+        <!-- Grand Total -->
+        <div class="orca-total-card">
+          <div class="orca-total-value">~€1.187</div>
+          <div class="orca-total-label">Estimativa total (excl. voos &amp; hospedagem)</div>
+        </div>
+
+        <!-- Paris -->
+        <div class="section-label" style="margin-top:0">Por Destino</div>
+        <div class="orca-city-card">
+          <div class="orca-city-header">
+            <span style="width:3px;height:20px;border-radius:2px;background:var(--paris);flex-shrink:0"></span>
+            <div class="orca-city-name">Paris · 5 noites</div>
+            <div class="orca-city-total" style="color:var(--paris)">~€328</div>
+          </div>
+          <div class="orca-row"><span class="orca-cat-icon">🎭</span><span class="orca-cat-label">Ingressos</span><span class="orca-cat-value">~€116</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🚇</span><span class="orca-cat-label">Transporte local</span><span class="orca-cat-value">~€12</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🍽</span><span class="orca-cat-label">Alimentação</span><span class="orca-cat-value">~€150</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🛒</span><span class="orca-cat-label">Mercado / Groceries</span><span class="orca-cat-value">~€30</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">👕</span><span class="orca-cat-label">Lavanderia</span><span class="orca-cat-value">grátis</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">📦</span><span class="orca-cat-label">Uber Eats / Delivery</span><span class="orca-cat-value">~€20</span></div>
+        </div>
+
+        <!-- Milan -->
+        <div class="orca-city-card">
+          <div class="orca-city-header">
+            <span style="width:3px;height:20px;border-radius:2px;background:var(--milan);flex-shrink:0"></span>
+            <div class="orca-city-name">Milan · 7 noites</div>
+            <div class="orca-city-total" style="color:var(--milan)">~€375</div>
+          </div>
+          <div class="orca-row"><span class="orca-cat-icon">🎭</span><span class="orca-cat-label">Ingressos</span><span class="orca-cat-value">~€75</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🚇</span><span class="orca-cat-label">Transporte local</span><span class="orca-cat-value">~€18</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🍽</span><span class="orca-cat-label">Alimentação</span><span class="orca-cat-value">~€200</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🛒</span><span class="orca-cat-label">Mercado / Groceries</span><span class="orca-cat-value">~€45</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">👕</span><span class="orca-cat-label">Lavanderia (7 noites)</span><span class="orca-cat-value">~€12</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">📦</span><span class="orca-cat-label">Uber Eats / Delivery</span><span class="orca-cat-value">~€25</span></div>
+        </div>
+
+        <!-- Istanbul -->
+        <div class="orca-city-card">
+          <div class="orca-city-header">
+            <span style="width:3px;height:20px;border-radius:2px;background:var(--istanbul);flex-shrink:0"></span>
+            <div class="orca-city-name">Istanbul · 4 noites</div>
+            <div class="orca-city-total" style="color:var(--istanbul)">~€226</div>
+          </div>
+          <div class="orca-row"><span class="orca-cat-icon">🎭</span><span class="orca-cat-label">Ingressos</span><span class="orca-cat-value">~€102</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🚇</span><span class="orca-cat-label">Transporte local</span><span class="orca-cat-value">~€8</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🍽</span><span class="orca-cat-label">Alimentação</span><span class="orca-cat-value">~€80</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🛒</span><span class="orca-cat-label">Mercado / Groceries</span><span class="orca-cat-value">~€20</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">👕</span><span class="orca-cat-label">Lavanderia</span><span class="orca-cat-value">grátis</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">📦</span><span class="orca-cat-label">Uber Eats / Delivery</span><span class="orca-cat-value">~€16</span></div>
+        </div>
+
+        <!-- Tallinn -->
+        <div class="orca-city-card">
+          <div class="orca-city-header">
+            <span style="width:3px;height:20px;border-radius:2px;background:var(--tallinn);flex-shrink:0"></span>
+            <div class="orca-city-name">Tallinn · 6 noites</div>
+            <div class="orca-city-total" style="color:var(--tallinn)">~€258</div>
+          </div>
+          <div class="orca-row"><span class="orca-cat-icon">🎭</span><span class="orca-cat-label">Ingressos</span><span class="orca-cat-value">~€49</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🚇</span><span class="orca-cat-label">Transporte local</span><span class="orca-cat-value">~€6</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🍽</span><span class="orca-cat-label">Alimentação</span><span class="orca-cat-value">~€150</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🛒</span><span class="orca-cat-label">Mercado / Groceries</span><span class="orca-cat-value">~€30</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">👕</span><span class="orca-cat-label">Lavanderia (6 noites)</span><span class="orca-cat-value">~€8</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">📦</span><span class="orca-cat-label">Uber Eats / Delivery</span><span class="orca-cat-value">~€15</span></div>
+        </div>
+
+        <!-- Hospedagem -->
+        <div class="section-label">Hospedagem · já reservado</div>
+        <div class="orca-city-card">
+          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Saratoga Hotel — Istanbul</span><span class="orca-cat-value" style="color:var(--green)">R$&nbsp;2.559</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Nenessa Airport — IST layover</span><span class="orca-cat-value" style="color:var(--green)">R$&nbsp;263</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Paris — 10 Rue Mondetour</span><span class="orca-cat-value" style="color:var(--amber)">confirmar</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏠</span><span class="orca-cat-label">Milan — Casa Dani P.za Napoli</span><span class="orca-cat-value" style="color:var(--amber)">confirmar</span></div>
+          <div class="orca-row"><span class="orca-cat-icon">🏨</span><span class="orca-cat-label">Tallinn — Tallink City Hotel</span><span class="orca-cat-value" style="color:var(--amber)">confirmar</span></div>
+        </div>
+
+        <!-- By Category totals -->
+        <div class="section-label">Por Categoria · 22 dias total</div>
+        <div class="orca-category-section">
+          <div class="orca-row">
+            <span class="orca-cat-icon">🎭</span>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span class="orca-cat-label">Ingressos</span>
+                <span class="orca-cat-value">~€342</span>
+              </div>
+              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:29%;background:var(--paris)"></div></div>
+            </div>
+          </div>
+          <div class="orca-row">
+            <span class="orca-cat-icon">🚇</span>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span class="orca-cat-label">Transporte local</span>
+                <span class="orca-cat-value">~€44</span>
+              </div>
+              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:4%;background:var(--blue)"></div></div>
+            </div>
+          </div>
+          <div class="orca-row">
+            <span class="orca-cat-icon">🍽</span>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span class="orca-cat-label">Alimentação</span>
+                <span class="orca-cat-value">~€580</span>
+              </div>
+              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:49%;background:var(--amber)"></div></div>
+            </div>
+          </div>
+          <div class="orca-row">
+            <span class="orca-cat-icon">🛒</span>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span class="orca-cat-label">Mercado / Groceries</span>
+                <span class="orca-cat-value">~€125</span>
+              </div>
+              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:11%;background:var(--green)"></div></div>
+            </div>
+          </div>
+          <div class="orca-row">
+            <span class="orca-cat-icon">👕</span>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span class="orca-cat-label">Lavanderia</span>
+                <span class="orca-cat-value">~€20</span>
+              </div>
+              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:2%;background:var(--purple)"></div></div>
+            </div>
+          </div>
+          <div class="orca-row">
+            <span class="orca-cat-icon">📦</span>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span class="orca-cat-label">Uber Eats / Delivery</span>
+                <span class="orca-cat-value">~€76</span>
+              </div>
+              <div class="orca-bar-track"><div class="orca-bar-fill" style="width:6%;background:var(--red)"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Emergency buffer + final total -->
+        <div class="orca-city-card">
+          <div class="orca-row">
+            <span class="orca-cat-icon">🆘</span>
+            <span class="orca-cat-label">Reserva emergência (10%)</span>
+            <span class="orca-cat-value" style="color:var(--muted)">+€119</span>
+          </div>
+          <div class="orca-row" style="background:rgba(200,169,110,0.05)">
+            <span class="orca-cat-icon">💶</span>
+            <span class="orca-cat-label" style="font-weight:700;font-size:14px;color:var(--text)">Total Final Estimado</span>
+            <span class="orca-cat-value" style="color:var(--paris);font-size:16px;font-weight:700">~€1.306</span>
+          </div>
+          <div class="orca-row">
+            <span class="orca-cat-icon">💳</span>
+            <span class="orca-cat-label">Em Reais (cotação live)</span>
+            <span class="orca-cat-value" id="fx-total-brl" style="color:var(--text)">~R$&nbsp;8.097</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="tab-overview"><i class="tab-icon">◉</i>Vista</button>
+    <button class="tab-btn" data-tab="tab-schedule"><i class="tab-icon">▤</i>Plano</button>
+    <button class="tab-btn" data-tab="tab-orca"><i class="tab-icon">€</i>Grana</button>
+    <button class="tab-btn" data-tab="tab-nightlife"><i class="tab-icon">♫</i>Cena</button>
+    <button class="tab-btn" data-tab="tab-mais"><i class="tab-icon">☰</i>Mais</button>
+  </nav>
+</div>
+
+<script>
+// ─── SCHEDULE DATA ───
+const scheduleData = [
+    { date: "26 Jun", day: "Sex", type: "chegada", city: "paris", events: [
+        { time: "20:15", name: "Chegada ORY", meta: "T7+M7→centro ~50min €4.50", link: "" },
+        { time: "Noite", name: "Instalar no apt, jantar no bairro", meta: "", link: "" }
+    ]},
+    { date: "27 Jun", day: "Sáb", type: "livre", city: "paris", events: [
+        { time: "08:30", name: "Sainte-Chapelle", meta: "08:30-21:30 · €13 · 🚶 8 min de Rue Mondetour", link: "https://maps.google.com/?q=Sainte+Chapelle+Paris" },
+        { time: "11:00", name: "Île de la Cité + Notre-Dame exterior", meta: "🚶 7 min do apt Marais", link: "https://maps.google.com/?q=Notre+Dame+Paris" },
+        { time: "14:00", name: "Catacumbas ⚠️ RESERVAR", meta: "10:00-20:30 · fecha seg · €29 · 🚇 25 min Denfert-Rochereau", link: "https://maps.google.com/?q=Catacombes+Paris" },
+        { time: "Noite", name: "Caveau de la Huchette jazz", meta: "€15-20 · 🚶 12 min cruza Sena", link: "https://maps.google.com/?q=Caveau+de+la+Huchette+Paris" }
+    ]},
+    { date: "28 Jun", day: "Dom", type: "livre", city: "paris", events: [
+        { time: "10:30", name: "Concerto órgão Saint-Sulpice", meta: "EXCLUSIVO DOM, gratuito · 🚶 18 min Saint-Germain", link: "https://maps.google.com/?q=Saint+Sulpice+Paris" },
+        { time: "14:00", name: "Musée d'Orsay ⚠️ FECHA SEG", meta: "09:30-18:00, €16 · 🚶 22 min pela margem do Sena", link: "https://maps.google.com/?q=Musee+dOrsay+Paris" },
+        { time: "18:00", name: "Père Lachaise", meta: "até 18h, gratuito · 🚇 15 min M1 St-Paul→Père Lachaise", link: "https://maps.google.com/?q=Pere+Lachaise+Paris" },
+        { time: "Noite", name: "Glazart ou Petit Bain", meta: "post-punk/experimental €8-15", link: "" }
+    ]},
+    { date: "29 Jun", day: "Seg", type: "trabalho", city: "paris", events: [
+        { time: "FECHADO", name: "Musée d'Orsay, Catacumbas", meta: "", link: "" },
+        { time: "10:00", name: "Louvre ala Renascimento ⚠️ FECHA TER", meta: "09:00-18:00 · €22 · 🚶 15 min do apt pelo Sena", link: "https://maps.google.com/?q=Musee+du+Louvre+Paris" },
+        { time: "15:30", name: "Basilique Saint-Denis", meta: "10:00-17:15, €11.50 · 🚇 45 min M1→M4→M13 norte", link: "https://maps.google.com/?q=Basilique+Saint+Denis+Paris" },
+        { time: "Noite", name: "Sunset/Sunrise jazz+post-punk", meta: "€15-25", link: "" }
+    ]},
+    { date: "30 Jun", day: "Ter", type: "livre", city: "paris", events: [
+        { time: "FECHADO", name: "Louvre", meta: "", link: "" },
+        { time: "10:00", name: "Musée de Cluny", meta: "09:30-17:45, €12 · 🚶 15 min cruza Sena", link: "https://maps.google.com/?q=Musee+de+Cluny+Paris" },
+        { time: "14:00", name: "Musée Guimet", meta: "10:00-18:00, €13 · 🚇 25 min M1 St-Paul→M9 Iéna", link: "https://maps.google.com/?q=Musee+Guimet+Paris" },
+        { time: "Noite", name: "Rue Mouffetard street food + Canal Saint-Martin", meta: "", link: "" }
+    ]},
+    { date: "01 Jul", day: "Qua", type: "partida", city: "milan", events: [
+        { time: "08:30", name: "Sair apt → RER B + Orlyval → ORY", meta: "€12.10", link: "" },
+        { time: "11:10", name: "ORY→LIN easyJet EJU4939", meta: "Ref KCBDMTQ", link: "" },
+        { time: "12:35", name: "Chegada Linate → M4→Centrale", meta: "~22min €5", link: "" },
+        { time: "15:00", name: "San Maurizio \"Sistina de Milão\"", meta: "09:00-17:30, fecha seg, grátis · 🚶 12 min de P.za Napoli", link: "https://maps.google.com/?q=San+Maurizio+Monastero+Maggiore+Milan" },
+        { time: "16:30", name: "Cimitero Monumentale", meta: "08:00-18:00, fecha seg, grátis · 🚇 25 min M2→M5 Monumentale", link: "https://maps.google.com/?q=Cimitero+Monumentale+Milan" }
+    ]},
+    { date: "02 Jul", day: "Qui", type: "livre", city: "milan", events: [
+        { time: "09:15", name: "Cenacolo Vinciano ⚠️ RESERVAR!", meta: "horário fixo, ~€15 · 🚶 15 min de P.za Napoli", link: "https://maps.google.com/?q=Cenacolo+Vinciano+Milan" },
+        { time: "11:00", name: "Santa Maria delle Grazie claustro", meta: "grátis · mesmo local Cenacolo", link: "https://maps.google.com/?q=Santa+Maria+delle+Grazie+Milan" },
+        { time: "14:00", name: "Il Duomo + Rooftop", meta: "09:00-19:00, €5/€16 · 🚶 25 min / M2 Cadorna+M1 Duomo", link: "https://maps.google.com/?q=Duomo+di+Milano" },
+        { time: "Noite", name: "Tempio del Futuro Perduto", meta: "€10-20 · 🚇 30 min M2→tram Porta Vittoria", link: "https://maps.google.com/?q=Tempio+del+Futuro+Perduto+Milan" }
+    ]},
+    { date: "03 Jul", day: "Sex", type: "livre", city: "milan", events: [
+        { time: "10:00", name: "Pinacoteca Ambrosiana", meta: "10:00-18:00, fecha seg, €20 · 🚶 22 min / M2 Cadorna", link: "https://maps.google.com/?q=Pinacoteca+Ambrosiana+Milan" },
+        { time: "14:30", name: "Sant'Ambrogio + Cripta", meta: "10:00-18:00, grátis/€3 · 🚶 10 min de P.za Napoli!", link: "https://maps.google.com/?q=Sant+Ambrogio+Milan" },
+        { time: "Noite", name: "Leoncavallo", meta: "post-punk/experimental €5-12 · 🚇 30 min M2→M1 Loreto", link: "https://maps.google.com/?q=Leoncavallo+Milan" }
+    ]},
+    { date: "04 Jul", day: "Sáb", type: "livre", city: "milan", events: [
+        { time: "09:30", name: "San Bernardino alle Ossa", meta: "09:30-15:00 sáb!, grátis · 🚇 20 min M2→M1 Duomo", link: "https://maps.google.com/?q=San+Bernardino+alle+Ossa+Milan" },
+        { time: "10:30", name: "Basilica Santo Stefano", meta: "PROTO MARTYR, grátis · 🚶 5 min de San Bernardino", link: "https://maps.google.com/?q=Basilica+Santo+Stefano+Milan" },
+        { time: "14:00", name: "Pinacoteca di Brera", meta: "08:30-19:15, fecha seg, €15 · 🚇 25 min M2→M3 Montenapoleone", link: "https://maps.google.com/?q=Pinacoteca+di+Brera+Milan" },
+        { time: "Noite", name: "Cox 18 or Macao", meta: "experimental €8-20", link: "" }
+    ]},
+    { date: "05 Jul", day: "Dom", type: "livre", city: "milan", events: [
+        { time: "FECHADO", name: "San Bernardino alle Ossa", meta: "", link: "" },
+        { time: "10:00", name: "Cimitero Monumentale", meta: "se não foi qua", link: "" },
+        { time: "14:00", name: "Museo Teatro alla Scala", meta: "09:00-17:30, €9 · 🚇 20 min M2 Cadorna→M1 Duomo", link: "https://maps.google.com/?q=Museo+Teatro+alla+Scala+Milan" },
+        { time: "Noite", name: "Navigli aperitivo + live music", meta: "", link: "" }
+    ]},
+    { date: "06 Jul", day: "Seg", type: "trabalho", city: "milan", events: [
+        { time: "FECHADO", name: "San Maurizio, Cimitero, Ambrosiana, Brera", meta: "", link: "" },
+        { time: "Flex", name: "Il Duomo + Galleria Vittorio Emanuele", meta: "aberto segunda", link: "" },
+        { time: "Noite", name: "Isola district bars", meta: "", link: "" }
+    ]},
+    { date: "07 Jul", day: "Ter", type: "livre", city: "milan", events: [
+        { time: "10:00", name: "San Maurizio", meta: "se não foi dia 01", link: "" },
+        { time: "14:00", name: "Navigli canais + aperitivo", meta: "🚶 12 min de P.za Napoli! pertinho", link: "https://maps.google.com/?q=Navigli+Milan" }
+    ]},
+    { date: "08 Jul", day: "Qua", type: "partida", city: "istanbul", events: [
+        { time: "⚠️", name: "Linate ≠ Malpensa (50km!)", meta: "ATENÇÃO", link: "" },
+        { time: "12:00", name: "Sair casa Dani → Centrale → Malpensa Express", meta: "~52min, €13", link: "" },
+        { time: "14:55", name: "MXP→IST Turkish TK1896", meta: "", link: "" },
+        { time: "18:55", name: "Chegada IST → M11→M2→T1→Sultanahmet", meta: "~60min ~€3", link: "" },
+        { time: "20:00", name: "Check-in Saratoga Hotel", meta: "", link: "" }
+    ]},
+    { date: "09 Jul", day: "Qui", type: "livre", city: "istanbul", events: [
+        { time: "09:00", name: "Küçük Ayasofya", meta: "200m hotel, grátis", link: "https://maps.google.com/?q=Kucuk+Ayasofya+Istanbul" },
+        { time: "10:00", name: "Cisterna Basílica", meta: "09:00-19:30, ~€25 · 🚶 10 min Sultanahmet", link: "https://maps.google.com/?q=Basilica+Cistern+Istanbul" },
+        { time: "12:00", name: "Hagia Sophia", meta: "grátis, fora oração · 🚶 8 min do hotel", link: "https://maps.google.com/?q=Hagia+Sophia+Istanbul" },
+        { time: "14:00", name: "Mesquita Azul", meta: "grátis, fora oração · 🚶 5 min do hotel", link: "https://maps.google.com/?q=Blue+Mosque+Istanbul" },
+        { time: "15:30", name: "Palácio Topkapi", meta: "09:00-18:00, ~€25 · 🚶 12 min subida Gülhane", link: "https://maps.google.com/?q=Topkapi+Palace+Istanbul" },
+        { time: "Noite", name: "Balık ekmek Eminönü + rooftop bar", meta: "", link: "" }
+    ]},
+    { date: "10 Jul", day: "Sex", type: "livre", city: "istanbul", events: [
+        { time: "09:00", name: "Grande Bazar ⚠️ FECHA DOM", meta: "09:00-19:00 · 🚶 15 min morro acima", link: "https://maps.google.com/?q=Grand+Bazaar+Istanbul" },
+        { time: "13:00", name: "Patriarcado Ecumênico Fener", meta: "09:00-17:00, grátis · 🚌 30 min bus/ferry Fener", link: "https://maps.google.com/?q=Ecumenical+Patriarchate+Istanbul" },
+        { time: "19:00", name: "Cerimônia Sema Dervixes Hodjapasha ⚠️ RESERVAR!", meta: "€35-40 · 🚶 15 min Sirkeci", link: "https://maps.google.com/?q=Hodjapasha+Istanbul" },
+        { time: "Noite", name: "Dorock XL ou Peyote em Beyoğlu", meta: "psych rock", link: "" }
+    ]},
+    { date: "11 Jul", day: "Sáb", type: "livre", city: "istanbul", events: [
+        { time: "09:00", name: "Igreja de Chora/Kariye", meta: "09:00-17:00, ~€15 · 🚌 45 min bus 28/87 Edirnekapı", link: "https://maps.google.com/?q=Chora+Church+Istanbul" },
+        { time: "14:00", name: "Bairro Balat", meta: "free walk · 🚶 15 min de Chora (descer morro)", link: "https://maps.google.com/?q=Balat+Istanbul" },
+        { time: "Noite", name: "Kadıköy Asian side — Arkaoda", meta: "underground electronic", link: "" }
+    ]},
+    { date: "12 Jul", day: "Dom", type: "partida", city: "tallinn", events: [
+        { time: "FECHADO", name: "Grande Bazar", meta: "", link: "" },
+        { time: "12:00", name: "Check-out hotel", meta: "", link: "" },
+        { time: "12:30", name: "T1→M2→M11→IST", meta: "~60min", link: "" },
+        { time: "15:10", name: "IST→TLL Turkish TK1423", meta: "Ref S5H6JG", link: "" },
+        { time: "18:40", name: "Chegada TLL → Bus 2/4→centro", meta: "~15min €2", link: "" }
+    ]},
+    { date: "13 Jul", day: "Seg", type: "trabalho", city: "tallinn", events: [
+        { time: "FECHADO", name: "Niguliste, Kadriorg, Vabamu", meta: "", link: "" },
+        { time: "11:00", name: "KUMU Art Museum ⚠️ FECHA TER", meta: "11:00-18:00, €14 · 🚶 20 min / tram 1 Kadriorg", link: "https://maps.google.com/?q=KUMU+Art+Museum+Tallinn" },
+        { time: "Flex", name: "Catedral Alexandre Nevsky", meta: "grátis, sempre aberta · 🚶 15 min Toompea", link: "https://maps.google.com/?q=Alexander+Nevsky+Cathedral+Tallinn" }
+    ]},
+    { date: "14 Jul", day: "Ter", type: "trabalho", city: "tallinn", events: [
+        { time: "FECHADO", name: "Niguliste, KUMU", meta: "", link: "" },
+        { time: "10:00", name: "Palácio Kadriorg", meta: "10:00-18:00, €8 · 🚶 25 min / tram 1+3 Kadriorg", link: "https://maps.google.com/?q=Kadriorg+Palace+Tallinn" },
+        { time: "13:00", name: "Vabamu Museu Ocupações", meta: "10:00-18:00, €10 · 🚶 10 min Old Town", link: "https://maps.google.com/?q=Vabamu+Museum+Tallinn" }
+    ]},
+    { date: "15 Jul", day: "Qua", type: "trabalho", city: "tallinn", events: [
+        { time: "10:00", name: "Niguliste Dança da Morte ⚠️ FECHA seg/ter", meta: "10:00-17:00, €8 · 🚶 12 min Old Town", link: "https://maps.google.com/?q=Niguliste+Museum+Tallinn" },
+        { time: "12:30", name: "Cidade Velha Vanalinn UNESCO", meta: "🚶 10 min da Viru Gate", link: "https://maps.google.com/?q=Tallinn+Old+Town" }
+    ]},
+    { date: "16 Jul", day: "Qui", type: "trabalho", city: "tallinn", events: [
+        { time: "10:00", name: "Igreja St. Olaf torre", meta: "10:00-18:00, €3 · 🚶 12 min Old Town norte", link: "https://maps.google.com/?q=St+Olaf+Church+Tallinn" },
+        { time: "12:00", name: "Mosteiro Dominicano", meta: "10:00-18:00, €6 · 🚶 12 min Vene St", link: "https://maps.google.com/?q=Dominican+Monastery+Tallinn" }
+    ]},
+    { date: "17 Jul", day: "Sex", type: "trabalho", city: "tallinn", events: [
+        { time: "Flex", name: "Lauluväljak Festival de Canção", meta: "grátis · 🚌 30 min bus 1A/34A leste", link: "https://maps.google.com/?q=Lauluväljak+Tallinn" },
+        { time: "19:00", name: "Telliskivi Creative City", meta: "grátis, music ao vivo · 🚶 15 min Balti Jaam", link: "https://maps.google.com/?q=Telliskivi+Creative+City+Tallinn" },
+        { time: "Late", name: "Sveta Baar", meta: "underground electronic €5-15 · 🚶 10 min centro", link: "https://maps.google.com/?q=Sveta+Baar+Tallinn" }
+    ]},
+    { date: "18 Jul", day: "Sáb", type: "partida", city: "istanbul", events: [
+        { time: "Manhã", name: "Niguliste", meta: "se ainda não visitou", link: "" },
+        { time: "17:00", name: "Bus/Bolt → TLL aeroporto", meta: "", link: "" },
+        { time: "19:35", name: "TLL→IST Turkish TK1424", meta: "Ref SLXHR7", link: "" },
+        { time: "23:10", name: "Chegada IST → shuttle Nenessa Airport Hotel", meta: "", link: "" }
+    ]},
+    { date: "19 Jul", day: "Dom", type: "partida", city: "paris", events: [
+        { time: "12:30", name: "Check-out Nenessa", meta: "", link: "" },
+        { time: "10:25", name: "IST→GRU Turkish TK15", meta: "Ref SLXHR7, Seat 26C", link: "" },
+        { time: "17:45", name: "Chegada GRU", meta: "FIM DA VIAGEM", link: "" }
+    ]}
+];
+
+// ─── TABS ───
+function initTabs() {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(btn.dataset.tab).classList.add('active');
+        });
+    });
+}
+
+// ─── SCHEDULE RENDER ───
+let currentFilter = 'all';
+
+function renderSchedule() {
+    const container = document.getElementById('schedule-container');
+    container.innerHTML = '';
+
+    const filtered = currentFilter === 'all'
+        ? scheduleData
+        : scheduleData.filter(d => d.city === currentFilter);
+
+    filtered.forEach((day, i) => {
+        const card = document.createElement('div');
+        card.className = 'day-card open'; // expanded by default
+        card.dataset.city = day.city;
+
+        const typeMap = { chegada: 'dt-chegada', livre: 'dt-livre', trabalho: 'dt-trabalho', partida: 'dt-partida' };
+        const typeClass = typeMap[day.type] || 'dt-livre';
+        const typeLabel = day.type.charAt(0).toUpperCase() + day.type.slice(1);
+
+        // Count events with links
+        const linkCount = day.events.filter(e => e.link).length;
+        const evCount = day.events.length;
+
+        card.innerHTML = `
+            <div class="day-header">
+                <div class="day-accent ${day.city}"></div>
+                <div style="flex:1">
+                    <div class="day-date">${day.date} · ${day.day}</div>
+                    <div style="font-size:10px;color:var(--muted);margin-top:1px">${evCount} atividades${linkCount ? ' · ' + linkCount + ' com mapa' : ''}</div>
+                </div>
+                <span class="day-type ${typeClass}">${typeLabel}</span>
+                <span class="day-caret">›</span>
+            </div>
+            <div class="day-body"></div>
+        `;
+
+        const body = card.querySelector('.day-body');
+        day.events.forEach(ev => {
+            const slot = document.createElement('div');
+            let cls = 'slot';
+            if (ev.name.startsWith('FECHADO') || ev.time === 'FECHADO') cls += ' s-closed';
+            else if (ev.name.includes('→') || ev.name.includes('ORY') || ev.name.includes('IST→') || ev.name.includes('TLL') || ev.name.includes('GRU') || ev.name.includes('LIN') || ev.name.includes('MXP')) cls += ' s-transport';
+            else if (ev.time === '⚠️') cls += ' s-alert';
+            slot.className = cls;
+
+            let nameHTML = ev.name;
+            if (ev.link) {
+                nameHTML = `<a href="${ev.link}" target="_blank" rel="noopener">${ev.name}</a>`;
+            }
+
+            slot.innerHTML = `
+                <div class="slot-time">${ev.time}</div>
+                <div class="slot-body">
+                    <div class="slot-name">${nameHTML}</div>
+                    ${ev.meta ? `<div class="slot-meta">${ev.meta}</div>` : ''}
+                </div>
+            `;
+            body.appendChild(slot);
+        });
+
+        card.querySelector('.day-header').addEventListener('click', () => {
+            card.classList.toggle('open');
+        });
+
+        // Staggered animation
+        card.style.animationDelay = (i * 30) + 'ms';
+        container.appendChild(card);
+    });
+}
+
+function initFilters() {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.city;
+
+            // Update active filter style
+            if (currentFilter !== 'all') {
+                const cityColor = getComputedStyle(document.documentElement).getPropertyValue('--' + currentFilter);
+                btn.style.borderColor = cityColor.trim();
+            }
+
+            renderSchedule();
+        });
+    });
+
+    document.getElementById('expand-all').addEventListener('click', () => {
+        document.querySelectorAll('.day-card').forEach(c => c.classList.add('open'));
+    });
+
+    document.getElementById('collapse-all').addEventListener('click', () => {
+        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('open'));
+    });
+}
+
+// ─── COLLAPSIBLES ───
+function initCollapsibles() {
+    document.querySelectorAll('.check-group-header, .work-header').forEach(header => {
+        header.addEventListener('click', () => {
+            header.closest('.check-group, .work-card').classList.toggle('open');
+        });
+    });
+}
+
+// ─── COUNTDOWN ───
+function updateCountdown() {
+    const departure = new Date(2026, 5, 26);
+    const today = new Date();
+    const diff = Math.ceil((departure - today) / (1000 * 60 * 60 * 24));
+    document.getElementById('countdown-days').textContent = Math.max(0, diff);
+}
+
+// ─── CLOCKS ───
+function updateClocks() {
+    const now = new Date();
+    const fmt = (tz) => {
+        const d = new Date(now.toLocaleString('en-US', { timeZone: tz }));
+        return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+    };
+    document.getElementById('clock-sp').textContent = fmt('America/Sao_Paulo');
+
+    const tripStart = new Date(2026, 5, 26);
+    const dayNum = Math.floor((now - tripStart) / 86400000);
+    let tz = 'Europe/Paris', city = 'Paris', tzLabel = 'UTC +2';
+
+    if (dayNum >= 16) { tz = 'Europe/Tallinn'; city = 'Tallinn'; tzLabel = 'UTC +3'; }
+    else if (dayNum >= 12) { tz = 'Europe/Istanbul'; city = 'Istanbul'; tzLabel = 'UTC +3'; }
+    else if (dayNum >= 5) { tz = 'Europe/Rome'; city = 'Milan'; tzLabel = 'UTC +2'; }
+
+    document.getElementById('clock-current').textContent = fmt(tz);
+    document.getElementById('clock-city-name').textContent = city;
+    document.getElementById('clock-tz').textContent = tzLabel;
+}
+
+// ─── CHECKLIST PERSISTENCE ───
+function initChecklist() {
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        const key = `eu26-${cb.id}`;
+        try { if (localStorage.getItem(key) === '1') cb.checked = true; } catch(e) {}
+        cb.addEventListener('change', () => {
+            try { localStorage.setItem(key, cb.checked ? '1' : '0'); } catch(e) {}
+        });
+    });
+}
+
+// ─── PWA INSTALL BANNER ───
+function initInstallBanner() {
+    const banner = document.getElementById('install-banner');
+    const closeBtn = document.getElementById('install-close');
+    const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+    let dismissed = false;
+    try { dismissed = localStorage.getItem('eu26-install-dismissed') === '1'; } catch(e) {}
+
+    if (!isStandalone && !dismissed && /iPhone|iPad/.test(navigator.userAgent)) {
+        banner.classList.add('show');
+    }
+
+    closeBtn.addEventListener('click', () => {
+        banner.classList.remove('show');
+        try { localStorage.setItem('eu26-install-dismissed', '1'); } catch(e) {}
+    });
+}
+
+
+
+// ─── BUDGET CALCULATOR ───
+function calculateBudget() {
+    let total = 0;
+    const breakdown = { paris: 0, milan: 0, istanbul: 0, tallinn: 0, transit: 0 };
+    
+    scheduleData.forEach(day => {
+        day.events.forEach(ev => {
+            const m = ev.meta || '';
+            // Extract € amounts
+            const euroMatches = m.match(/€(\d+[.,]?\d*)/g);
+            if (euroMatches) {
+                euroMatches.forEach(e => {
+                    const val = parseFloat(e.replace('€','').replace(',','.'));
+                    if (!isNaN(val) && val < 200) { // ignore hotel-level prices
+                        if (ev.name.includes('→') || ev.name.includes('RER') || ev.name.includes('Orlyval') || ev.name.includes('Bus') || ev.name.includes('Malpensa') || ev.name.includes('M4') || ev.name.includes('M11')) {
+                            breakdown.transit += val;
+                        } else {
+                            breakdown[day.city] = (breakdown[day.city] || 0) + val;
+                        }
+                        total += val;
+                    }
+                });
+            }
+        });
+    });
+    
+    const el = document.getElementById('budget-total');
+    if (el) el.textContent = '~€' + Math.round(total);
+    
+    console.log('Budget breakdown:', breakdown, 'Total:', total);
+}
+
+// ─── EUR/BRL EXCHANGE RATE ───
+async function fetchEurBrl() {
+    try {
+        const apis = [
+            'https://api.exchangerate-api.com/v4/latest/EUR',
+            'https://open.er-api.com/v6/latest/EUR'
+        ];
+        let rate = null;
+        for (const url of apis) {
+            try {
+                const r = await fetch(url, { signal: AbortSignal.timeout(4000) });
+                const d = await r.json();
+                rate = d.rates && d.rates.BRL ? d.rates.BRL : null;
+                if (rate) break;
+            } catch(e) { /* try next */ }
+        }
+        if (!rate) throw new Error('no rate');
+
+        const fmt = r => r.toFixed(2).replace('.', ',');
+        document.getElementById('fx-rate').textContent = 'R$ ' + fmt(rate);
+        document.getElementById('fx-updated').textContent =
+            'Cotação ao vivo · ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+
+        const totalEur = 1306;
+        const totalBrl = Math.round(totalEur * rate);
+        document.getElementById('fx-need').textContent = '~R$ ' + totalBrl.toLocaleString('pt-BR');
+        const fxTotal = document.getElementById('fx-total-brl');
+        if (fxTotal) fxTotal.textContent = '~R$ ' + totalBrl.toLocaleString('pt-BR');
+    } catch(e) {
+        const el = document.getElementById('fx-updated');
+        if (el) el.textContent = 'Taxa offline · approx R$ 6,20/EUR';
+    }
+}
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', () => {
+    initTabs();
+    renderSchedule();
+    initFilters();
+    initCollapsibles();
+    updateCountdown();
+    updateClocks();
+    initChecklist();
+    initInstallBanner();
+    calculateBudget();
+    fetchEurBrl();
+    initMaisTabs();
+    setInterval(updateClocks, 60000);
+    // Animate bar fills on tab switch
+    document.querySelectorAll('[data-tab="tab-orca"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.orca-bar-fill').forEach(bar => {
+                    const w = bar.style.width;
+                    bar.style.width = '0';
+                    requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = w; }));
+                });
+            }, 100);
+        });
+    });
+});
+</script>
+</body>
+</html>
