@@ -661,26 +661,25 @@ html, body {
 
 .flight-card {
   margin: 8px 0;
-  background: linear-gradient(175deg, #faf7ee 0%, #ece8d8 100%);
-  border: 1px solid #c0b48e;
+  background: linear-gradient(175deg, #1e1b15 0%, #121009 100%);
+  border: 1px solid rgba(255,255,255,0.06);
   border-radius: 5px;
   padding: 0;
   position: relative;
   overflow: hidden;
   box-shadow:
-    0 3px 8px rgba(0,0,0,0.28),
-    0 1px 2px rgba(0,0,0,0.14),
-    inset 0 1px 0 rgba(255,255,255,0.80),
-    inset 0 -2px 0 rgba(0,0,0,0.06);
+    0 4px 14px rgba(0,0,0,0.55),
+    0 1px 3px rgba(0,0,0,0.35),
+    inset 0 0 0 1px rgba(255,248,220,0.11);
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
-/* Paper grain texture */
+/* Subtle noise grain */
 .flight-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 0;
 }
@@ -694,8 +693,8 @@ html, body {
     180deg,
     transparent 0px,
     transparent 19px,
-    rgba(0,0,0,0.025) 19px,
-    rgba(0,0,0,0.025) 20px
+    rgba(255,255,255,0.018) 19px,
+    rgba(255,255,255,0.018) 20px
   );
   pointer-events: none;
   z-index: 0;
@@ -703,7 +702,7 @@ html, body {
 
 .flight-card:active {
   transform: scale(0.98);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.80);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.50), inset 0 0 0 1px rgba(255,248,220,0.09);
 }
 
 /* ── Boarding pass internal layout ── */
@@ -727,8 +726,8 @@ html, body {
   width: 1px;
   background: repeating-linear-gradient(
     180deg,
-    #b2a07a 0px,
-    #b2a07a 5px,
+    rgba(255,248,220,0.18) 0px,
+    rgba(255,248,220,0.18) 5px,
     transparent 5px,
     transparent 10px
   );
@@ -762,14 +761,14 @@ html, body {
   font-weight: 700;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: #8c7a52;
+  color: rgba(255,245,215,0.38);
   font-family: 'SF Mono', ui-monospace, monospace;
 }
 
 .ticket-value {
   font-size: 13px;
   font-weight: 700;
-  color: #1c1408;
+  color: rgba(255,248,225,0.90);
   letter-spacing: .02em;
   font-family: 'SF Mono', ui-monospace, monospace;
 }
@@ -779,7 +778,7 @@ html, body {
   position: relative;
   z-index: 1;
   height: 0;
-  border-top: 1.5px dashed #b8a87c;
+  border-top: 1.5px dashed rgba(255,248,220,0.16);
   margin: 0 10px;
 }
 
@@ -795,7 +794,7 @@ html, body {
   font-weight: 700;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: #6b5c38;
+  color: rgba(255,245,215,0.38);
   font-family: system-ui, -apple-system, sans-serif;
 }
 
@@ -860,13 +859,13 @@ html, body {
   font-family: 'SF Mono', ui-monospace, monospace;
   font-size: 16px;
   font-weight: 700;
-  color: #1c1408;
+  color: rgba(255,248,225,0.90);
   letter-spacing: .05em;
   margin-bottom: 5px;
 }
 
 .flight-route .arrow {
-  color: #c05a1a;
+  color: #e07830;
   margin: 0 4px;
 }
 
@@ -876,21 +875,21 @@ html, body {
   flex-wrap: wrap;
   gap: 3px 12px;
   font-size: 10.5px;
-  color: #6b5c38;
+  color: rgba(255,245,215,0.42);
   font-family: system-ui, -apple-system, sans-serif;
 }
 
 /* ── Booking reference ── */
 .flight-ref {
   font-family: 'SF Mono', ui-monospace, monospace;
-  color: #8a3e00;
+  color: #d4870a;
   font-weight: 700;
   letter-spacing: .10em;
   font-size: 11px;
   cursor: pointer;
   -webkit-user-select: all;
   user-select: all;
-  background: rgba(180,100,0,0.10);
+  background: rgba(220,140,0,0.12);
   padding: 1px 3px;
   border-radius: 2px;
 }
@@ -898,10 +897,10 @@ html, body {
 /* ── Seat assignment ── */
 .flight-seat {
   font-family: 'SF Mono', ui-monospace, monospace;
-  color: #1a3a6a;
+  color: #6fa8dc;
   font-weight: 700;
   font-size: 11px;
-  background: rgba(26,58,106,0.10);
+  background: rgba(80,140,200,0.14);
   padding: 1px 3px;
   border-radius: 2px;
 }
@@ -2361,7 +2360,7 @@ html, body {
   color: var(--muted);
 }
 
-/* ─── FLIGHT LIVE BADGE (paper-adapted) ─── */
+/* ─── FLIGHT LIVE BADGE ─── */
 .flight-live-badge {
   display: inline-flex;
   align-items: center;
@@ -2372,9 +2371,9 @@ html, body {
   text-transform: uppercase;
   padding: 3px 8px;
   border-radius: 3px;
-  background: rgba(0,0,0,0.07);
-  border: 1px solid rgba(0,0,0,0.13);
-  color: #6b5c38;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,248,220,0.10);
+  color: rgba(255,245,215,0.42);
   margin-top: 8px;
   transition: all .4s cubic-bezier(.16,1,.3,1);
   position: relative;
@@ -2385,35 +2384,35 @@ html, body {
   content: '';
   width: 5px; height: 5px;
   border-radius: 50%;
-  background: #9a8860;
+  background: rgba(255,245,215,0.30);
   flex-shrink: 0;
 }
 
 .flight-live-badge.airborne {
-  background: rgba(30,90,30,0.10);
-  border-color: rgba(30,90,30,0.28);
-  color: #1a5a1a;
+  background: rgba(109,154,94,0.12);
+  border-color: rgba(109,154,94,0.30);
+  color: var(--green);
   animation: pulseBadge 2.4s ease infinite;
 }
 
 .flight-live-badge.airborne::before {
-  background: #2a7a2a;
-  box-shadow: 0 0 5px rgba(42,122,42,0.50);
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
 }
 
 .flight-live-badge.done {
-  color: #a09070;
+  color: rgba(255,245,215,0.22);
   background: transparent;
-  border-color: rgba(0,0,0,0.09);
+  border-color: rgba(255,248,220,0.06);
 }
 
 .flight-live-badge.done::before {
-  background: #a09070;
+  background: rgba(255,245,215,0.18);
 }
 
 @keyframes pulseBadge {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(42,122,42,0.30); }
-  50% { opacity: 0.75; box-shadow: 0 0 0 3px rgba(42,122,42,0); }
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(109,154,94,0.30); }
+  50% { opacity: 0.75; box-shadow: 0 0 0 3px rgba(109,154,94,0); }
 }
 
 /* ─── AIRPORT TERMINAL ─── */
