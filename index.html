@@ -587,9 +587,10 @@ html, body {
 .clock-time {
   font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
   font-size: 38px;
-  font-weight: 200;
-  letter-spacing: -2px;
-  color: var(--text);
+  font-weight: 400;
+  letter-spacing: -1px;
+  color: #fff;
+  font-feature-settings: 'zero' 1;
   transition: color .5s ease;
 }
 
@@ -793,9 +794,10 @@ html, body {
 .ticket-value {
   font-size: 13px;
   font-weight: 700;
-  color: rgba(255,248,225,0.90);
+  color: #fff;
   letter-spacing: .02em;
-  font-family: 'SF Mono', ui-monospace, monospace;
+  font-family: 'Google Sans Code', 'SF Mono', ui-monospace, monospace;
+  font-feature-settings: 'zero' 1;
 }
 
 /* Perforated tear line */
@@ -1496,20 +1498,21 @@ html, body {
   ) !important;
   border-radius: inherit !important; pointer-events: none !important; z-index: 0 !important;
 }
-.fx-left, .fx-right { position: relative; z-index: 1; }
+.fx-left, .fx-right { position: relative; z-index: 1; min-width: 0; overflow: hidden; }
 .fx-rate {
-  font-family: 'Bebas Neue', 'Arial Narrow', Arial, sans-serif !important;
-  font-size: 44px !important;
+  font-family: 'Google Sans Code', 'SF Mono', ui-monospace, monospace !important;
+  font-size: clamp(20px, 6vw, 30px) !important;
   font-variant-numeric: tabular-nums !important;
-  color: rgba(80,220,120,0.95) !important;
-  text-shadow: 0 0 10px rgba(60,200,100,0.45), 0 0 25px rgba(40,180,80,0.18) !important;
-  letter-spacing: 3px !important;
-  font-weight: 400 !important;
+  font-feature-settings: 'zero' 1 !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255,255,255,0.25), 0 0 25px rgba(255,255,255,0.10) !important;
+  letter-spacing: 1px !important;
+  font-weight: 500 !important;
   line-height: 1 !important;
 }
 .fx-label { color: rgba(80,220,120,0.42) !important; font-family: 'SF Mono', monospace !important; font-size: 9px !important; letter-spacing: .20em !important; text-transform: uppercase !important; }
 .fx-updated { color: rgba(80,220,120,0.22) !important; font-family: 'SF Mono', monospace !important; font-size: 9px !important; }
-.fx-need { font-family: 'Bebas Neue', 'Arial Narrow', Arial, sans-serif !important; font-size: 38px !important; color: rgba(80,220,120,0.90) !important; font-weight: 400 !important; text-shadow: 0 0 8px rgba(60,200,100,0.35) !important; letter-spacing: 2px !important; line-height: 1 !important; }
+.fx-need { font-family: 'Google Sans Code', 'SF Mono', ui-monospace, monospace !important; font-size: clamp(17px, 5vw, 24px) !important; color: #ffffff !important; font-weight: 500 !important; text-shadow: 0 0 8px rgba(255,255,255,0.20) !important; letter-spacing: 1px !important; line-height: 1 !important; font-feature-settings: 'zero' 1 !important; }
 .fx-need-label { color: rgba(80,220,120,0.40) !important; font-family: 'SF Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: .18em !important; }
 
 /* ── INGRESSO DE SHOW (Cena): Torn gray printed paper ticket ── */
@@ -2510,12 +2513,13 @@ html, body {
   gap: 6px;
 }
 .wwb-time {
-  font-family: 'SF Mono', ui-monospace, monospace;
+  font-family: 'Google Sans Code', 'SF Mono', ui-monospace, monospace;
   font-size: 28px;
-  font-weight: 200;
-  color: var(--purple);
-  letter-spacing: -1.5px;
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: -1px;
   line-height: 1;
+  font-feature-settings: 'zero' 1;
 }
 .wwb-sep {
   font-size: 20px;
@@ -2547,10 +2551,11 @@ html, body {
   flex: 1;
 }
 .wwb-dest-time {
-  font-family: 'SF Mono', ui-monospace, monospace;
+  font-family: 'Google Sans Code', 'SF Mono', ui-monospace, monospace;
   font-size: 12px;
-  color: var(--text);
+  color: #fff;
   letter-spacing: .02em;
+  font-feature-settings: 'zero' 1;
 }
 
 /* ─── SLOT DRAG HANDLE ─── */
@@ -3629,6 +3634,7 @@ button:active, .venue-card:active, .vibe-pick-card:active {
   padding: 8px 0 !important;
   text-align: center !important;
   overflow: hidden !important;
+  font-feature-settings: 'zero' 1 !important;
 }
 /* Colon: fixed narrow strip, not a panel */
 .clock-time > .clock-colon {
