@@ -251,7 +251,6 @@ html, body {
 /* ─── FLOATING TAB NAV ─── */
 .tab-nav {
   position: fixed;
-  bottom: max(20px, env(safe-area-inset-bottom, 20px));
   left: 50%;
   transform: translateX(-50%);
   width: auto;
@@ -373,7 +372,6 @@ html, body {
 .content::after {
   content: '';
   display: block;
-  height: calc(0px + env(safe-area-inset-bottom, 0px));
 }
 .tab-content {
   display: none;
