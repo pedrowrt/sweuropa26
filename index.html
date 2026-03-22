@@ -175,11 +175,8 @@ html, body {
 /* ─── APP SHELL ─── */
 .app {
   display: flex;
-  flex-direction: column;
-  position: fixed;
-  inset: 0;
-  height: 100dvh; /* em vez de fixed */  background: var(--bg);
-  overflow: hidden;
+  min-height: 100dvh;
+  flex-direction: column;  inset: 0;
 }
 
 /* ─── HEADER (compact, Layer 3 floating glass) ─── */
@@ -269,6 +266,8 @@ html, body {
   z-index: 200;
   box-shadow: 0 8px 28px rgba(0,0,0,0.35);
   isolation: isolate;
+  padding-bottom: env(safe-area-inset-bottom);
+
 }
 
 
@@ -368,7 +367,8 @@ html, body {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 80px;
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
+
 }
 
 .content::after {
@@ -3566,6 +3566,8 @@ body.loading .content {
 /* ─── TAB NAV ISOLATION ─── */
 .tab-nav {
   isolation: isolate;
+   position: fixed;
+  bottom: 0;
 }
 
 /* ─── VALUE PULSE ON UPDATE ─── */
