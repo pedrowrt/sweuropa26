@@ -906,6 +906,361 @@ html, body {
 }
 
 
+/* ═══════════════════════════════════════════════════════════════
+   SKEUOMORPHIC DESIGN SYSTEM v2
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Ticket airline WHITE STRIP (flush left) ── */
+.ticket-airline-col {
+  background: rgba(255,255,255,0.93);
+  margin-top: -12px;
+  margin-bottom: -10px;
+  margin-left: -13px;
+  padding: 12px 12px 10px 13px;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 96px;
+  flex-shrink: 0;
+  box-shadow: 1px 0 0 rgba(255,248,220,0.12);
+  position: relative;
+  z-index: 2;
+}
+.ticket-airline-col .ticket-label { color: rgba(0,0,0,0.35); }
+.ticket-airline-col .ticket-value { color: #0a0a0a; }
+.ticket-airline-col .flight-airline { color: rgba(0,0,0,0.48); font-size: 7.5px; }
+
+/* ── Airline logo ── */
+.airline-logo { display: flex; flex-direction: column; gap: 1px; line-height: 1; margin-bottom: 3px; }
+.logo-abbr { font-size: 14px; font-weight: 900; letter-spacing: .04em; font-family: 'Arial Black', Arial, sans-serif; }
+.logo-full { font-size: 6px; letter-spacing: .10em; text-transform: uppercase; opacity: .60; font-family: system-ui, sans-serif; }
+.logo-tap  { color: #007B5E; }
+.logo-ez   .logo-abbr { color: #FF6600; font-size: 10.5px; font-style: italic; font-family: Arial, sans-serif; font-weight: 800; }
+.logo-ez   .logo-full { color: #FF6600; }
+.logo-tk   .logo-abbr { color: #C8102E; }
+.logo-tk   .logo-full { color: #444; }
+
+/* ── Flight timing row ── */
+.flight-timing-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 7px 13px 9px;
+  border-top: 1.5px dashed rgba(255,248,220,0.13);
+  position: relative;
+  z-index: 1;
+}
+.flight-timing-row .ticket-field { min-width: 34px; }
+.flight-timing-row .ticket-label { color: rgba(255,245,215,0.30); }
+.flight-timing-row .ticket-value { color: rgba(255,248,225,0.80); font-size: 11.5px; }
+.flight-duration-chip { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
+.flight-duration-chip .ticket-label { color: rgba(255,245,215,0.30); }
+.flight-duration-chip .ticket-value {
+  font-size: 11px;
+  color: rgba(255,200,100,0.92);
+  background: rgba(255,160,50,0.10);
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SONY DIGITAL CLOCK — ICF-C1 / Dream Machine aesthetic
+   ═══════════════════════════════════════════════════════════════ */
+.clock-grid {
+  background: linear-gradient(160deg, #1a1208 0%, #0d0800 100%) !important;
+  border-color: rgba(255,80,0,0.14) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.60), inset 0 1px 0 rgba(255,80,0,0.07) !important;
+}
+.clock-card { border-right-color: rgba(255,60,0,0.11) !important; }
+.clock-time {
+  font-family: 'Courier New', 'Courier', monospace !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  letter-spacing: 4px !important;
+  color: #ff5100 !important;
+  text-shadow: 0 0 6px rgba(255,81,0,0.65), 0 0 18px rgba(255,60,0,0.30), 0 0 32px rgba(255,40,0,0.10) !important;
+  background: #040200;
+  display: inline-block;
+  padding: 4px 8px 2px;
+  border-radius: 3px;
+  border: 1px solid rgba(255,50,0,0.12);
+  transition: color .5s ease, text-shadow .5s ease;
+}
+.clock-city {
+  font-family: 'SF Mono', ui-monospace, monospace !important;
+  font-size: 9px !important;
+  letter-spacing: .13em !important;
+  text-transform: uppercase !important;
+  color: rgba(255,120,40,0.50) !important;
+  margin-top: 5px !important;
+}
+.clock-tz {
+  font-family: 'SF Mono', ui-monospace, monospace !important;
+  font-size: 8.5px !important;
+  letter-spacing: .08em !important;
+  color: rgba(255,80,20,0.28) !important;
+  margin-top: 2px !important;
+}
+.clock-weather { font-size: 16px !important; margin-top: 4px !important; filter: drop-shadow(0 0 4px rgba(255,80,0,0.28)); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AIRPORT FIDS — DEPARTURES BOARD STAT GRID
+   ═══════════════════════════════════════════════════════════════ */
+.stat-grid {
+  background: #080808 !important;
+  border-color: rgba(255,255,255,0.10) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.70), inset 0 0 0 1px rgba(255,248,220,0.04) !important;
+  position: relative;
+}
+.stat-grid::before {
+  content: 'DEPARTURES';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 6.5px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgba(255,248,220,0.18);
+  padding: 5px 10px 4px;
+  border-bottom: 1px solid rgba(255,248,220,0.07);
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+}
+.stat-card { padding-top: 28px !important; }
+.stat-value {
+  font-family: 'SF Mono', ui-monospace, monospace !important;
+  font-size: 34px !important;
+  font-weight: 700 !important;
+  letter-spacing: -1px !important;
+  color: rgba(255,248,220,0.90) !important;
+  text-shadow: 0 0 14px rgba(255,248,180,0.18) !important;
+}
+.stat-label {
+  font-family: 'SF Mono', ui-monospace, monospace !important;
+  font-size: 7px !important;
+  letter-spacing: .18em !important;
+  color: rgba(255,248,220,0.26) !important;
+  margin-top: 5px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GRANA — CREDIT CARD · FLIGHT TICKET · HOTEL STREET SIGN
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Credit card total */
+.grana-creditcard {
+  position: relative;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 35%, #0f3460 70%, #1a1a2e 100%);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 18px 18px 16px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.07);
+}
+.grana-creditcard::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 20% 30%, rgba(120,160,255,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 70%, rgba(180,120,255,0.06) 0%, transparent 40%);
+  pointer-events: none;
+}
+.grana-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.grana-chip {
+  width: 28px; height: 20px;
+  background: linear-gradient(135deg, #d4a843 0%, #f0c96e 40%, #b88820 60%, #e8b84a 100%);
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18);
+  flex-shrink: 0;
+}
+.grana-card-type {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 7.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  flex: 1;
+}
+.grana-card-network {
+  font-size: 10px;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,0.22);
+  font-style: italic;
+}
+.grana-card-total-amt {
+  font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  font-size: clamp(22px,6vw,30px);
+  font-weight: 600;
+  letter-spacing: -1px;
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(120,160,255,0.28);
+}
+.grana-card-perday {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10.5px;
+  color: rgba(255,255,255,0.35);
+  margin-top: 3px;
+}
+.grana-card-bars { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.grana-cbar-row {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 9px; color: rgba(255,255,255,0.40);
+}
+.grana-cbar-label { min-width: 64px; }
+.grana-cbar-track { flex: 1; height: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; }
+.grana-cbar-fill { height: 100%; border-radius: 2px; width: 0%; transition: width .7s cubic-bezier(.16,1,.3,1); }
+.grana-cbar-val { min-width: 72px; text-align: right; color: rgba(255,255,255,0.60); }
+
+/* Internal EU flight ticket row */
+.orca-flight-ticket {
+  background: linear-gradient(175deg, #1e1b15 0%, #121009 100%);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 5px;
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255,248,220,0.08);
+}
+.orca-flight-ticket::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(180deg,transparent 0px,transparent 19px,rgba(255,255,255,0.012) 19px,rgba(255,255,255,0.012) 20px);
+  pointer-events: none;
+}
+.oft-header { display: flex; align-items: stretch; }
+.oft-airline {
+  background: rgba(255,255,255,0.92);
+  padding: 8px 9px;
+  border-radius: 4px 0 0 4px;
+  min-width: 56px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  box-shadow: 1px 0 0 rgba(255,248,220,0.10);
+}
+.oft-route { flex: 1; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; justify-content: center; }
+.oft-route-main {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 13px; font-weight: 700;
+  color: rgba(255,248,225,0.90); letter-spacing: .04em;
+}
+.oft-route-main .arrow { color: #e07830; margin: 0 3px; }
+.oft-route-sub { font-family: 'SF Mono', ui-monospace, monospace; font-size: 9px; color: rgba(255,245,215,0.35); letter-spacing: .07em; }
+.oft-price { padding: 8px 10px; text-align: right; display: flex; flex-direction: column; gap: 3px; align-items: flex-end; justify-content: center; }
+.oft-price-val { font-family: 'SF Mono', ui-monospace, monospace; font-size: 12px; font-weight: 700; color: rgba(255,248,225,0.88); }
+.oft-price-sub { font-family: 'SF Mono', ui-monospace, monospace; font-size: 9px; color: rgba(255,245,215,0.35); }
+
+/* Hotel street sign */
+.orca-hotel-street {
+  background: linear-gradient(180deg, #1c3a1c 0%, #142a14 100%);
+  border: 2px solid rgba(80,150,80,0.32);
+  border-radius: 6px;
+  margin-bottom: 6px;
+  padding: 9px 36px 9px 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.orca-hotel-street::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, rgba(80,160,80,0.5), rgba(60,130,60,0.25));
+}
+.orca-hotel-pin { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 17px; opacity: 0.40; }
+.orca-hotel-name { font-family: 'SF Mono', ui-monospace, monospace; font-size: 11.5px; font-weight: 700; color: rgba(200,255,200,0.90); letter-spacing: .04em; text-transform: uppercase; }
+.orca-hotel-meta { font-family: 'SF Mono', ui-monospace, monospace; font-size: 8.5px; color: rgba(160,220,160,0.42); letter-spacing: .10em; margin-top: 2px; }
+.orca-hotel-row2 { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.orca-hotel-price { font-family: 'SF Mono', ui-monospace, monospace; font-size: 11px; color: rgba(160,255,160,0.68); }
+.orca-hotel-badge {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 7.5px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 2px 5px; border-radius: 2px;
+}
+.orca-hotel-badge.paid        { background: rgba(80,200,80,0.14); color: var(--green); }
+.orca-hotel-badge.confirmed   { background: rgba(80,120,200,0.14); color: var(--blue); }
+.orca-hotel-badge.pending     { background: rgba(200,160,60,0.14); color: var(--amber); }
+
+/* ═══════════════════════════════════════════════════════════════
+   CENA — CONCERT TICKET (ingresso de show)
+   ═══════════════════════════════════════════════════════════════ */
+.cena-ticket, .venue-card {
+  display: flex !important;
+  background: linear-gradient(160deg, #1a0a28 0%, #100518 100%);
+  border: 1px solid rgba(180,100,255,0.14);
+  border-radius: 5px;
+  margin-bottom: 8px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(200,150,255,0.07);
+  transition: transform .12s ease, box-shadow .12s ease;
+  padding: 0 !important;
+}
+.cena-ticket:active, .venue-card:active { transform: scale(0.98); }
+/* Holographic top strip */
+.cena-ticket::after, .venue-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899, #06b6d4, #8b5cf6);
+  opacity: 0.55;
+  pointer-events: none;
+}
+/* Perforation line */
+.cena-ticket::before, .venue-card::before {
+  content: '';
+  position: absolute; left: 52px; top: 8px; bottom: 8px;
+  border-left: 1.5px dashed rgba(200,150,255,0.16);
+  pointer-events: none;
+  z-index: 1;
+}
+.cena-ticket-stub, .venue-stub {
+  width: 52px; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 10px 6px; gap: 3px;
+}
+.cena-ticket-rank { font-size: 18px; line-height: 1; }
+.cena-ticket-city, .venue-stub-city {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 7px; letter-spacing: .12em; text-transform: uppercase;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  color: rgba(200,150,255,0.42); margin-top: 4px;
+}
+.cena-ticket-body, .venue-body {
+  flex: 1; padding: 10px 12px 10px 10px;
+  display: flex; flex-direction: column; gap: 3px; min-width: 0;
+}
+.cena-ticket-name, .venue-body-name {
+  font-size: 14px; font-weight: 700;
+  color: rgba(255,255,255,0.90); letter-spacing: -.01em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.cena-ticket-desc, .venue-body-desc {
+  font-size: 11px; color: rgba(200,150,255,0.58); line-height: 1.4;
+}
+.cena-ticket-footer, .venue-body-footer {
+  display: flex; align-items: center; gap: 7px; margin-top: 5px;
+}
+.cena-ticket-price, .venue-body-price {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 10px; color: rgba(255,255,255,0.32);
+  background: rgba(255,255,255,0.06); padding: 2px 5px; border-radius: 2px;
+}
+/* Barcode decoration */
+.ticket-barcode {
+  margin-left: auto; display: flex; gap: 1.5px; align-items: center; opacity: 0.22;
+}
+.ticket-barcode span { display: inline-block; width: 1.5px; background: rgba(255,255,255,0.9); border-radius: 1px; }
+/* Vibe labels inside concert tickets */
+.cena-ticket .vibe-label, .venue-card .vibe-label {
+  font-family: 'SF Mono', ui-monospace, monospace; font-size: 7.5px; letter-spacing: .10em; text-transform: uppercase; padding: 2px 5px; border-radius: 2px; margin: 0;
+}
+.cena-ticket .vibe-label.perfect, .venue-card .vibe-label.perfect { background: rgba(139,92,246,0.20); color: #c084fc; }
+.cena-ticket .vibe-label.great,   .venue-card .vibe-label.great   { background: rgba(236,72,153,0.18); color: #f472b6; }
+
+/* venue-grid becomes single col for ticket layout */
+.venue-grid { display: flex !important; flex-direction: column; gap: 0; }
+
 /* ─── LIVE OPS / AIRPORT BOARD ─── */
 .live-grid {
   display: grid;
@@ -3034,19 +3389,26 @@ button:active, .venue-card:active, .vibe-pick-card:active {
           <div class="flight-card" id="fcard-TP500">
             <div class="ticket-header">
               <div class="ticket-airline-col">
-                <span class="flight-airline">TAP Air Portugal</span>
+                <div class="airline-logo logo-tap"><span class="logo-abbr">TAP</span><span class="logo-full">Air Portugal</span></div>
                 <div class="flap-display" data-value="TP500"></div>
+                <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">26 JUN</div></div>
               </div>
               <div class="ticket-divider"></div>
               <div class="ticket-info-col">
                 <div class="ticket-field-row">
-                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">26 JUN</div></div>
                   <div class="ticket-field"><div class="ticket-label">Check-in</div><div class="ticket-value">06:20</div></div>
-                </div>
-                <div class="ticket-field-row">
                   <div class="ticket-field"><div class="ticket-label">Via</div><div class="ticket-value">LIS</div></div>
                 </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Ref</div><div class="ticket-value">—</div></div>
+                </div>
               </div>
+            </div>
+            <div class="flight-timing-row">
+              <div class="ticket-field"><div class="ticket-label">Embarque</div><div class="ticket-value">08:50</div></div>
+              <div class="ticket-field"><div class="ticket-label">Decolagem</div><div class="ticket-value">09:20</div></div>
+              <div class="ticket-field"><div class="ticket-label">Chegada</div><div class="ticket-value">20:15</div></div>
+              <div class="flight-duration-chip"><div class="ticket-label">Duração</div><div class="ticket-value">≈12h55</div></div>
             </div>
             <div class="ticket-perforation"></div>
             <div class="ticket-footer">
@@ -3063,24 +3425,30 @@ button:active, .venue-card:active, .vibe-pick-card:active {
           <div class="flight-card" id="fcard-EJU4939">
             <div class="ticket-header">
               <div class="ticket-airline-col">
-                <span class="flight-airline">easyJet</span>
+                <div class="airline-logo logo-ez"><span class="logo-abbr">easyJet</span><span class="logo-full">Europe</span></div>
                 <div class="flap-display" data-value="EJU4939"></div>
+                <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">01 JUL</div></div>
               </div>
               <div class="ticket-divider"></div>
               <div class="ticket-info-col">
                 <div class="ticket-field-row">
-                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">01 JUL</div></div>
-                  <div class="ticket-field"><div class="ticket-label">Dep</div><div class="ticket-value">11:10</div></div>
-                </div>
-                <div class="ticket-field-row">
                   <div class="ticket-field"><div class="ticket-label">Ref</div><div class="ticket-value"><span class="flight-ref">KCBDMTQ</span></div></div>
                 </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Buffer</div><div class="ticket-value">+2h</div></div>
+                </div>
               </div>
+            </div>
+            <div class="flight-timing-row">
+              <div class="ticket-field"><div class="ticket-label">Embarque</div><div class="ticket-value">10:40</div></div>
+              <div class="ticket-field"><div class="ticket-label">Decolagem</div><div class="ticket-value">11:10</div></div>
+              <div class="ticket-field"><div class="ticket-label">Chegada</div><div class="ticket-value">12:35</div></div>
+              <div class="flight-duration-chip"><div class="ticket-label">Duração</div><div class="ticket-value">1h25</div></div>
             </div>
             <div class="ticket-perforation"></div>
             <div class="ticket-footer">
               <div class="flight-route">ORY<span class="arrow">→</span>LIN</div>
-              <div class="flight-details"><span>buffer recomendado: 2h</span></div>
+              <div class="flight-details"><span>01 jul · Paris → Milano Linate</span></div>
               <div class="flight-live-badge" id="fbadge-EJU4939">carregando…</div>
             </div>
           </div>
@@ -3092,21 +3460,30 @@ button:active, .venue-card:active, .vibe-pick-card:active {
           <div class="flight-card" id="fcard-TK1896">
             <div class="ticket-header">
               <div class="ticket-airline-col">
-                <span class="flight-airline">Turkish Airlines</span>
+                <div class="airline-logo logo-tk"><span class="logo-abbr">TK</span><span class="logo-full">Turkish Airlines</span></div>
                 <div class="flap-display" data-value="TK1896"></div>
+                <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">08 JUL</div></div>
               </div>
               <div class="ticket-divider"></div>
               <div class="ticket-info-col">
                 <div class="ticket-field-row">
-                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">08 JUL</div></div>
-                  <div class="ticket-field"><div class="ticket-label">Dep</div><div class="ticket-value">14:55</div></div>
+                  <div class="ticket-field"><div class="ticket-label">Terminal</div><div class="ticket-value">MXP T2</div></div>
+                </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Express</div><div class="ticket-value">Malpensa</div></div>
                 </div>
               </div>
+            </div>
+            <div class="flight-timing-row">
+              <div class="ticket-field"><div class="ticket-label">Embarque</div><div class="ticket-value">14:25</div></div>
+              <div class="ticket-field"><div class="ticket-label">Decolagem</div><div class="ticket-value">14:55</div></div>
+              <div class="ticket-field"><div class="ticket-label">Chegada</div><div class="ticket-value">18:55</div></div>
+              <div class="flight-duration-chip"><div class="ticket-label">Duração</div><div class="ticket-value">3h00</div></div>
             </div>
             <div class="ticket-perforation"></div>
             <div class="ticket-footer">
               <div class="flight-route">MXP<span class="arrow">→</span>IST</div>
-              <div class="flight-details"><span>Malpensa Express antes do meio-dia</span></div>
+              <div class="flight-details"><span>08 jul · Malpensa Express antes do meio-dia</span></div>
               <div class="flight-live-badge" id="fbadge-TK1896">carregando…</div>
             </div>
           </div>
@@ -3118,24 +3495,30 @@ button:active, .venue-card:active, .vibe-pick-card:active {
           <div class="flight-card" id="fcard-TK1423">
             <div class="ticket-header">
               <div class="ticket-airline-col">
-                <span class="flight-airline">Turkish Airlines</span>
+                <div class="airline-logo logo-tk"><span class="logo-abbr">TK</span><span class="logo-full">Turkish Airlines</span></div>
                 <div class="flap-display" data-value="TK1423"></div>
+                <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">12 JUL</div></div>
               </div>
               <div class="ticket-divider"></div>
               <div class="ticket-info-col">
                 <div class="ticket-field-row">
-                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">12 JUL</div></div>
-                  <div class="ticket-field"><div class="ticket-label">Dep</div><div class="ticket-value">15:10</div></div>
-                </div>
-                <div class="ticket-field-row">
                   <div class="ticket-field"><div class="ticket-label">Ref</div><div class="ticket-value"><span class="flight-ref">S5H6JG</span></div></div>
                 </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Terminal</div><div class="ticket-value">IST T1</div></div>
+                </div>
               </div>
+            </div>
+            <div class="flight-timing-row">
+              <div class="ticket-field"><div class="ticket-label">Embarque</div><div class="ticket-value">14:40</div></div>
+              <div class="ticket-field"><div class="ticket-label">Decolagem</div><div class="ticket-value">15:10</div></div>
+              <div class="ticket-field"><div class="ticket-label">Chegada</div><div class="ticket-value">18:40</div></div>
+              <div class="flight-duration-chip"><div class="ticket-label">Duração</div><div class="ticket-value">3h30</div></div>
             </div>
             <div class="ticket-perforation"></div>
             <div class="ticket-footer">
               <div class="flight-route">IST<span class="arrow">→</span>TLL</div>
-              <div class="flight-details"><span>12 jul</span></div>
+              <div class="flight-details"><span>12 jul · Istanbul → Tallinn</span></div>
               <div class="flight-live-badge" id="fbadge-TK1423">carregando…</div>
             </div>
           </div>
@@ -3147,24 +3530,30 @@ button:active, .venue-card:active, .vibe-pick-card:active {
           <div class="flight-card" id="fcard-TK1424">
             <div class="ticket-header">
               <div class="ticket-airline-col">
-                <span class="flight-airline">Turkish Airlines</span>
+                <div class="airline-logo logo-tk"><span class="logo-abbr">TK</span><span class="logo-full">Turkish Airlines</span></div>
                 <div class="flap-display" data-value="TK1424"></div>
+                <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">18 JUL</div></div>
               </div>
               <div class="ticket-divider"></div>
               <div class="ticket-info-col">
                 <div class="ticket-field-row">
-                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">18 JUL</div></div>
-                  <div class="ticket-field"><div class="ticket-label">Dep</div><div class="ticket-value">19:35</div></div>
-                </div>
-                <div class="ticket-field-row">
                   <div class="ticket-field"><div class="ticket-label">Ref</div><div class="ticket-value"><span class="flight-ref">SLXHR7</span></div></div>
                 </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Nota</div><div class="ticket-value">pernoite</div></div>
+                </div>
               </div>
+            </div>
+            <div class="flight-timing-row">
+              <div class="ticket-field"><div class="ticket-label">Embarque</div><div class="ticket-value">19:05</div></div>
+              <div class="ticket-field"><div class="ticket-label">Decolagem</div><div class="ticket-value">19:35</div></div>
+              <div class="ticket-field"><div class="ticket-label">Chegada</div><div class="ticket-value">23:10</div></div>
+              <div class="flight-duration-chip"><div class="ticket-label">Duração</div><div class="ticket-value">3h35</div></div>
             </div>
             <div class="ticket-perforation"></div>
             <div class="ticket-footer">
               <div class="flight-route">TLL<span class="arrow">→</span>IST</div>
-              <div class="flight-details"><span>pernoite IST</span></div>
+              <div class="flight-details"><span>18 jul · pernoite IST</span></div>
               <div class="flight-live-badge" id="fbadge-TK1424">carregando…</div>
             </div>
           </div>
@@ -3176,25 +3565,31 @@ button:active, .venue-card:active, .vibe-pick-card:active {
           <div class="flight-card" id="fcard-TK15">
             <div class="ticket-header">
               <div class="ticket-airline-col">
-                <span class="flight-airline">Turkish Airlines</span>
+                <div class="airline-logo logo-tk"><span class="logo-abbr">TK</span><span class="logo-full">Turkish Airlines</span></div>
                 <div class="flap-display" data-value="TK15"></div>
+                <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">19 JUL</div></div>
               </div>
               <div class="ticket-divider"></div>
               <div class="ticket-info-col">
                 <div class="ticket-field-row">
-                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">19 JUL</div></div>
-                  <div class="ticket-field"><div class="ticket-label">Dep</div><div class="ticket-value">10:25</div></div>
-                </div>
-                <div class="ticket-field-row">
                   <div class="ticket-field"><div class="ticket-label">Ref</div><div class="ticket-value"><span class="flight-ref">SLXHR7</span></div></div>
                   <div class="ticket-field"><div class="ticket-label">Seat</div><div class="ticket-value"><span class="flight-seat">26C</span></div></div>
                 </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Classe</div><div class="ticket-value">Economy</div></div>
+                </div>
               </div>
+            </div>
+            <div class="flight-timing-row">
+              <div class="ticket-field"><div class="ticket-label">Embarque</div><div class="ticket-value">09:55</div></div>
+              <div class="ticket-field"><div class="ticket-label">Decolagem</div><div class="ticket-value">10:25</div></div>
+              <div class="ticket-field"><div class="ticket-label">Chegada</div><div class="ticket-value">17:45</div></div>
+              <div class="flight-duration-chip"><div class="ticket-label">Duração</div><div class="ticket-value">≈13h20</div></div>
             </div>
             <div class="ticket-perforation"></div>
             <div class="ticket-footer">
               <div class="flight-route">IST<span class="arrow">→</span>GRU</div>
-              <div class="flight-details"><span>19 jul</span></div>
+              <div class="flight-details"><span>19 jul · volta pra casa</span></div>
               <div class="flight-live-badge" id="fbadge-TK15">carregando…</div>
             </div>
           </div>
@@ -4810,37 +5205,51 @@ function renderGrana() {
 
     const pct = (v) => grandTotal > 0 ? Math.min(100, Math.round(v / grandTotal * 100)) : 0;
 
-    // ── Hotel rows ─────────────────────────────────────────────────────────────
+    // ── Hotel rows — skeuomorphic street sign ─────────────────────────────────
     const hotelRows = s.hotels.map(h => {
         const brl = (h.id === 'tallinn' && !h.eur && !h.brl) ? tallinnEstBrl : c.hotelBrl(h);
         const isPaid      = h.status === 'paid';
         const isPending   = h.id === 'tallinn' && !h.brl && !h.eur;
         const isAnomaly   = brl && brl > avgItem * 1.5;
-        const statusColor = isPaid ? 'var(--green)' : h.status === 'confirmed' ? 'var(--blue)' : 'var(--amber)';
-        const statusLabel = isPaid ? 'pago ✓' : h.status === 'confirmed' ? 'confirmado' : 'estimado';
-        const displayBrl  = brl ? fmtBrl(brl) : null;
-        const subStr      = h.eur ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(h.eur)})</span>` : '';
-        const estimateNote = isPending && brl ? ` <span style="color:var(--amber);font-size:10px">est.</span>` : '';
-        const anomalyDot  = isAnomaly ? ' <span style="color:var(--amber)">⚠</span>' : '';
-        return `<div class="orca-row">
-            <span class="orca-cat-icon">🏨</span>
-            <span class="orca-cat-label">${h.name} · ${h.id === 'tallinn' && h.nightsUser ? h.nightsUser + 'n usuário' : h.nights + 'n'}${anomalyDot}</span>
-            <span class="orca-cat-value" style="color:${displayBrl ? (isAnomaly ? 'var(--amber)' : 'var(--text)') : statusColor}">${displayBrl ? displayBrl + subStr + estimateNote : '<span style="color:'+statusColor+'">'+statusLabel+'</span>'}</span>
+        const badgeCls    = isPaid ? 'paid' : h.status === 'confirmed' ? 'confirmed' : 'pending';
+        const badgeTxt    = isPaid ? 'pago ✓' : h.status === 'confirmed' ? 'confirmado' : 'estimado';
+        const nights      = h.id === 'tallinn' && h.nightsUser ? h.nightsUser + 'n' : h.nights + 'n';
+        const priceStr    = brl ? fmtBrl(brl) + (h.eur ? ` <span style="opacity:.50;font-size:9px">(~${fmtEur(h.eur)})</span>` : '') + (isPending ? ' <span style="color:var(--amber);font-size:9px">est.</span>' : '') : '';
+        return `<div class="orca-hotel-street">
+            <div class="orca-hotel-pin">📍</div>
+            <div class="orca-hotel-name">${h.name}${isAnomaly ? ' <span style="color:var(--amber)">⚠</span>' : ''}</div>
+            <div class="orca-hotel-meta">${nights} · ${h.city || ''}</div>
+            <div class="orca-hotel-row2">
+                ${priceStr ? `<span class="orca-hotel-price">${priceStr}</span>` : ''}
+                <span class="orca-hotel-badge ${badgeCls}">${badgeTxt}</span>
+            </div>
         </div>`;
     }).join('');
 
-    // ── Flight rows ────────────────────────────────────────────────────────────
+    // ── Flight rows — skeuomorphic boarding pass ticket ────────────────────────
     const flightRows = s.internalFlights.map(f => {
         const brl = c.flightBrl(f);
         const isAnomaly = brl && brl > 0 && brl > avgItem * 1.5;
-        const valStr = f.brl === 0 ? '<span style="color:var(--green)">empresa ✓</span>'
-            : brl ? fmtBrl(brl) : '<span style="color:var(--amber)">pendente</span>';
-        const subStr = f.eur && brl && brl > 0 ? ` <span style="color:var(--muted);font-size:10px">(~${fmtEur(f.eur)})</span>` : '';
-        const anomalyDot = isAnomaly ? ' <span style="color:var(--amber)">⚠</span>' : '';
-        return `<div class="orca-row">
-            <span class="orca-cat-icon">✈️</span>
-            <span class="orca-cat-label">${f.flight} · ${f.route}${anomalyDot}</span>
-            <span class="orca-cat-value" style="color:${isAnomaly ? 'var(--amber)' : ''}">${valStr}${brl && brl > 0 ? subStr : ''}</span>
+        const priceVal  = f.brl === 0 ? '<span style="color:var(--green);font-size:11px">empresa ✓</span>'
+            : brl ? `<span class="oft-price-val" style="${isAnomaly?'color:var(--amber)':''}">${fmtBrl(brl)}</span>` : '<span style="color:var(--amber);font-size:11px">pendente</span>';
+        const priceSub  = f.eur && brl && brl > 0 ? `<span class="oft-price-sub">~${fmtEur(f.eur)}</span>` : '';
+        // Derive airline logo class from flight code
+        const logoMap = { 'TP':'logo-tap', 'EJU':'logo-ez', 'TK':'logo-tk', 'U2':'logo-ez' };
+        const prefix   = Object.keys(logoMap).find(k => f.flight.startsWith(k)) || '';
+        const logoCls  = logoMap[prefix] || '';
+        const abbr     = prefix || f.flight.slice(0,2);
+        return `<div class="orca-flight-ticket">
+            <div class="oft-header">
+                <div class="oft-airline">
+                    <div class="airline-logo ${logoCls}"><span class="logo-abbr" style="font-size:12px">${abbr}</span></div>
+                    <span style="font-family:'SF Mono',monospace;font-size:7px;letter-spacing:.08em;color:rgba(0,0,0,0.45)">${f.flight}</span>
+                </div>
+                <div class="oft-route">
+                    <div class="oft-route-main">${f.route.replace('→','<span class="arrow">→</span>')}</div>
+                    <div class="oft-route-sub">${isAnomaly ? '⚠ anomalia · ' : ''}voo interno EU</div>
+                </div>
+                <div class="oft-price">${priceVal}${priceSub}</div>
+            </div>
         </div>`;
     }).join('');
 
@@ -4858,58 +5267,46 @@ function renderGrana() {
             </div>
         </div>
 
-        <!-- Grand total card -->
-        <div class="orca-city-card grana-card-anim" style="background:rgba(var(--color-primary-rgb),0.06);border-color:rgba(var(--color-primary-rgb),0.18);margin-bottom:4px">
-            <div style="padding:4px 0 12px">
-                <div style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Total da Viagem</div>
-                <div class="grana-total-value" id="grana-grand-total">R$&nbsp;0</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:4px" id="grana-per-day">${fmtBrl(perDay)} por dia · 24 dias</div>
+        <!-- Grand total — Credit Card skeuomorphic -->
+        <div class="grana-creditcard grana-card-anim">
+            <div class="grana-card-top">
+                <div class="grana-chip"></div>
+                <span class="grana-card-type">Cartão Viagem · 22 dias</span>
+                <span class="grana-card-network">VISA</span>
             </div>
-            <div class="orca-row" style="padding:6px 0">
-                <span class="orca-cat-icon">✈️</span>
-                <div style="flex:1">
-                    <div style="display:flex;justify-content:space-between">
-                        <span class="orca-cat-label">Voos internos</span>
-                        <span class="orca-cat-value">${fmtBrl(flightsBrl)}</span>
-                    </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${pct(flightsBrl)}" style="width:0%;background:var(--blue)"></div></div>
+            <div class="grana-card-total-amt" id="grana-grand-total">R$&nbsp;0</div>
+            <div class="grana-card-perday">${fmtBrl(perDay)} por dia · 24 dias</div>
+            <div class="grana-card-bars">
+                <div class="grana-cbar-row">
+                    <span class="grana-cbar-label">✈ Voos</span>
+                    <div class="grana-cbar-track"><div class="grana-cbar-fill grana-bar" data-pct="${pct(flightsBrl)}" style="width:0%;background:#60a5fa"></div></div>
+                    <span class="grana-cbar-val">${fmtBrl(flightsBrl)}</span>
                 </div>
-            </div>
-            <div class="orca-row" style="padding:6px 0">
-                <span class="orca-cat-icon">🏨</span>
-                <div style="flex:1">
-                    <div style="display:flex;justify-content:space-between">
-                        <span class="orca-cat-label">Hospedagem${tallinnEstBrl ? ' <span style="font-size:10px;color:var(--amber)">+est.</span>' : ''}</span>
-                        <span class="orca-cat-value">${fmtBrl(hotelsBrl)}</span>
-                    </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${pct(hotelsBrl)}" style="width:0%;background:var(--purple)"></div></div>
+                <div class="grana-cbar-row">
+                    <span class="grana-cbar-label">🏨 Hotel${tallinnEstBrl ? ' +est.' : ''}</span>
+                    <div class="grana-cbar-track"><div class="grana-cbar-fill grana-bar" data-pct="${pct(hotelsBrl)}" style="width:0%;background:#a78bfa"></div></div>
+                    <span class="grana-cbar-val">${fmtBrl(hotelsBrl)}</span>
                 </div>
-            </div>
-            <div class="orca-row" style="padding:6px 0">
-                <span class="orca-cat-icon">🎟️</span>
-                <div style="flex:1">
-                    <div style="display:flex;justify-content:space-between">
-                        <span class="orca-cat-label">Gastos & Ingressos</span>
-                        <span class="orca-cat-value">${fmtBrl(expensesBrl)}</span>
-                    </div>
-                    <div class="orca-bar-track"><div class="orca-bar-fill grana-bar" data-pct="${pct(expensesBrl)}" style="width:0%;background:var(--amber)"></div></div>
+                <div class="grana-cbar-row">
+                    <span class="grana-cbar-label">🎟 Gastos</span>
+                    <div class="grana-cbar-track"><div class="grana-cbar-fill grana-bar" data-pct="${pct(expensesBrl)}" style="width:0%;background:#fbbf24"></div></div>
+                    <span class="grana-cbar-val">${fmtBrl(expensesBrl)}</span>
                 </div>
             </div>
         </div>
 
-        <!-- Voos internos -->
+        <!-- Voos internos — boarding pass tickets -->
         <div class="section-label">Voos Internos · EU</div>
-        <div class="orca-city-card grana-card-anim">${flightRows}</div>
+        <div class="grana-card-anim">${flightRows}</div>
 
-        <!-- Hospedagem -->
+        <!-- Hospedagem — street sign cards -->
         <div class="section-label">Hospedagem</div>
-        <div class="orca-city-card grana-card-anim">
+        <div class="grana-card-anim">
             ${hotelRows}
-            ${tallinnEstBrl ? `<div class="orca-row" style="border-top:1px solid var(--border);padding-top:6px;margin-top:2px"><span class="orca-cat-icon">💡</span><span class="orca-cat-label" style="color:var(--amber);font-size:12px">Tallinn estimado: ${fmtBrl(tallinnEstBrl)} (${Math.round(avgNightBrl)}/noite × 7)</span></div>` : ''}
-            <div class="orca-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:8px">
-                <span class="orca-cat-icon">Σ</span>
-                <span class="orca-cat-label" style="font-weight:600">Total hospedagem</span>
-                <span class="orca-cat-value" style="color:var(--color-primary)">${fmtBrl(hotelsBrl)}</span>
+            ${tallinnEstBrl ? `<div class="orca-hotel-street" style="border-color:rgba(200,160,60,0.35);background:linear-gradient(180deg,#2a200a 0%,#1a1408 100%)"><div class="orca-hotel-name" style="color:rgba(255,220,120,0.85)">💡 Tallinn estimado</div><div class="orca-hotel-meta">${Math.round(avgNightBrl)}/noite × 7</div><div class="orca-hotel-row2"><span class="orca-hotel-price">${fmtBrl(tallinnEstBrl)}</span><span class="orca-hotel-badge pending">estimado</span></div></div>` : ''}
+            <div style="display:flex;justify-content:flex-end;align-items:center;padding:6px 0;margin-top:2px;border-top:1px solid rgba(255,255,255,0.07)">
+                <span style="font-family:'SF Mono',monospace;font-size:9px;letter-spacing:.10em;color:rgba(255,255,255,0.30);text-transform:uppercase;margin-right:10px">Total</span>
+                <span style="font-family:'SF Mono',monospace;font-size:14px;font-weight:700;color:rgba(200,255,200,0.80)">${fmtBrl(hotelsBrl)}</span>
             </div>
         </div>
 
@@ -5056,23 +5453,28 @@ function renderCena() {
     const cards = picks.map((v, i) => {
         const lbl = vibeLabel(v.score);
         const col  = cityColor[v.city] || 'var(--color-primary)';
-        return `<a class="vibe-pick-card item-tap" href="${v.url}" target="_blank" rel="noopener" style="border-left-color:${col}">
-            <span class="vibe-pick-rank">${rankIcons[i] || '·'}</span>
-            <div class="vibe-pick-body">
-                <div class="vibe-pick-name">${v.name}</div>
-                <div class="vibe-pick-desc">${v.desc}</div>
-                <div class="vibe-pick-footer">
+        // barcode decoration: random-width bars
+        const bars = Array.from({length:12}, (_,i) => `<span style="height:${10 + (i%3)*4}px"></span>`).join('');
+        return `<a class="cena-ticket" href="${v.url}" target="_blank" rel="noopener">
+            <div class="cena-ticket-stub">
+                <span class="cena-ticket-rank">${rankIcons[i] || '·'}</span>
+                <span class="cena-ticket-city">${v.city}</span>
+            </div>
+            <div class="cena-ticket-body">
+                <div class="cena-ticket-name">${v.name}</div>
+                <div class="cena-ticket-desc">${v.desc}</div>
+                <div class="cena-ticket-footer">
                     ${lbl ? `<span class="vibe-label ${lbl.cls}">${lbl.text}</span>` : ''}
-                    <span style="font-size:11px;color:var(--muted)">${v.price}</span>
+                    <span class="cena-ticket-price">${v.price}</span>
+                    <div class="ticket-barcode">${bars}</div>
                 </div>
             </div>
-            <span class="vibe-pick-city" style="color:${col}">${v.city}</span>
         </a>`;
     }).join('');
 
     const headerLabel = currentCity
-        ? `🔥 Top Picks · ${currentCity.charAt(0).toUpperCase() + currentCity.slice(1)}`
-        : '🔥 Top Picks · Toda a viagem';
+        ? `Top Picks · ${currentCity.charAt(0).toUpperCase() + currentCity.slice(1)}`
+        : 'Top Picks · Toda a viagem';
 
     el.innerHTML = `
         <div class="section-label" style="margin-top:0">${headerLabel}</div>
@@ -5081,7 +5483,7 @@ function renderCena() {
 
     // Stagger fade-in
     requestAnimationFrame(() => {
-        el.querySelectorAll('.vibe-pick-card').forEach((card, i) => {
+        el.querySelectorAll('.cena-ticket').forEach((card, i) => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(8px)';
             card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
@@ -5092,20 +5494,34 @@ function renderCena() {
         });
     });
 
-    // Also inject vibe labels into the static venue cards
+    // Rebuild static venue cards as concert tickets
     document.querySelectorAll('#tab-nightlife .venue-card').forEach(card => {
-        const name = card.querySelector('.venue-name')?.textContent?.trim();
-        if (!name) return;
-        const match = VENUE_DATA.find(v => v.name === name);
-        if (!match) return;
-        const lbl = vibeLabel(match.score ?? scoreVenue(match));
-        if (lbl && !card.querySelector('.vibe-label')) {
-            const tag = document.createElement('div');
-            tag.className = `vibe-label ${lbl.cls}`;
-            tag.textContent = lbl.text;
-            const priceEl = card.querySelector('.venue-price');
-            if (priceEl) priceEl.after(tag);
-        }
+        const name    = card.querySelector('.venue-name')?.textContent?.trim();
+        const desc    = card.querySelector('.venue-desc')?.textContent?.trim() || '';
+        const price   = card.querySelector('.venue-price')?.textContent?.trim() || '';
+        const href    = card.getAttribute('href') || '#';
+        const match   = VENUE_DATA.find(v => v.name === name);
+        const lbl     = match ? vibeLabel(match.score ?? scoreVenue(match)) : null;
+        const cityKey = match?.city || '';
+        const cityColors = { paris:'var(--paris)', milan:'var(--milan)', istanbul:'var(--istanbul)', tallinn:'var(--tallinn)' };
+        const col = cityColors[cityKey] || 'var(--color-primary)';
+        const bars2 = Array.from({length:12}, (_,i) => `<span style="height:${10+(i%3)*4}px"></span>`).join('');
+        card.innerHTML = `
+            <div class="venue-stub">
+                <span style="font-size:20px">🎵</span>
+                <span class="venue-stub-city" style="color:${col}">${cityKey}</span>
+            </div>
+            <div class="venue-body">
+                <div class="venue-body-name">${name || ''}</div>
+                <div class="venue-body-desc">${desc}</div>
+                <div class="venue-body-footer">
+                    ${lbl ? `<span class="vibe-label ${lbl.cls}">${lbl.text}</span>` : ''}
+                    <span class="venue-body-price">${price}</span>
+                    <div class="ticket-barcode">${bars2}</div>
+                </div>
+            </div>
+        `;
+        card.href = href;
     });
 }
 
