@@ -3510,11 +3510,194 @@ button:active, .venue-card:active, .vibe-pick-card:active {
   transition: transform 0.1s ease;
 }
 
-/* ─── LOADING STATE ─── */
-.loading * { pointer-events: none; }
+/* ── Animated elements: isolated compositing layers ── */
+.clock-grid { will-change: transform; transform: translateZ(0); }
+.fd-flip     { will-change: transform; }
+.tab-btn     { will-change: transform; }
 
 /* ══════════════════════════════════════════════════════════════════════
-   FLIP CLOCK v4 — Mechanical desk clock / split-flap panel design
+   v5 — PROPORTIONS, FLIGHT PAPER TICKETS, TAB SIZE, PERFORMANCE
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── CLOCK: Scale digits to dominate the cell ── */
+.clock-card {
+  padding: 16px 4px 12px !important;
+  overflow: hidden !important;
+}
+.clock-time {
+  width: 100% !important;
+  gap: 2px !important;
+}
+/* Panels grow to fill their half of the row */
+.clock-time > span:not(.clock-colon) {
+  flex: 1 !important;
+  min-width: 0 !important;
+  font-size: clamp(32px, 6vw, 64px) !important;
+  padding: 8px 0 !important;
+  text-align: center !important;
+  overflow: hidden !important;
+}
+/* Colon: fixed narrow strip, not a panel */
+.clock-time > .clock-colon {
+  flex: 0 0 auto !important;
+  width: 12px !important;
+  font-size: clamp(26px, 5vw, 52px) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+/* ── TAB BAR: reduce height ~30%, simplify glass ── */
+.tab-nav {
+  padding: 3px !important;
+  background: rgba(18,18,22,0.58) !important;
+  backdrop-filter: blur(22px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(180%) !important;
+  border: 1px solid rgba(255,255,255,0.13) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    inset 0 -1px 0 rgba(0,0,0,0.12),
+    0 6px 24px rgba(0,0,0,0.45) !important;
+}
+/* Simplified glass — single soft reflection band */
+.tab-nav::before {
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.07) 0%,
+    transparent 55%
+  ) !important;
+}
+/* Minimal glare line */
+.tab-nav::after {
+  top: 4px !important;
+  left: 15% !important; right: 15% !important;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.20), transparent) !important;
+}
+/* Smaller buttons */
+.tab-btn {
+  padding: 5px 8px 4px !important;
+  min-height: 32px !important;
+  min-width: 44px !important;
+  font-size: 8.5px !important;
+}
+.tab-btn .tab-icon { font-size: 16px !important; margin-bottom: 1px !important; }
+.tab-btn .tab-icon-svg { width: 15px !important; height: 15px !important; margin-bottom: 1px !important; }
+/* Active: subtle frosted chip */
+.tab-btn.active {
+  color: rgba(255,255,255,0.96) !important;
+  background: rgba(255,255,255,0.11) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.18),
+    inset 0 -1px 0 rgba(0,0,0,0.14) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   FLIGHT CARDS — Physical boarding pass (light paper, dark display)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Paper base */
+.flight-card {
+  background: linear-gradient(175deg, #f7f1e3 0%, #ede5d0 100%) !important;
+  border: 1px solid rgba(150,115,60,0.28) !important;
+  box-shadow:
+    0 6px 20px rgba(0,0,0,0.28),
+    0 2px 6px rgba(0,0,0,0.16),
+    inset 0 0 0 1.5px rgba(200,165,90,0.22) !important;
+}
+/* Paper grain overlay */
+.flight-card::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23g)' opacity='0.042'/%3E%3C/svg%3E") !important;
+}
+/* Remove dark ruling lines (now on light paper they'd be ugly) */
+.flight-card::after { background-image: none !important; }
+
+/* ── Text: all labels/values tuned for light paper ── */
+.flight-card .ticket-label {
+  color: rgba(90,65,30,0.58) !important;
+}
+.flight-card .ticket-value {
+  color: rgba(20,14,5,0.90) !important;
+}
+.flight-card .ticket-divider {
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(140,105,50,0.25) 0px, rgba(140,105,50,0.25) 5px,
+    transparent 5px, transparent 10px
+  ) !important;
+}
+.flight-card .flight-route {
+  color: rgba(18,12,4,0.92) !important;
+}
+.flight-card .flight-route .arrow {
+  color: #c46520 !important;
+}
+.flight-card .flight-details {
+  color: rgba(90,65,30,0.60) !important;
+}
+/* Perforated tear line: warm brown dashes */
+.flight-card .ticket-perforation {
+  border-top-color: rgba(140,105,50,0.30) !important;
+}
+/* Footer: faint tinted strip */
+.flight-card .ticket-footer {
+  background: rgba(140,105,50,0.05) !important;
+}
+/* Live badge: adapt to light background */
+.flight-card .flight-live-badge {
+  color: rgba(60,40,12,0.72) !important;
+  background: rgba(140,105,50,0.10) !important;
+  border-color: rgba(140,105,50,0.28) !important;
+}
+/* Airline name text */
+.flight-card .logo-full {
+  color: rgba(90,65,30,0.55) !important;
+}
+/* Timing row divider */
+.flight-card .flight-timing-row {
+  border-top-color: rgba(140,105,50,0.20) !important;
+}
+.flight-card .flight-timing-row .ticket-label,
+.flight-card .ticket-airline-col .ticket-label {
+  color: rgba(90,65,30,0.52) !important;
+}
+.flight-card .flight-timing-row .ticket-value,
+.flight-card .ticket-airline-col .ticket-value {
+  color: rgba(20,14,5,0.88) !important;
+}
+.flight-card .flight-duration-chip .ticket-value {
+  background: rgba(180,100,20,0.12) !important;
+  color: rgba(160,85,15,0.92) !important;
+  border: 1px solid rgba(180,100,20,0.20) !important;
+}
+/* Flight ref + seat chips: adapt */
+.flight-card .flight-ref {
+  color: #8a5800 !important;
+  background: rgba(180,110,0,0.10) !important;
+}
+.flight-card .flight-seat {
+  color: #2a5a8a !important;
+  background: rgba(50,110,180,0.10) !important;
+}
+
+/* ── Split-flap tiles: dark display on light paper (like a real FIDS panel) ── */
+.flight-card .flap-tile {
+  background: linear-gradient(180deg,
+    #1c1a16 0%, #151310 48%,
+    #0e0d0b 52%, #141210 100%
+  ) !important;
+  color: #ddd3b8 !important;
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.60),
+    inset 0 1px 0 rgba(255,255,255,0.07),
+    inset 0 -1px 0 rgba(0,0,0,0.40) !important;
+}
+.flight-card .flap-tile::before {
+  background: rgba(255,255,255,0.06) !important;
+  border-bottom-color: rgba(0,0,0,0.25) !important;
+}
+.flight-card .flap-tile::after {
+  background: rgba(0,0,0,0.30) !important;
+}
+
+</style>
    ══════════════════════════════════════════════════════════════════════ */
 
 /* ── Housing: matte black mechanical casing with glass cover ── */
@@ -4465,10 +4648,10 @@ button:active, .venue-card:active, .vibe-pick-card:active {
   </div>
 
   <nav class="tab-nav">
-    <button class="tab-btn active" data-tab="tab-overview"><i class="tab-icon">⌂</i>Home</button>
+    <button class="tab-btn active" data-tab="tab-overview"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
     <button class="tab-btn" data-tab="tab-schedule"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>Agenda</button>
-    <button class="tab-btn" data-tab="tab-orca"><i class="tab-icon">€</i>Grana</button>
-    <button class="tab-btn" data-tab="tab-nightlife"><i class="tab-icon">♫</i>Cena</button>
+    <button class="tab-btn" data-tab="tab-orca"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Grana</button>
+    <button class="tab-btn" data-tab="tab-nightlife"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Cena</button>
   </nav>
 </div>
 
