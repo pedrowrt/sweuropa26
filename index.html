@@ -4021,6 +4021,16 @@ function renderSchedule() {
 
     if (filtered.length === 0) return;
 
+    // Build weather date maps once (O(n) total) instead of indexOf per day (O(n²))
+    const weatherDateMaps = {};
+    const wf = Store.state.weatherForecast;
+    Object.keys(wf).forEach(city => {
+        if (wf[city] && wf[city].time) {
+            weatherDateMaps[city] = {};
+            wf[city].time.forEach((date, idx) => { weatherDateMaps[city][date] = idx; });
+        }
+    });
+
     const timeline = document.createElement('div');
     timeline.className = 'timeline';
 
@@ -4051,12 +4061,13 @@ function renderSchedule() {
 
         const cityName = cityMeta[day.city]?.name || day.city;
 
-        // Weather string — read from Store (set by Services.fetchWeather)
+        // Weather string — O(1) lookup via pre-built date map
         let weatherHTML = '';
         const fw2 = Store.state.weatherForecast[day.city];
-        if (fw2 && fw2.time) {
-            const idx2 = fw2.time.indexOf(dateKeyFromSchedule(day.date));
-            if (idx2 !== -1) {
+        const dateMap2 = weatherDateMaps[day.city];
+        if (fw2 && dateMap2) {
+            const idx2 = dateMap2[dateKeyFromSchedule(day.date)];
+            if (idx2 !== undefined) {
                 const maxT2 = Math.round(fw2.temperature_2m_max[idx2]);
                 const minT2 = Math.round(fw2.temperature_2m_min[idx2]);
                 const rain2 = fw2.precipitation_probability_max[idx2];
@@ -4151,7 +4162,8 @@ function renderSchedule() {
 
     // Scroll-reactive timeline: highlight visible blocks, toggle glow, stagger events
     requestAnimationFrame(() => {
-        const observer = new IntersectionObserver((entries) => {
+        if (_scheduleObserver) _scheduleObserver.disconnect();
+        _scheduleObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const block = entry.target;
                 if (entry.isIntersecting) {
@@ -4166,7 +4178,7 @@ function renderSchedule() {
             });
         }, { threshold: 0.25, rootMargin: '0px 0px -20% 0px' });
 
-        container.querySelectorAll('.day-block').forEach(block => observer.observe(block));
+        container.querySelectorAll('.day-block').forEach(block => _scheduleObserver.observe(block));
     });
 }
 
@@ -4250,7 +4262,26 @@ function updateCountdown() {
     }
 }
 
+// ─── SCHEDULE OBSERVER ───
+let _scheduleObserver = null; // kept globally to allow disconnect before re-use
+
 // ─── CLOCKS ───
+let _lastAutoRegion = null; // tracks last auto-region to avoid Store.setState every second
+let _cachedCityColors = null; // getComputedStyle is expensive — cache it once
+
+function getCityColors() {
+    if (!_cachedCityColors) {
+        const style = getComputedStyle(document.documentElement);
+        _cachedCityColors = {
+            paris:    style.getPropertyValue('--paris').trim(),
+            milan:    style.getPropertyValue('--milan').trim(),
+            istanbul: style.getPropertyValue('--istanbul').trim(),
+            tallinn:  style.getPropertyValue('--tallinn').trim(),
+        };
+    }
+    return _cachedCityColors;
+}
+
 function fmtWithColon(tz) {
     const timeStr = formatTime(new Date(), tz);
     const [h, m] = timeStr.split(':');
@@ -4304,12 +4335,7 @@ function updateClocks() {
     }
 
     // ── City color — apply to clock time + city name only (not the card) ──────
-    const cityColors = {
-        paris:    getComputedStyle(document.documentElement).getPropertyValue('--paris').trim(),
-        milan:    getComputedStyle(document.documentElement).getPropertyValue('--milan').trim(),
-        istanbul: getComputedStyle(document.documentElement).getPropertyValue('--istanbul').trim(),
-        tallinn:  getComputedStyle(document.documentElement).getPropertyValue('--tallinn').trim(),
-    };
+    const cityColors = getCityColors();
     // Reset all clock cards to default text color
     document.querySelectorAll('.clock-card').forEach(card => {
         const timeEl = card.querySelector('.clock-time');
@@ -4343,8 +4369,14 @@ function updateClocks() {
         }
     }
 
-    // Update accent region if no city filter is active
-    if (currentFilter === 'all') setRegion(isOnTrip ? cityKey : 'paris');
+    // Update accent region if no city filter is active — only when it actually changes
+    if (currentFilter === 'all') {
+        const autoRegion = isOnTrip ? cityKey : 'paris';
+        if (autoRegion !== _lastAutoRegion) {
+            _lastAutoRegion = autoRegion;
+            setRegion(autoRegion);
+        }
+    }
 }
 
 
@@ -4839,10 +4871,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initAddEvent();
 
     // Subscribe renders to Store changes (FX rate, weather, etc.)
+    // Debounced to avoid cascading rebuilds when multiple setState calls happen in sequence
+    let _storeRenderTimer = null;
     Store.subscribe(() => {
-        renderGrana();
-        renderSchedule();
-        updateClocks(); // refresh weather display in clock
+        clearTimeout(_storeRenderTimer);
+        _storeRenderTimer = setTimeout(() => {
+            renderGrana();
+            renderSchedule();
+            // updateClocks runs on its own 1s interval — no need to call it here
+        }, 150);
     });
 
     // Initial render
