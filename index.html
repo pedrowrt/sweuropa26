@@ -651,98 +651,259 @@ html, body {
 
 .route-airline { display: none; }
 
-/* ─── FLIGHT CARDS ─── */
+/* ─── FLIGHT CARDS — SKEUOMORPHIC BOARDING PASS ─── */
+
+@keyframes flap-flip {
+  0%   { transform: rotateX(90deg); opacity: 0.3; }
+  65%  { transform: rotateX(-6deg); }
+  100% { transform: rotateX(0deg);  opacity: 1; }
+}
+
 .flight-card {
   margin: 8px 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
+  background: linear-gradient(175deg, #faf7ee 0%, #ece8d8 100%);
+  border: 1px solid #c0b48e;
+  border-radius: 5px;
+  padding: 0;
   position: relative;
   overflow: hidden;
-  transition: transform var(--motion-fast) var(--spring-snappy),
-              background var(--motion-fast) ease;
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.28),
+    0 1px 2px rgba(0,0,0,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.80),
+    inset 0 -2px 0 rgba(0,0,0,0.06);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+/* Paper grain texture */
+.flight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Faint horizontal ruling lines */
+.flight-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 19px,
+    rgba(0,0,0,0.025) 19px,
+    rgba(0,0,0,0.025) 20px
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 .flight-card:active {
   transform: scale(0.98);
-  box-shadow: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.80);
 }
 
-.flight-card::before {
-  content: '✈';
-  position: absolute;
-  right: 14px;
-  top: 12px;
-  font-size: 18px;
-  opacity: 0.08;
+/* ── Boarding pass internal layout ── */
+.ticket-header {
+  display: flex;
+  align-items: stretch;
+  padding: 12px 13px 10px;
+  position: relative;
+  z-index: 1;
 }
 
-.flight-card::after {
+.ticket-airline-col {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 108px;
+  flex-shrink: 0;
+}
+
+.ticket-divider {
+  width: 1px;
+  background: repeating-linear-gradient(
+    180deg,
+    #b2a07a 0px,
+    #b2a07a 5px,
+    transparent 5px,
+    transparent 10px
+  );
+  margin: 0 11px;
+  flex-shrink: 0;
+}
+
+.ticket-info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  min-width: 0;
+}
+
+.ticket-field-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ticket-field {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ticket-label {
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #8c7a52;
+  font-family: 'SF Mono', ui-monospace, monospace;
+}
+
+.ticket-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1c1408;
+  letter-spacing: .02em;
+  font-family: 'SF Mono', ui-monospace, monospace;
+}
+
+/* Perforated tear line */
+.ticket-perforation {
+  position: relative;
+  z-index: 1;
+  height: 0;
+  border-top: 1.5px dashed #b8a87c;
+  margin: 0 10px;
+}
+
+.ticket-footer {
+  padding: 9px 13px 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Airline name ── */
+.flight-airline {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #6b5c38;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ── Split-flap display ── */
+.flap-display {
+  display: flex;
+  gap: 2.5px;
+  perspective: 200px;
+}
+
+.flap-tile {
+  width: 21px;
+  height: 27px;
+  background: #121212;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ddd5b8;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    inset 0 -1px 0 rgba(0,0,0,0.50),
+    0 2px 4px rgba(0,0,0,0.40);
+}
+
+/* Top-half bevel highlight */
+.flap-tile::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
+  height: 50%;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(0,0,0,0.50);
+  pointer-events: none;
+}
+
+/* Center mechanical dividing line */
+.flap-tile::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  background: rgba(0,0,0,0.55);
+  pointer-events: none;
 }
 
-.flight-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 6px;
+.flap-tile.flap-animating {
+  animation: flap-flip 0.38s cubic-bezier(.22,1,.36,1) both;
 }
 
-.flight-airline {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
-}
+/* Legacy flight-number hidden (replaced by flap-display) */
+.flight-number { display: none; }
 
-.flight-number {
-  font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--color-primary);
-  text-shadow: 0 0 8px rgba(var(--color-primary-rgb),0.2);
-}
-
+/* ── Route ── */
 .flight-route {
   font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: .04em;
-  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1c1408;
+  letter-spacing: .05em;
+  margin-bottom: 5px;
 }
 
-.flight-route .arrow { color: var(--muted); margin: 0 5px; }
+.flight-route .arrow {
+  color: #c05a1a;
+  margin: 0 4px;
+}
 
+/* ── Meta details ── */
 .flight-details {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 16px;
-  font-size: 12px;
-  color: var(--muted);
+  gap: 3px 12px;
+  font-size: 10.5px;
+  color: #6b5c38;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
+/* ── Booking reference ── */
 .flight-ref {
   font-family: 'SF Mono', ui-monospace, monospace;
-  color: var(--amber);
-  font-weight: 600;
-  letter-spacing: .08em;
-  font-size: 12px;
+  color: #8a3e00;
+  font-weight: 700;
+  letter-spacing: .10em;
+  font-size: 11px;
   cursor: pointer;
   -webkit-user-select: all;
   user-select: all;
-  text-shadow: 0 0 6px rgba(200,160,70,0.2);
+  background: rgba(180,100,0,0.10);
+  padding: 1px 3px;
+  border-radius: 2px;
 }
 
+/* ── Seat assignment ── */
 .flight-seat {
   font-family: 'SF Mono', ui-monospace, monospace;
-  color: var(--blue);
-  font-weight: 600;
-  font-size: 12px;
+  color: #1a3a6a;
+  font-weight: 700;
+  font-size: 11px;
+  background: rgba(26,58,106,0.10);
+  padding: 1px 3px;
+  border-radius: 2px;
 }
 
 
@@ -2200,72 +2361,59 @@ html, body {
   color: var(--muted);
 }
 
-/* ─── FLIGHT LIVE BADGE ─── */
+/* ─── FLIGHT LIVE BADGE (paper-adapted) ─── */
 .flight-live-badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: .04em;
+  font-size: 9px;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 7px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.09);
-  color: var(--muted);
-  margin-top: 9px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: rgba(0,0,0,0.07);
+  border: 1px solid rgba(0,0,0,0.13);
+  color: #6b5c38;
+  margin-top: 8px;
   transition: all .4s cubic-bezier(.16,1,.3,1);
   position: relative;
   overflow: hidden;
-}
-/* shimmer while loading */
-.flight-live-badge:not(.airborne):not(.done)::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
-  background-size: 200% 100%;
-  animation: badge-shimmer 1.6s ease 1;
-}
-@keyframes badge-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
 }
 
 .flight-live-badge::before {
   content: '';
   width: 5px; height: 5px;
   border-radius: 50%;
-  background: var(--muted);
+  background: #9a8860;
   flex-shrink: 0;
 }
 
 .flight-live-badge.airborne {
-  background: rgba(109,154,94,0.12);
-  border-color: rgba(109,154,94,0.3);
-  color: var(--green);
+  background: rgba(30,90,30,0.10);
+  border-color: rgba(30,90,30,0.28);
+  color: #1a5a1a;
   animation: pulseBadge 2.4s ease infinite;
 }
 
 .flight-live-badge.airborne::before {
-  background: var(--green);
-  box-shadow: 0 0 6px var(--green);
+  background: #2a7a2a;
+  box-shadow: 0 0 5px rgba(42,122,42,0.50);
 }
 
 .flight-live-badge.done {
-  color: var(--subtle);
+  color: #a09070;
   background: transparent;
-  border-color: rgba(255,255,255,0.05);
+  border-color: rgba(0,0,0,0.09);
 }
 
 .flight-live-badge.done::before {
-  background: var(--subtle);
+  background: #a09070;
 }
 
 @keyframes pulseBadge {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(109,154,94,0.3); }
-  50% { opacity: 0.75; box-shadow: 0 0 0 4px rgba(109,154,94,0); }
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(42,122,42,0.30); }
+  50% { opacity: 0.75; box-shadow: 0 0 0 3px rgba(42,122,42,0); }
 }
 
 /* ─── AIRPORT TERMINAL ─── */
@@ -2885,10 +3033,28 @@ button:active, .venue-card:active, .vibe-pick-card:active {
             <div class="route-dates">26 jun</div>
           </div>
           <div class="flight-card" id="fcard-TP500">
-            <div class="flight-top"><span class="flight-airline">TAP</span><span class="flight-number">TP500</span></div>
-            <div class="flight-route">GRU<span class="arrow">→</span>LIS<span class="arrow">→</span>ORY</div>
-            <div class="flight-details"><span>26 jun · conexão Lisboa</span><span>check-in sugerido 06:20</span></div>
-            <div class="flight-live-badge" id="fbadge-TP500">carregando…</div>
+            <div class="ticket-header">
+              <div class="ticket-airline-col">
+                <span class="flight-airline">TAP Air Portugal</span>
+                <div class="flap-display" data-value="TP500"></div>
+              </div>
+              <div class="ticket-divider"></div>
+              <div class="ticket-info-col">
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">26 JUN</div></div>
+                  <div class="ticket-field"><div class="ticket-label">Check-in</div><div class="ticket-value">06:20</div></div>
+                </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Via</div><div class="ticket-value">LIS</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="ticket-perforation"></div>
+            <div class="ticket-footer">
+              <div class="flight-route">GRU<span class="arrow">→</span>LIS<span class="arrow">→</span>ORY</div>
+              <div class="flight-details"><span>26 jun · conexão Lisboa</span></div>
+              <div class="flight-live-badge" id="fbadge-TP500">carregando…</div>
+            </div>
           </div>
           <div class="route-stop">
             <div class="route-dot paris"></div>
@@ -2896,10 +3062,28 @@ button:active, .venue-card:active, .vibe-pick-card:active {
             <div class="route-dates">26 jun — 01 jul · 5n</div>
           </div>
           <div class="flight-card" id="fcard-EJU4939">
-            <div class="flight-top"><span class="flight-airline">easyJet</span><span class="flight-number">EJU4939</span></div>
-            <div class="flight-route">ORY<span class="arrow">→</span>LIN</div>
-            <div class="flight-details"><span>01 jul · 11:10</span><span>ref <span class="flight-ref">KCBDMTQ</span></span><span>buffer recomendado: 2h</span></div>
-            <div class="flight-live-badge" id="fbadge-EJU4939">carregando…</div>
+            <div class="ticket-header">
+              <div class="ticket-airline-col">
+                <span class="flight-airline">easyJet</span>
+                <div class="flap-display" data-value="EJU4939"></div>
+              </div>
+              <div class="ticket-divider"></div>
+              <div class="ticket-info-col">
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">01 JUL</div></div>
+                  <div class="ticket-field"><div class="ticket-label">Dep</div><div class="ticket-value">11:10</div></div>
+                </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Ref</div><div class="ticket-value"><span class="flight-ref">KCBDMTQ</span></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="ticket-perforation"></div>
+            <div class="ticket-footer">
+              <div class="flight-route">ORY<span class="arrow">→</span>LIN</div>
+              <div class="flight-details"><span>buffer recomendado: 2h</span></div>
+              <div class="flight-live-badge" id="fbadge-EJU4939">carregando…</div>
+            </div>
           </div>
           <div class="route-stop">
             <div class="route-dot milan"></div>
@@ -2907,10 +3091,25 @@ button:active, .venue-card:active, .vibe-pick-card:active {
             <div class="route-dates">01 jul — 08 jul · 7n</div>
           </div>
           <div class="flight-card" id="fcard-TK1896">
-            <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK1896</span></div>
-            <div class="flight-route">MXP<span class="arrow">→</span>IST</div>
-            <div class="flight-details"><span>08 jul · 14:55</span><span>Malpensa Express antes do meio-dia</span></div>
-            <div class="flight-live-badge" id="fbadge-TK1896">carregando…</div>
+            <div class="ticket-header">
+              <div class="ticket-airline-col">
+                <span class="flight-airline">Turkish Airlines</span>
+                <div class="flap-display" data-value="TK1896"></div>
+              </div>
+              <div class="ticket-divider"></div>
+              <div class="ticket-info-col">
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">08 JUL</div></div>
+                  <div class="ticket-field"><div class="ticket-label">Dep</div><div class="ticket-value">14:55</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="ticket-perforation"></div>
+            <div class="ticket-footer">
+              <div class="flight-route">MXP<span class="arrow">→</span>IST</div>
+              <div class="flight-details"><span>Malpensa Express antes do meio-dia</span></div>
+              <div class="flight-live-badge" id="fbadge-TK1896">carregando…</div>
+            </div>
           </div>
           <div class="route-stop">
             <div class="route-dot istanbul"></div>
@@ -2918,10 +3117,28 @@ button:active, .venue-card:active, .vibe-pick-card:active {
             <div class="route-dates">08 jul — 12 jul · 4n</div>
           </div>
           <div class="flight-card" id="fcard-TK1423">
-            <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK1423</span></div>
-            <div class="flight-route">IST<span class="arrow">→</span>TLL</div>
-            <div class="flight-details"><span>12 jul · 15:10</span><span>ref <span class="flight-ref">S5H6JG</span></span></div>
-            <div class="flight-live-badge" id="fbadge-TK1423">carregando…</div>
+            <div class="ticket-header">
+              <div class="ticket-airline-col">
+                <span class="flight-airline">Turkish Airlines</span>
+                <div class="flap-display" data-value="TK1423"></div>
+              </div>
+              <div class="ticket-divider"></div>
+              <div class="ticket-info-col">
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">12 JUL</div></div>
+                  <div class="ticket-field"><div class="ticket-label">Dep</div><div class="ticket-value">15:10</div></div>
+                </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Ref</div><div class="ticket-value"><span class="flight-ref">S5H6JG</span></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="ticket-perforation"></div>
+            <div class="ticket-footer">
+              <div class="flight-route">IST<span class="arrow">→</span>TLL</div>
+              <div class="flight-details"><span>12 jul</span></div>
+              <div class="flight-live-badge" id="fbadge-TK1423">carregando…</div>
+            </div>
           </div>
           <div class="route-stop">
             <div class="route-dot tallinn"></div>
@@ -2929,10 +3146,28 @@ button:active, .venue-card:active, .vibe-pick-card:active {
             <div class="route-dates">12 jul — 18 jul · 6n</div>
           </div>
           <div class="flight-card" id="fcard-TK1424">
-            <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK1424</span></div>
-            <div class="flight-route">TLL<span class="arrow">→</span>IST</div>
-            <div class="flight-details"><span>18 jul · 19:35</span><span>pernoite IST</span><span>ref <span class="flight-ref">SLXHR7</span></span></div>
-            <div class="flight-live-badge" id="fbadge-TK1424">carregando…</div>
+            <div class="ticket-header">
+              <div class="ticket-airline-col">
+                <span class="flight-airline">Turkish Airlines</span>
+                <div class="flap-display" data-value="TK1424"></div>
+              </div>
+              <div class="ticket-divider"></div>
+              <div class="ticket-info-col">
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">18 JUL</div></div>
+                  <div class="ticket-field"><div class="ticket-label">Dep</div><div class="ticket-value">19:35</div></div>
+                </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Ref</div><div class="ticket-value"><span class="flight-ref">SLXHR7</span></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="ticket-perforation"></div>
+            <div class="ticket-footer">
+              <div class="flight-route">TLL<span class="arrow">→</span>IST</div>
+              <div class="flight-details"><span>pernoite IST</span></div>
+              <div class="flight-live-badge" id="fbadge-TK1424">carregando…</div>
+            </div>
           </div>
           <div class="route-stop">
             <div class="route-dot istanbul"></div>
@@ -2940,10 +3175,29 @@ button:active, .venue-card:active, .vibe-pick-card:active {
             <div class="route-dates">18–19 jul</div>
           </div>
           <div class="flight-card" id="fcard-TK15">
-            <div class="flight-top"><span class="flight-airline">Turkish Airlines</span><span class="flight-number">TK15</span></div>
-            <div class="flight-route">IST<span class="arrow">→</span>GRU</div>
-            <div class="flight-details"><span>19 jul · 10:25</span><span>ref <span class="flight-ref">SLXHR7</span></span><span class="flight-seat">Seat 26C</span></div>
-            <div class="flight-live-badge" id="fbadge-TK15">carregando…</div>
+            <div class="ticket-header">
+              <div class="ticket-airline-col">
+                <span class="flight-airline">Turkish Airlines</span>
+                <div class="flap-display" data-value="TK15"></div>
+              </div>
+              <div class="ticket-divider"></div>
+              <div class="ticket-info-col">
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Date</div><div class="ticket-value">19 JUL</div></div>
+                  <div class="ticket-field"><div class="ticket-label">Dep</div><div class="ticket-value">10:25</div></div>
+                </div>
+                <div class="ticket-field-row">
+                  <div class="ticket-field"><div class="ticket-label">Ref</div><div class="ticket-value"><span class="flight-ref">SLXHR7</span></div></div>
+                  <div class="ticket-field"><div class="ticket-label">Seat</div><div class="ticket-value"><span class="flight-seat">26C</span></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="ticket-perforation"></div>
+            <div class="ticket-footer">
+              <div class="flight-route">IST<span class="arrow">→</span>GRU</div>
+              <div class="flight-details"><span>19 jul</span></div>
+              <div class="flight-live-badge" id="fbadge-TK15">carregando…</div>
+            </div>
           </div>
           <div class="route-stop">
             <div class="route-dot return"></div>
@@ -4901,6 +5155,21 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(renderFlightBoard, 60000 * 2);
     setInterval(renderMeetingLive, 60000 * 5);
 });
+
+// ── Split-flap display: build tiles and animate on load ──
+(function initFlapDisplays() {
+    document.querySelectorAll('.flap-display[data-value]').forEach(function(display) {
+        var chars = display.dataset.value.split('');
+        display.innerHTML = '';
+        chars.forEach(function(char, i) {
+            var tile = document.createElement('div');
+            tile.className = 'flap-tile flap-animating';
+            tile.textContent = char;
+            tile.style.animationDelay = (i * 55) + 'ms';
+            display.appendChild(tile);
+        });
+    });
+})();
 </script>
 </body>
 </html>
