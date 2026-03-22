@@ -249,53 +249,80 @@ html, body {
 /* ─── FLOATING TAB NAV ─── */
 .tab-nav {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;
-  min-width: min(340px, calc(100vw - 28px));
-  max-width: calc(100vw - 20px);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: none;
+  width: 100%;
+  min-width: unset;
+  max-width: unset;
   display: flex;
-  gap: 2px;
-  padding: 5px;
-  background: rgba(0,0,0,0.22);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--layer-3-border);
-  border-radius: 28px;
-  overflow: hidden;
+  gap: 0;
+  padding: 4px 8px env(safe-area-inset-bottom, 12px);
+  background: rgba(10,10,12,0.72);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0;
+  overflow: visible;
   z-index: 200;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+  box-shadow: 0 -1px 0 rgba(0,0,0,0.25), 0 -8px 20px rgba(0,0,0,0.18);
   isolation: isolate;
 }
 
 
 .tab-btn {
   flex: 1;
-  padding: 7px 10px 6px;
-  min-height: 44px;
-  min-width: 50px;
+  padding: 6px 4px 4px;
+  min-height: 49px;
+  min-width: 44px;
   background: none;
   border: none;
-  color: var(--subtle);
-  font-family: 'SF Mono', ui-monospace, monospace;
-  font-size: 9px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .01em;
   cursor: pointer;
   transition: color var(--motion-normal) var(--spring),
-              background var(--motion-normal) var(--spring),
               transform var(--motion-fast) var(--spring-snappy);
   text-align: center;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   -webkit-tap-highlight-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
 }
 
 .tab-btn.active {
   color: var(--color-primary);
-  background: rgba(var(--color-primary-rgb), 0.12);
-  box-shadow: inset 0 1px 0 rgba(var(--color-primary-rgb), 0.2),
-              0 0 18px rgba(var(--color-primary-rgb), 0.25);
+  background: none;
+}
+
+/* iOS 26 Liquid Glass — glass lozenge behind active icon */
+.tab-btn.active .tab-icon-wrap {
+  background: rgba(var(--color-primary-rgb), 0.15);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.22);
+  box-shadow: 0 0 12px rgba(var(--color-primary-rgb), 0.20),
+              inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.tab-icon-wrap {
+  width: 52px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  transition: background var(--motion-normal) var(--spring),
+              box-shadow var(--motion-normal) var(--spring),
+              border var(--motion-normal) var(--spring);
+  border: 1px solid transparent;
 }
 
 .tab-btn .tab-icon {
@@ -308,28 +335,27 @@ html, body {
 /* SVG icons in tab bar */
 .tab-icon-svg {
   display: block;
-  width: 18px;
-  height: 18px;
-  margin: 0 auto 2px;
+  width: 20px;
+  height: 20px;
+  margin: 0 auto;
   stroke: currentColor;
   fill: none;
-  stroke-width: 1.8;
+  stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
   transition: transform var(--motion-normal) var(--spring-snappy);
 }
-.tab-btn:active .tab-icon-svg { transform: scale(0.83); }
+.tab-btn:active .tab-icon-svg { transform: scale(0.85); }
 .tab-btn.active .tab-icon-svg {
-  transform: scale(1.12);
-  filter: drop-shadow(0 0 5px rgba(var(--color-primary-rgb), 0.55));
+  stroke-width: 2;
+  filter: drop-shadow(0 0 4px rgba(var(--color-primary-rgb), 0.50));
 }
 
-.tab-btn:active { transform: scale(0.90); }
-.tab-btn:active .tab-icon { transform: scale(0.83); }
+.tab-btn:active { transform: scale(0.92); }
+.tab-btn:active .tab-icon { transform: scale(0.85); }
 
 .tab-btn.active .tab-icon {
-  transform: scale(1.12);
-  filter: drop-shadow(0 0 5px rgba(var(--color-primary-rgb), 0.55));
+  filter: drop-shadow(0 0 4px rgba(var(--color-primary-rgb), 0.50));
   transition: transform var(--motion-normal) var(--spring-snappy),
               filter var(--motion-normal) ease;
 }
@@ -347,7 +373,7 @@ html, body {
 .content::after {
   content: '';
   display: block;
-  height: 100px;
+  height: calc(80px + env(safe-area-inset-bottom, 0px));
 }
 .tab-content {
   display: none;
@@ -935,7 +961,7 @@ html, body {
 .logo-ez   .logo-abbr { color: #FF6600; font-size: 10.5px; font-style: italic; font-family: Arial, sans-serif; font-weight: 800; }
 .logo-ez   .logo-full { color: #FF6600; }
 .logo-tk   .logo-abbr { color: #C8102E; }
-.logo-tk   .logo-full { color: #444; }
+.logo-tk   .logo-full { color: rgba(255,245,215,0.42); }
 
 /* ── Flight timing row ── */
 .flight-timing-row {
@@ -1137,12 +1163,14 @@ html, body {
 }
 .oft-header { display: flex; align-items: stretch; }
 .oft-airline {
-  background: rgba(255,255,255,0.92);
+  background: linear-gradient(175deg, #1a1508 0%, #0f0d05 100%);
   padding: 8px 9px;
   border-radius: 4px 0 0 4px;
   min-width: 56px;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  box-shadow: 1px 0 0 rgba(255,248,220,0.10);
+  box-shadow: 1px 0 0 rgba(255,248,220,0.10), inset 0 1px 0 rgba(255,240,180,0.08);
+  border-right: 1.5px dashed rgba(255,248,200,0.14);
+  position: relative;
 }
 .oft-route { flex: 1; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; justify-content: center; }
 .oft-route-main {
@@ -1465,55 +1493,85 @@ html, body {
 .fx-need { color: rgba(255,248,225,0.92) !important; font-weight: 600 !important; }
 .fx-need-label { color: rgba(200,165,80,0.52) !important; }
 
-/* ── CONCERT TICKETS (Cena): Physical paper — aged, tactile ── */
+/* ── CONCERT TICKETS (Cena): Physical ingresso de show — dark, tactile ── */
 .cena-ticket, .venue-card {
-  background: linear-gradient(175deg, #242018 0%, #1c1810 100%) !important;
-  border: 1px solid rgba(180,158,95,0.28) !important;
-  /* Inner red border via inset shadow */
-  box-shadow: 0 4px 16px rgba(0,0,0,0.55), inset 0 0 0 2px rgba(188,52,35,0.24) !important;
+  background: linear-gradient(170deg, #1a1108 0%, #100a04 60%, #0e0906 100%) !important;
+  border: 1px solid rgba(210,140,40,0.28) !important;
+  border-radius: 6px !important;
+  box-shadow:
+    0 5px 20px rgba(0,0,0,0.65),
+    inset 0 0 0 1px rgba(255,200,80,0.07),
+    inset 0 1px 0 rgba(255,220,100,0.10) !important;
 }
-/* Replace rainbow strip with aged paper edge line */
+/* Top strip — colored ticket header band */
 .cena-ticket::after, .venue-card::after {
-  background: rgba(200,175,110,0.16) !important;
-  height: 1px !important;
+  background: linear-gradient(90deg, #b8380a 0%, #d9520c 35%, #c4420b 65%, #b8380a 100%) !important;
+  height: 4px !important;
   opacity: 1 !important;
+  border-radius: 6px 6px 0 0 !important;
 }
-/* Perforation: dot column */
+/* Perforation: punched holes column */
 .cena-ticket::before, .venue-card::before {
   border-left: none !important;
-  background-image: radial-gradient(circle, rgba(0,0,0,0.50) 1.5px, transparent 1.5px) !important;
-  background-size: 100% 7px !important;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.80) 2px, transparent 2px) !important;
+  background-size: 100% 8px !important;
   background-repeat: repeat-y !important;
-  background-position: center !important;
-  width: 4px !important;
-  left: 54px !important;
+  background-position: center top 4px !important;
+  width: 6px !important;
+  left: 57px !important;
+  top: 4px !important;
+  bottom: 0 !important;
 }
-/* Stub — slightly darker paper strip */
+/* Stub — ticket counter-foil, darker with grain */
 .cena-ticket-stub, .venue-stub {
-  background: rgba(0,0,0,0.14) !important;
-  border-right: 1px solid rgba(180,158,95,0.14) !important;
+  background: linear-gradient(175deg, #120d04 0%, #0c0904 100%) !important;
+  border-right: none !important;
+  width: 58px !important;
+  position: relative !important;
+}
+/* Grain texture on stub */
+.cena-ticket-stub::after, .venue-stub::after {
+  content: '' !important;
+  position: absolute !important; inset: 0 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.90' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E") !important;
+  pointer-events: none !important; z-index: 0 !important;
+}
+/* Stub content above grain overlay */
+.cena-ticket-rank, .cena-ticket-city, .venue-stub-city {
+  position: relative !important; z-index: 1 !important;
 }
 /* Text: warm aged parchment tones */
-.cena-ticket-name, .venue-body-name   { color: rgba(255,245,212,0.92) !important; }
-.cena-ticket-desc, .venue-body-desc   { color: rgba(195,178,135,0.62) !important; }
-.cena-ticket-city, .venue-stub-city   { color: rgba(195,178,135,0.48) !important; }
+.cena-ticket-name, .venue-body-name   { color: rgba(255,242,205,0.94) !important; font-weight: 800 !important; letter-spacing: .01em !important; }
+.cena-ticket-desc, .venue-body-desc   { color: rgba(200,175,120,0.60) !important; font-size: 10.5px !important; }
+.cena-ticket-city, .venue-stub-city   { color: rgba(210,175,90,0.55) !important; font-size: 6.5px !important; letter-spacing: .16em !important; }
+.cena-ticket-rank { filter: saturate(0.85) !important; }
 .cena-ticket-price, .venue-body-price {
-  background: rgba(0,0,0,0.22) !important;
-  color: rgba(220,192,115,0.78) !important;
-  border: 1px solid rgba(180,158,95,0.20) !important;
+  background: rgba(0,0,0,0.30) !important;
+  color: rgba(230,195,100,0.82) !important;
+  border: 1px solid rgba(180,140,50,0.22) !important;
+  font-weight: 700 !important;
 }
-/* Vibe labels — earthy not neon */
+/* Vibe labels */
 .cena-ticket .vibe-label.perfect, .venue-card .vibe-label.perfect {
-  background: rgba(100,60,180,0.20) !important; color: rgba(195,160,255,0.90) !important;
+  background: rgba(180,80,20,0.24) !important; color: rgba(255,170,80,0.92) !important;
+  border: 1px solid rgba(200,100,30,0.22) !important;
 }
 .cena-ticket .vibe-label.great, .venue-card .vibe-label.great {
-  background: rgba(188,52,35,0.18) !important; color: rgba(225,140,120,0.90) !important;
+  background: rgba(120,100,20,0.22) !important; color: rgba(230,205,90,0.88) !important;
+  border: 1px solid rgba(180,160,40,0.20) !important;
 }
-/* Dot print texture on ticket body */
+/* Halftone dot print texture on ticket body */
 .cena-ticket-body, .venue-body {
-  background-image: radial-gradient(circle, rgba(255,255,255,0.022) 1px, transparent 1px) !important;
-  background-size: 6px 6px !important;
+  background-image:
+    radial-gradient(circle, rgba(255,220,120,0.028) 1px, transparent 1px) !important;
+  background-size: 5px 5px !important;
+  padding-top: 12px !important;
 }
+/* Barcode — warm amber tones */
+.cena-ticket .ticket-barcode span, .venue-card .ticket-barcode span {
+  background: rgba(220,185,90,0.55) !important;
+}
+.cena-ticket .ticket-barcode, .venue-card .ticket-barcode { opacity: 0.60 !important; }
 
 /* ─── LIVE OPS / AIRPORT BOARD ─── */
 .live-grid {
@@ -4648,10 +4706,10 @@ button:active, .venue-card:active, .vibe-pick-card:active {
   </div>
 
   <nav class="tab-nav">
-    <button class="tab-btn active" data-tab="tab-overview"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
-    <button class="tab-btn" data-tab="tab-schedule"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>Agenda</button>
-    <button class="tab-btn" data-tab="tab-orca"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Grana</button>
-    <button class="tab-btn" data-tab="tab-nightlife"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Cena</button>
+    <button class="tab-btn active" data-tab="tab-overview"><div class="tab-icon-wrap"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>Home</button>
+    <button class="tab-btn" data-tab="tab-schedule"><div class="tab-icon-wrap"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg></div>Agenda</button>
+    <button class="tab-btn" data-tab="tab-orca"><div class="tab-icon-wrap"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>Grana</button>
+    <button class="tab-btn" data-tab="tab-nightlife"><div class="tab-icon-wrap"><svg class="tab-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>Cena</button>
   </nav>
 </div>
 
@@ -5962,7 +6020,7 @@ function renderGrana() {
             <div class="oft-header">
                 <div class="oft-airline">
                     <div class="airline-logo ${logoCls}"><span class="logo-abbr" style="font-size:12px">${abbr}</span></div>
-                    <span style="font-family:'SF Mono',monospace;font-size:7px;letter-spacing:.08em;color:rgba(0,0,0,0.45)">${f.flight}</span>
+                    <span style="font-family:'SF Mono',monospace;font-size:7px;letter-spacing:.08em;color:rgba(255,245,200,0.45)">${f.flight}</span>
                 </div>
                 <div class="oft-route">
                     <div class="oft-route-main">${f.route.replace('→','<span class="arrow">→</span>')}</div>
