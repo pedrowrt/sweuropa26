@@ -3513,6 +3513,261 @@ button:active, .venue-card:active, .vibe-pick-card:active {
 /* ─── LOADING STATE ─── */
 .loading * { pointer-events: none; }
 
+/* ══════════════════════════════════════════════════════════════════════
+   FLIP CLOCK v4 — Mechanical desk clock / split-flap panel design
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Housing: matte black mechanical casing with glass cover ── */
+.clock-grid {
+  background: linear-gradient(160deg, #181614 0%, #0e0d0b 100%) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 14px 44px rgba(0,0,0,0.78),
+    0 4px 14px rgba(0,0,0,0.55),
+    inset 0 1.5px 0 rgba(255,255,255,0.09),
+    inset 0 -1px 0 rgba(0,0,0,0.60) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+/* Plastic / glass cover — angled reflection */
+.clock-grid::before {
+  content: '' !important;
+  position: absolute !important; inset: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(160deg,
+    rgba(255,255,255,0.09) 0%,
+    rgba(255,255,255,0.03) 28%,
+    transparent 50%,
+    rgba(255,255,255,0.02) 80%,
+    rgba(255,255,255,0.06) 100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+}
+/* Top glare streak */
+.clock-grid::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important; left: 8% !important; right: 8% !important; height: 1px !important;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent) !important;
+  pointer-events: none !important;
+  z-index: 11 !important;
+}
+
+/* Clock cells */
+.clock-card {
+  padding: 14px 6px 12px !important;
+  border-right: 1px solid rgba(255,255,255,0.05) !important;
+  background: none !important;
+  position: relative !important;
+  text-align: center !important;
+  overflow: hidden !important;
+}
+.clock-card:last-child { border-right: none !important; }
+
+/* Optional: subtle active cell tint (don't override bg) */
+.clock-card.clock-highlight,
+.clock-card.clock-active {
+  background: rgba(255,255,255,0.025) !important;
+}
+.clock-card.clock-highlight::before,
+.clock-card.clock-active::before { display: none !important; }
+
+/* ── .clock-time is the flip-panel row ── */
+.clock-time {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  font-size: unset !important;
+  font-weight: unset !important;
+  letter-spacing: 0 !important;
+  color: inherit !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  text-shadow: none !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* ── Digit panels (HH and MM blocks) ── */
+.clock-time > span:not(.clock-colon) {
+  font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 19px !important;
+  font-weight: 900 !important;
+  color: inherit !important;
+  background: linear-gradient(180deg,
+    #272421 0%,
+    #212019 48%,
+    #191815 52%,
+    #1e1c1a 100%
+  ) !important;
+  border-radius: 5px !important;
+  padding: 5px 5px 4px !important;
+  min-width: 28px !important;
+  text-align: center !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.70),
+    0 1px 3px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.10) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transform-style: preserve-3d !important;
+}
+/* Hinge line at center of panel */
+.clock-time > span:not(.clock-colon)::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important; right: 0 !important; top: 50% !important;
+  transform: translateY(-50%) !important;
+  height: 1.5px !important;
+  background: linear-gradient(90deg, #080706, #121110, #080706) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.70) !important;
+  z-index: 4 !important;
+}
+/* Top-half glare */
+.clock-time > span:not(.clock-colon)::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important; left: 0 !important; right: 0 !important; height: 50% !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%) !important;
+  border-radius: 5px 5px 0 0 !important;
+  z-index: 3 !important;
+}
+
+/* ── Colon separator — plain text, not a panel ── */
+.clock-time > .clock-colon {
+  font-family: 'Arial Black', Arial, sans-serif !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  color: inherit !important;
+  opacity: 0.45 !important;
+  background: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 2px !important;
+  min-width: unset !important;
+  margin-bottom: 3px !important;
+  line-height: 1 !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+.clock-time > .clock-colon::before,
+.clock-time > .clock-colon::after { display: none !important; }
+
+/* ── Flip animation when digit changes ── */
+@keyframes fdFlip {
+  0%   { transform: scaleY(1)    rotateX(0deg);    }
+  35%  { transform: scaleY(0.04) rotateX(-80deg);  }
+  65%  { transform: scaleY(0.04) rotateX(-80deg);  }
+  100% { transform: scaleY(1)    rotateX(0deg);    }
+}
+.fd-flip {
+  animation: fdFlip 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ── City-specific digit colors cascade to child spans ── */
+#clock-card-sp .clock-time            { color: rgba(255,190,80,0.95)  !important; }
+#clock-card-eu .clock-time,
+.clock-card[data-city="paris"]    .clock-time { color: rgba(91,159,232,0.96)  !important; }
+.clock-card[data-city="milan"]    .clock-time { color: rgba(232,144,74,0.96)  !important; }
+#clock-card-ist .clock-time,
+.clock-card[data-city="istanbul"] .clock-time { color: rgba(160,125,212,0.96) !important; }
+#clock-card-tll .clock-time,
+.clock-card[data-city="tallinn"]  .clock-time { color: rgba(77,168,145,0.96)  !important; }
+
+/* ── City label + UTC ── */
+.clock-city {
+  font-family: 'SF Mono', ui-monospace, monospace !important;
+  font-size: 9px !important;
+  font-weight: 600 !important;
+  letter-spacing: .15em !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,0.36) !important;
+  margin-top: 8px !important;
+  position: relative; z-index: 2;
+}
+.clock-tz {
+  font-family: 'SF Mono', ui-monospace, monospace !important;
+  font-size: 7px !important;
+  color: rgba(255,255,255,0.18) !important;
+  margin-top: 1px !important;
+  letter-spacing: .06em !important;
+  position: relative; z-index: 2;
+}
+.clock-weather {
+  font-size: 11px !important;
+  color: rgba(255,255,255,0.34) !important;
+  margin-top: 4px !important;
+  position: relative; z-index: 2;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   LIQUID GLASS NAV BAR — Increased transparency + layered reflections
+   ══════════════════════════════════════════════════════════════════════ */
+
+.tab-nav {
+  background: rgba(10,10,10,0.48) !important;
+  backdrop-filter: blur(36px) saturate(180%) brightness(1.10) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(180%) brightness(1.10) !important;
+  border: 1px solid rgba(255,255,255,0.20) !important;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.68),
+    0 4px 18px rgba(0,0,0,0.38),
+    inset 0 2px 0 rgba(255,255,255,0.18),
+    inset 0 -1px 0 rgba(255,255,255,0.04),
+    inset 1px 0 0 rgba(255,255,255,0.07),
+    inset -1px 0 0 rgba(255,255,255,0.07) !important;
+  position: relative !important;
+  isolation: isolate !important;
+}
+/* Angled liquid refraction bands */
+.tab-nav::before {
+  content: '' !important;
+  position: absolute !important; inset: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(122deg,
+    rgba(255,255,255,0.18) 0%,
+    rgba(255,255,255,0.07) 20%,
+    transparent 38%,
+    transparent 62%,
+    rgba(255,255,255,0.04) 80%,
+    rgba(255,255,255,0.10) 100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+/* Edge glare line */
+.tab-nav::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 6px !important; left: 10% !important; right: 10% !important; height: 1px !important;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.36), transparent) !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+/* Tab buttons sit above pseudo-elements */
+.tab-btn {
+  position: relative !important;
+  z-index: 2 !important;
+}
+/* Active tab: solid glass chip (no neon glow) */
+.tab-btn.active {
+  color: rgba(255,255,255,0.96) !important;
+  background: rgba(255,255,255,0.13) !important;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(0,0,0,0.18),
+    0 2px 6px rgba(0,0,0,0.25) !important;
+}
+.tab-btn.active .tab-icon { filter: none !important; }
+.tab-btn.active .tab-icon-svg { filter: none !important; }
+
 </style>
 </head>
 <body>
@@ -5187,20 +5442,47 @@ function getCityColors() {
 function fmtWithColon(tz) {
     const timeStr = formatTime(new Date(), tz);
     const [h, m] = timeStr.split(':');
-    return `<span>${h}</span><span class="clock-colon">:</span><span>${m}</span>`;
+    // data-d used by updateFlipEl for per-panel change detection
+    return `<span data-d="${h}">${h}</span><span class="clock-colon">:</span><span data-d="${m}">${m}</span>`;
+}
+
+// Animated flip update: only re-renders panels whose digit changed
+function updateFlipEl(el, tz) {
+    const timeStr = formatTime(new Date(), tz);
+    if (el.dataset.lastFlip === timeStr) return;
+    const [h, m] = timeStr.split(':');
+    const panels = el.querySelectorAll('span[data-d]');
+    if (!panels.length) {
+        // First render — build structure without animation
+        el.innerHTML = fmtWithColon(tz);
+    } else {
+        // Update only changed panels with flip animation
+        const vals = [h, m];
+        panels.forEach((span, i) => {
+            if (span.dataset.d !== vals[i]) {
+                span.dataset.d = vals[i];
+                span.textContent = vals[i];
+                span.classList.remove('fd-flip');
+                void span.offsetWidth; // force reflow to restart animation
+                span.classList.add('fd-flip');
+                setTimeout(() => span.classList.remove('fd-flip'), 350);
+            }
+        });
+    }
+    el.dataset.lastFlip = timeStr;
 }
 
 function updateClocks() {
     const now = new Date();
 
-    // Render with blinking colon
+    // Render flip panels (only re-renders panels whose digit changed)
     const spEl = document.getElementById('clock-sp');
-    if (spEl) spEl.innerHTML = fmtWithColon('America/Sao_Paulo');
+    if (spEl) updateFlipEl(spEl, 'America/Sao_Paulo');
 
     const istEl = document.getElementById('clock-ist');
     const tllEl = document.getElementById('clock-tll');
-    if (istEl) istEl.innerHTML = fmtWithColon('Europe/Istanbul');
-    if (tllEl) tllEl.innerHTML = fmtWithColon('Europe/Tallinn');
+    if (istEl) updateFlipEl(istEl, 'Europe/Istanbul');
+    if (tllEl) updateFlipEl(tllEl, 'Europe/Tallinn');
 
     const tripStart = new Date(2026, 5, 26);
     const tripEnd   = new Date(2026, 6, 19);
@@ -5213,7 +5495,7 @@ function updateClocks() {
     else if (dayNum >= 5)  { tz = 'Europe/Rome'; city = 'Milan'; tzLabel = 'UTC +2'; cityKey = 'milan'; }
 
     const currentEl = document.getElementById('clock-current');
-    if (currentEl) currentEl.innerHTML = fmtWithColon(tz);
+    if (currentEl) updateFlipEl(currentEl, tz);
     const cityNameEl = document.getElementById('clock-city-name');
     if (cityNameEl) cityNameEl.textContent = city;
     const tzEl = document.getElementById('clock-tz');
